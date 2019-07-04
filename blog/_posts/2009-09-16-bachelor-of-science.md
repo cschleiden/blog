@@ -1,0 +1,17 @@
+---
+id: 91
+title: Bachelor of Science
+date: 2009-09-16T16:31:12-07:00
+author: cschleiden
+layout: post
+guid: http://cschleiden.wordpress.com/?p=91
+permalink: /bachelor-of-science/
+categories:
+  - Personal
+  - Uncategorized
+---
+Yesterday I completed<img class="alignright size-full wp-image-90" title="IMG_5688_edited" src="/assets/wp-content/uploads/2009/09/img_5688_edited.jpg" alt="IMG_5688_edited" width="195" height="130" /> the last part of my computer science (bachelor) studies at the RWTH Aachen. After I handed in my thesis last wednesday I successfully defended it on September the 15th. While I still have to wait for the final report by my supervisor, in my mind I already have completed this part of my education. Below you will find the final thesis (english) and the slides (german).
+
+BachelorThesis (PDF)
+
+[BachelorSlides](/assets/wp-content/uploads/2009/09/bachelorvortrag.pdf) (PDF)

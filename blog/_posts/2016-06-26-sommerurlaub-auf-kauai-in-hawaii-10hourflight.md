@@ -1,0 +1,17 @@
+---
+id: 773
+title: Sommerurlaub auf Kauai in Hawaii — 10hourflight
+date: 2016-06-26T21:09:21-07:00
+author: cschleiden
+layout: post
+guid: https://cschleiden.wordpress.com/?p=773
+permalink: /sommerurlaub-auf-kauai-in-hawaii-10hourflight/
+
+---
+Miriam&#8217;s blog (in German) about what we do when we are not working at MSFT:
+
+[![](https://10hourflight.files.wordpress.com/2016/06/g0101092.jpg?w=1440&quality=80&strip=info)](https://10hourflight.wordpress.com/2016/06/16/sommerurlaub-auf-kauai-in-hawaii/)
+
+> Da wir so nah wohnen, dachten wir, fliegen wir mal nach Hawai’i. Im Mai war es endlich soweit – 10 Tage auf Kaua’i, eine der kleineren Insel des Staates Hawai’i im Norden. Da sonst nicht so viel passiert ist im Mai, hier ein ausführlicher Bericht!
+
+via [Sommerurlaub auf Kauai in Hawaii — 10hourflight](https://10hourflight.wordpress.com/2016/06/16/sommerurlaub-auf-kauai-in-hawaii/)

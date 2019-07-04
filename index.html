@@ -1,0 +1,5 @@
+---
+# file: index.html
+layout: blog
+title: Blog
+---
