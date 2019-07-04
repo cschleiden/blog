@@ -41,3 +41,5 @@ _site
 /.bundle
 /vendor/bundle
 /vendor
+
+.jekyll-metadata
