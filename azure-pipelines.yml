@@ -21,8 +21,3 @@ steps:
       $(build.binariesDirectory):/srv/jekyll/_site
     containerCommand: 'jekyll build --future'
     detached: false
-
-- task: IISWebAppDeploymentOnMachineGroup@0
-  inputs:
-    WebSiteName: 'cschleiden.de'
-    Package: '$(System.DefaultWorkingDirectory)\**\*.zip'
