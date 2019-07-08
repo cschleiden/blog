@@ -7,6 +7,13 @@ layout: post
 guid: /?p=919
 permalink: /next-js-typescript/
 ---
+
+**Update 7/8/2019**: 
+Next.js has just released "Zero Config TypeScript Support", so if you use the latest version, this repo is not required anymore:
+https://nextjs.org/blog/next-9#built-in-zero-config-typescript-support
+
+---
+
 I&#8217;ve created a small template repository to start a project with Next.Js and TypeScript setup: <https://github.com/cschleiden/nextjs-typescript>
 
   1. Just hit &#8220;Use this template&#8221;  
