@@ -31,7 +31,7 @@ Camp Schurmann with our Big Agnes tent in the middle
 
 We got lucky and there was running water at the edge of the glacier so we were able to save some time by not having to melt snow. 
 
-After going to bed at 7 pm and a good night's sleep the alarm woke us up at 11:30 pm. As always, it tooks us a bit longer to get ready than anticipated, but we roped up and started walking at 12:45 am. It was quite icy but we were not the only group on the mountain (by far) so we could follow a relatively good boot track.
+After going to bed at 7 pm and a good night's sleep the alarm woke us up at 11:30 pm. As always, it took us a bit longer to get ready than anticipated, but we roped up and started walking at 12:45 am. It was quite icy but we were not the only group on the mountain (by far) so we could follow a relatively good boot track.
 
 There were a few sections with harder ice and some exposure when walking directly above larger crevasses, so we concentrated on not dying and did not really have time to take pictures or to just enjoy the scenery. Even the sunrise a few hours later we only saw out of the corner of the eye, focusing on the next step ahead careful to not make a mistake. This was our first "big mountain" and I would hope that the next time we go up we take in a bit more of the surroundings and not just focus on the climbing/staying hydrated/eating enough part. 
 
@@ -55,9 +55,9 @@ Due to exhaustion and the wind we did not stay too long at the summit, but took 
 
 ![Panorama](/assets/posts/2019-07-27-mt-rainier/panorama.jpg){:.lead data-width="6803"}
 
-The way down went better than expected. There were some tricky sections were we had to improvise some sitting belays to downclimb, and at one point a team arrest but everyone made it down safely and in time.
+The way down went better than expected. There were some tricky sections where we had to improvise some sitting belays to downclimb, and at one point a team arrest but everyone made it down safely and in time.
 
-After a way to short break at camp, we packed up and hiked out. Glissading 2000 vertical feet on the Inter Glacier we made it back to the cars at around 9 pm and were all back to work the next morning!
+After a way too short break at camp, we packed up and hiked out. Glissading 2000 vertical feet on the Inter Glacier we made it back to the cars at around 9 pm and were all back to work the next morning!
 
 ![Last look](/assets/posts/2019-07-27-mt-rainier/last-look.jpg)
 One last look on the way out
