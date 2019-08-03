@@ -15,7 +15,7 @@ After taking the [Mountaineers](https://www.mountaineers.org/)' glacier travel c
 
 We had had some reserverations for the Disappointment Cleaver route earlier this year but at the time the forecast did not look great and since our group had decided to follow the Rainier [go/no-go matrix](http://www.concurrentaffair.org/2017/07/06/mount-rainier-gono-go-decision-matrix/) published by the NPS we decided to not attempt it then. 
 
-Luckily the forecast for last weekend looked great and every one in our group of four had a free weekend. One member of the group volunteered to go to the ranger station on the Thursday before to get a permit. Originally we were planning to camp at Camp Muir and summit via the DC route, but even though he arrived early at 6:30, he was already 7th in line and once it was his turn the only permit get could get was for Camp Schurman and the Emmons Glacier route. Well, it's less traveled but still considered one of the easier options to climb Rainier so we all agreed to give it a shot and to put that glacier travel training to use.
+Luckily the forecast for last weekend looked great and everyone in our group of four had a free weekend. One member of the group volunteered to go to the ranger station on the Thursday before to get a permit. Originally we were planning to camp at Camp Muir and summit via the DC route, but even though he arrived early at 6:30, he was already 7th in line and once it was his turn the only permit get could get was for Camp Schurman and the Emmons Glacier route. Well, it's less traveled but still considered one of the easier options to climb Rainier so we all agreed to give it a shot and to put that glacier travel training to use.
 
 We started early on Saturday morning from a fully packed White River Campground parking lot, hiked into Glacier Basin 
 
@@ -43,7 +43,7 @@ In time, we made it to the summit. Everyone in the group was going strong, no on
 
 The wind at the summit was a bit stronger than expected and it was quite cold, I was certainly happy having carried my belay parka up the mountain.
 
-Due to exhaustion and the wind we did not stay too long at the summit, but took a quick break, registered ourself in the summit register, and got to enjoy the views for a bit.
+Due to exhaustion and the wind we did not stay too long at the summit, but took a quick break, registered ourselves in the summit register, and got to enjoy the views for a bit.
 
 ![Us at the summit](/assets/posts/2019-07-27-mt-rainier/summit.jpg)
 [Miriam](https://10hourflight.wordpress.com/) and me at the summit (freezing)
