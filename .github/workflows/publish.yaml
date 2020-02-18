@@ -10,10 +10,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: site
+        fetch-depth: 0
     - run: |
         git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
-    - run: git checkout site
-    - run: git merge master -m "Get master"
+    - run: git merge origin/master -m "Get master"
     - name: Build
       run: |
         docker run \
