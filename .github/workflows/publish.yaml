@@ -13,7 +13,7 @@ jobs:
     - run: |
         git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
     - run: git checkout site
-    - run: git merge master
+    - run: git merge master -m "Get master"
     - name: Build
       run: |
         docker run \
@@ -23,5 +23,5 @@ jobs:
     - run: |
         git config --global user.email "cschleiden@outlook.com"
         git config --global user.name "Christopher Schleiden" 
-    - run: git commit -m "${{ github.sha }}"
+    - run: git commit -m "Build ${{ github.sha }}"
     - run: git push
