@@ -15,15 +15,15 @@ jobs:
         fetch-depth: 0
     - run: |
         git fetch --all
+    - run: |
+        git config --global user.email "cschleiden@outlook.com"
+        git config --global user.name "Christopher Schleiden" 
     - run: git merge origin/master -m "Get master"
     - name: Build
       run: |
         docker run \
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
         jekyll/builder:latest /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future"
-    - run: git add -f _site
-    - run: |
-        git config --global user.email "cschleiden@outlook.com"
-        git config --global user.name "Christopher Schleiden" 
+    - run: git add -f _site    
     - run: git commit -m "Build ${{ github.sha }}"
     - run: git push
