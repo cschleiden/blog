@@ -1,0 +1,23 @@
+backend:
+  name: github
+  repo: cschleiden/blog
+  branch: master
+  site_domain: wonderful-ptolemy-840a07.netlify.com
+media_folder: "assets/uploads"
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "blog/_posts/"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "post" }
+      - {
+          label: "Categories",
+          name: "categories",
+          widget: "hidden",
+          default: "blog",
+        }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }

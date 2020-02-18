@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://cschleiden.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://cschleiden.dev/" rel="alternate" type="text/html" hreflang="en" /><updated>2020-02-17T22:28:31-06:00</updated><id>https://cschleiden.dev/feed.xml</id><title type="html">cschleiden</title><subtitle>Software engineer at GitHub, former MSFT. Born and raised in Cologne, Germany. Loves climbing mountains in the PNW!
+</subtitle><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><entry><title type="html">test2</title><link href="https://cschleiden.dev/blog/2020-02-16-test2/" rel="alternate" type="text/html" title="test2" /><published>2020-02-16T22:16:34-06:00</published><updated>2020-02-16T22:16:34-06:00</updated><id>https://cschleiden.dev/blog/test2</id><content type="html" xml:base="https://cschleiden.dev/blog/2020-02-16-test2/">&lt;p&gt;test3&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;asdf&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;``&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;asdf&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;asdfad 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><summary type="html">test3</summary></entry><entry><title type="html">Darken your screen</title><link href="https://cschleiden.dev/darken-your-screen/" rel="alternate" type="text/html" title="Darken your screen" /><published>2019-08-12T00:00:00-05:00</published><updated>2019-08-12T00:00:00-05:00</updated><id>https://cschleiden.dev/spf</id><content type="html" xml:base="https://cschleiden.dev/darken-your-screen/">&lt;p&gt;Often when presenting screen designs in meetings the projector blows out highlights and small details, making it very hard to critique the overall design. If you are using a Mac you can use the awesome &lt;a href=&quot;https://github.com/tannerc/spf&quot;&gt;SPF&lt;/a&gt; to add a semi-transparent dark overlay over your screen. If you are on a Windows machine - or you don’t want to install an app for this, and you are presenting your designs using Figma in the browser anyway - use the following bookmarklets:&lt;/p&gt;
+
+&lt;iframe src=&quot;https://codesandbox.io/embed/x76lx3w1ko?fontsize=14&quot; title=&quot;In-browser SPF&quot; allow=&quot;geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media&quot; style=&quot;width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;&quot; sandbox=&quot;allow-modals allow-forms allow-popups allow-scripts allow-same-origin&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;Just drag them to your bookmarks bar and click to use:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2019-08-12-spf/spf10.gif&quot; alt=&quot;Darken your screen&quot; /&gt;&lt;/p&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><summary type="html">Often when presenting screen designs in meetings the projector blows out highlights and small details, making it very hard to critique the overall design. If you are using a Mac you can use the awesome SPF to add a semi-transparent dark overlay over your screen. If you are on a Windows machine - or you don’t want to install an app for this, and you are presenting your designs using Figma in the browser anyway - use the following bookmarklets:</summary></entry><entry><title type="html">Climbing Mount Rainier via the Emmons Glacier route</title><link href="https://cschleiden.dev/mount-rainier-emmons-2019/" rel="alternate" type="text/html" title="Climbing Mount Rainier via the Emmons Glacier route" /><published>2019-07-27T00:00:00-05:00</published><updated>2019-07-27T00:00:00-05:00</updated><id>https://cschleiden.dev/mt-rainier</id><content type="html" xml:base="https://cschleiden.dev/mount-rainier-emmons-2019/">&lt;p&gt;Last weekend we finally managed to summit Mount Rainier!&lt;/p&gt;
+
+&lt;p&gt;After taking the &lt;a href=&quot;https://www.mountaineers.org/&quot;&gt;Mountaineers&lt;/a&gt;’ glacier travel course last year and a first attempt later that year where we had to turn around we finally managed to stand on the summit!&lt;/p&gt;
+
+&lt;p&gt;We had had some reserverations for the Disappointment Cleaver route earlier this year but at the time the forecast did not look great and since our group had decided to follow the Rainier &lt;a href=&quot;http://www.concurrentaffair.org/2017/07/06/mount-rainier-gono-go-decision-matrix/&quot;&gt;go/no-go matrix&lt;/a&gt; published by the NPS we decided to not attempt it then.&lt;/p&gt;
+
+&lt;p&gt;Luckily the forecast for last weekend looked great and everyone in our group of four had a free weekend. One member of the group volunteered to go to the ranger station on the Thursday before to get a permit. Originally we were planning to camp at Camp Muir and summit via the DC route, but even though he arrived early at 6:30, he was already 7th in line and once it was his turn the only permit get could get was for Camp Schurman and the Emmons Glacier route. Well, it’s less traveled but still considered one of the easier options to climb Rainier so we all agreed to give it a shot and to put that glacier travel training to use.&lt;/p&gt;
+
+&lt;p&gt;We started early on Saturday morning from a fully packed White River Campground parking lot, hiked into Glacier Basin&lt;/p&gt;
+
+&lt;p class=&quot;figure&quot;&gt;&lt;img src=&quot;/assets/posts/2019-07-27-mt-rainier/start.jpg&quot; alt=&quot;Glacier Basin&quot; /&gt;
+Glacier Basin&lt;/p&gt;
+
+&lt;p&gt;and then ascended a couple thousand feet via the Inter Glacier to Camp Schurman.&lt;/p&gt;
+
+&lt;p class=&quot;figure&quot;&gt;&lt;img src=&quot;/assets/posts/2019-07-27-mt-rainier/camp.jpg&quot; alt=&quot;Camp Schurmann&quot; /&gt;
+Camp Schurmann with our Big Agnes tent in the middle&lt;/p&gt;
+
+&lt;p&gt;We got lucky and there was running water at the edge of the glacier so we were able to save some time by not having to melt snow.&lt;/p&gt;
+
+&lt;p&gt;After going to bed at 7 pm and a good night’s sleep the alarm woke us up at 11:30 pm. As always, it took us a bit longer to get ready than anticipated, but we roped up and started walking at 12:45 am. It was quite icy but we were not the only group on the mountain (by far) so we could follow a relatively good boot track.&lt;/p&gt;
+
+&lt;p&gt;There were a few sections with harder ice and some exposure when walking directly above larger crevasses, so we concentrated on not dying and did not really have time to take pictures or to just enjoy the scenery. Even the sunrise a few hours later we only saw out of the corner of the eye, focusing on the next step ahead careful to not make a mistake. This was our first “big mountain” and I would hope that the next time we go up we take in a bit more of the surroundings and not just focus on the climbing/staying hydrated/eating enough part.&lt;/p&gt;
+
+&lt;p class=&quot;figure&quot;&gt;&lt;img src=&quot;/assets/posts/2019-07-27-mt-rainier/going-up.jpg&quot; alt=&quot;Going up&quot; /&gt;
+On our way up&lt;/p&gt;
+
+&lt;p&gt;In time, we made it to the summit. Everyone in the group was going strong, no one had any serious altitude related issues besides slowing down and losing some appetite. For me personally, I need to pack different food, I am not a really big fan of bars anymore even at lower altitude, but near the summit I really had to force myself to eat, the Clif bars tasted like paper at that point.&lt;/p&gt;
+
+&lt;p&gt;The wind at the summit was a bit stronger than expected and it was quite cold, I was certainly happy having carried my belay parka up the mountain.&lt;/p&gt;
+
+&lt;p&gt;Due to exhaustion and the wind we did not stay too long at the summit, but took a quick break, registered ourselves in the summit register, and got to enjoy the views for a bit.&lt;/p&gt;
+
+&lt;p class=&quot;figure&quot;&gt;&lt;img src=&quot;/assets/posts/2019-07-27-mt-rainier/summit.jpg&quot; alt=&quot;Us at the summit&quot; /&gt;
+&lt;a href=&quot;https://10hourflight.wordpress.com/&quot;&gt;Miriam&lt;/a&gt; and me at the summit (freezing)&lt;/p&gt;
+
+&lt;p class=&quot;figure&quot;&gt;&lt;img src=&quot;/assets/posts/2019-07-27-mt-rainier/miriam-summit.jpg&quot; alt=&quot;Miriam at the summit&quot; /&gt;
+&lt;a href=&quot;https://10hourflight.wordpress.com/&quot;&gt;Miriam&lt;/a&gt; on Columbia Crest&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/posts/2019-07-27-mt-rainier/panorama.jpg&quot; alt=&quot;Panorama&quot; class=&quot;lead&quot; data-width=&quot;6803&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The way down went better than expected. There were some tricky sections where we had to improvise some sitting belays to downclimb, and at one point a team arrest but everyone made it down safely and in time.&lt;/p&gt;
+
+&lt;p&gt;After a way too short break at camp, we packed up and hiked out. Glissading 2000 vertical feet on the Inter Glacier we made it back to the cars at around 9 pm and were all back to work the next morning!&lt;/p&gt;
+
+&lt;p class=&quot;figure&quot;&gt;&lt;img src=&quot;/assets/posts/2019-07-27-mt-rainier/last-look.jpg&quot; alt=&quot;Last look&quot; /&gt;
+One last look on the way out&lt;/p&gt;
+
+&lt;p&gt;Overall it was an awesome experience and when we saw the mountain from Seattle yesterday, it still had not fully sunken in that we had been at the top. If the weather holds up, we are planning to summit once more this season via the DC route.&lt;/p&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><summary type="html">Last weekend we finally managed to summit Mount Rainier!</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://cschleiden.dev/assets/posts/2019-07-27-mt-rainier/summit.jpg" /></entry><entry><title type="html">Next.JS + Typescript</title><link href="https://cschleiden.dev/next-js-typescript/" rel="alternate" type="text/html" title="Next.JS + Typescript" /><published>2019-06-11T18:00:32-05:00</published><updated>2019-06-11T18:00:32-05:00</updated><id>https://cschleiden.dev/next-js-typescript</id><content type="html" xml:base="https://cschleiden.dev/next-js-typescript/">&lt;p&gt;&lt;strong&gt;Update 7/8/2019&lt;/strong&gt;: 
+Next.js has just released “Zero Config TypeScript Support”, so if you use the latest version, this repo is not required anymore:
+https://nextjs.org/blog/next-9#built-in-zero-config-typescript-support&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;I’ve created a small template repository to start a project with Next.Js and TypeScript setup: &lt;a href=&quot;https://github.com/cschleiden/nextjs-typescript&quot;&gt;https://github.com/cschleiden/nextjs-typescript&lt;/a&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Just hit “Use this template”&lt;br /&gt;
+&lt;img scale=&quot;0&quot; class=&quot;wp-image-920&quot; style=&quot;width: 150px;&quot; src=&quot;/assets/wp-content/uploads/2019/06/image.png&quot; alt=&quot;&quot; srcset=&quot;/assets/wp-content/uploads/2019/06/image.png 346w, /assets/wp-content/uploads/2019/06/image-300x104.png 300w&quot; sizes=&quot;(max-width: 346px) 100vw, 346px&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;Create a new repository&lt;/li&gt;
+  &lt;li&gt;Clone&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;npm i&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;npm run dev&lt;/code&gt;&lt;br /&gt;
+&lt;img scale=&quot;0&quot; class=&quot;wp-image-922&quot; style=&quot;width: 400px;&quot; src=&quot;/assets/wp-content/uploads/2019/06/image-2.png&quot; alt=&quot;&quot; srcset=&quot;/assets/wp-content/uploads/2019/06/image-2.png 1300w, /assets/wp-content/uploads/2019/06/image-2-300x200.png 300w, /assets/wp-content/uploads/2019/06/image-2-768x513.png 768w, /assets/wp-content/uploads/2019/06/image-2-1024x684.png 1024w, /assets/wp-content/uploads/2019/06/image-2-700x467.png 700w&quot; sizes=&quot;(max-width: 1300px) 100vw, 1300px&quot; /&gt;&lt;/li&gt;
+  &lt;li&gt;Open localhost:3000&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;wp-block-image&quot;&gt;
+  &lt;figure class=&quot;aligncenter is-resized&quot;&gt;&lt;img src=&quot;/assets/wp-content/uploads/2019/06/image-3.png&quot; alt=&quot;&quot; class=&quot;wp-image-923&quot; width=&quot;396&quot; height=&quot;156&quot; srcset=&quot;/assets/wp-content/uploads/2019/06/image-3.png 678w, /assets/wp-content/uploads/2019/06/image-3-300x119.png 300w&quot; sizes=&quot;(max-width: 396px) 100vw, 396px&quot; /&gt;&lt;/figure&gt;
+&lt;/div&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><summary type="html">Update 7/8/2019: Next.js has just released “Zero Config TypeScript Support”, so if you use the latest version, this repo is not required anymore: https://nextjs.org/blog/next-9#built-in-zero-config-typescript-support</summary></entry><entry><title type="html">Emacs Code Navigation in Visual Studio Code</title><link href="https://cschleiden.dev/emacs-code-navigation-in-visual-studio-code/" rel="alternate" type="text/html" title="Emacs Code Navigation in Visual Studio Code" /><published>2019-06-05T21:18:35-05:00</published><updated>2019-06-05T21:18:35-05:00</updated><id>https://cschleiden.dev/emacs-code-navigation-in-visual-studio-code</id><content type="html" xml:base="https://cschleiden.dev/emacs-code-navigation-in-visual-studio-code/">&lt;p&gt;I’ll admit it, in the eternal fight between vim and Emacs I’m firmly on the Emacs side. Now, I haven’t used actual Emacs in a while, but I’m so used to the navigation shortcuts that on every machine I use, I:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;map &lt;code class=&quot;highlighter-rouge&quot;&gt;CapsLock&lt;/code&gt; to be another &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl&lt;/code&gt; key, for Windows I keep the .reg file below in my OneDrive and import it on every new machine.&lt;/li&gt;
+  &lt;li&gt;update my VS Code keybindings to enable the common Emacs keyboard navigation shortscuts like &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl+n&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl+p&lt;/code&gt;, etc. My settings sync via the excellent &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync&quot;&gt;Settings Sync&lt;/a&gt; plugin, but I also keep them up-to-date in the linked gist below. Unfortunately, Ctrl+n/p does not work in all popups and view, so sometimes it’s still required to use the cursor keys, but for most code operations my fingers don’t have to leave the home row.&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><summary type="html">I’ll admit it, in the eternal fight between vim and Emacs I’m firmly on the Emacs side. Now, I haven’t used actual Emacs in a while, but I’m so used to the navigation shortcuts that on every machine I use, I:</summary></entry><entry><title type="html">Duplicate SDK copy in an Azure DevOps extension</title><link href="https://cschleiden.dev/duplicate-sdk-copy-in-an-azure-devops-extension/" rel="alternate" type="text/html" title="Duplicate SDK copy in an Azure DevOps extension" /><published>2019-05-21T10:28:52-05:00</published><updated>2019-05-21T10:28:52-05:00</updated><id>https://cschleiden.dev/duplicate-sdk-copy-in-an-azure-devops-extension</id><content type="html" xml:base="https://cschleiden.dev/duplicate-sdk-copy-in-an-azure-devops-extension/">&lt;p&gt;The new extension model in Azure DevOps uses two separate npm packages: the client sdk – &lt;a href=&quot;https://www.npmjs.com/package/azure-devops-extension-sdk&quot;&gt;azure-devops-extension-sdk&lt;/a&gt; and the API – &lt;a href=&quot;https://www.npmjs.com/package/azure-devops-extension-api&quot;&gt;azure-devops-extension-api&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;They are both versioned independently, but the API package relies on the client SDK to setup API clients.&lt;/p&gt;
+
+&lt;p&gt;Now, the other day I upgraded both packages one after another, and while in the end both my extension and the API package depended on the same version of the SDK, my &lt;code class=&quot;highlighter-rouge&quot;&gt;package-lock.json&lt;/code&gt; entry for the &lt;code class=&quot;highlighter-rouge&quot;&gt;azure-devops-extension-api&lt;/code&gt; looked like this:&lt;/p&gt;
+
+&lt;pre class=&quot;EnlighterJSRAW&quot; data-enlighter-language=&quot;json&quot; data-enlighter-theme=&quot;&quot; data-enlighter-highlight=&quot;9-19&quot; data-enlighter-linenumbers=&quot;&quot; data-enlighter-lineoffset=&quot;&quot; data-enlighter-title=&quot;&quot; data-enlighter-group=&quot;&quot;&gt;&quot;azure-devops-extension-api&quot;: {
+      &quot;version&quot;: &quot;1.149.2&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/azure-devops-extension-api/-/azure-devops-extension-api-1.149.2.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-kICntS0djW9ydCFjInXpxoTcWBz6FcbXN3J4pqBvyw7FFlYS7sR2nvFwBpOc+qPvPhJW8xbJ6NBQ3rwgs7gXTg==&quot;,
+      &quot;requires&quot;: {
+        &quot;azure-devops-extension-sdk&quot;: &quot;~2.0.5&quot;,
+        &quot;whatwg-fetch&quot;: &quot;~3.0.0&quot;
+      },
+      &quot;dependencies&quot;: {
+        &quot;azure-devops-extension-sdk&quot;: {
+          &quot;version&quot;: &quot;2.0.5&quot;,
+          &quot;resolved&quot;: &quot;https://registry.npmjs.org/azure-devops-extension-sdk/-/azure-devops-extension-sdk-2.0.5.tgz&quot;,
+          &quot;integrity&quot;: &quot;sha512-f+bvIJLoidDtnHVQuZhozCIIdEhtg9jee03w3U49MrgnedV24hHsasbeB9cdxq5dOdr6RD3Zn/v3pqB98eBG/w==&quot;,
+          &quot;requires&quot;: {
+            &quot;es6-object-assign&quot;: &quot;^1.1.0&quot;,
+            &quot;es6-promise&quot;: &quot;^4.2.5&quot;
+          }
+        }
+      }
+    }&lt;/pre&gt;
+
+&lt;p&gt;Because of this, the bundle for my extension included &lt;strong&gt;two separate copies&lt;/strong&gt; of the SDK. One was used by my extension, and was correctly initialized, while the other one was used by the API package and was &lt;strong&gt;never initialized&lt;/strong&gt;. This meant that any framework service I requested was correctly returned, but any request for an API client was never resolved.&lt;/p&gt;
+
+&lt;p&gt;Took me way too long to figure this out, and we’ll make some changes to the code to detect this in the future, but putting this here in case anyone else hits this until then.&lt;/p&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="Azure DevOps" /><category term="Azure DevOps Extensibility" /><summary type="html">The new extension model in Azure DevOps uses two separate npm packages: the client sdk – azure-devops-extension-sdk and the API – azure-devops-extension-api.</summary></entry><entry><title type="html">Opening Work items in Visual Studio 2017</title><link href="https://cschleiden.dev/opening-work-items-in-visual-studio-15-preview/" rel="alternate" type="text/html" title="Opening Work items in Visual Studio 2017" /><published>2016-08-28T16:34:11-05:00</published><updated>2016-08-28T16:34:11-05:00</updated><id>https://cschleiden.dev/opening-work-items-in-visual-studio-15-preview</id><content type="html" xml:base="https://cschleiden.dev/opening-work-items-in-visual-studio-15-preview/">&lt;p&gt;If you have used &lt;a href=&quot;https://www.visualstudio.com/en-us/downloads/visual-studio-next-downloads-vs.aspx&quot;&gt;Visual Studio 2017&lt;/a&gt; to connect to a &lt;a href=&quot;https://www.visualstudio.com/products/visual-studio-team-services-vs&quot;&gt;Team Services&lt;/a&gt; instance, or you follow the &lt;a href=&quot;https://blogs.msdn.microsoft.com/visualstudioalm/&quot;&gt;Microsoft ALM blog&lt;/a&gt; you will have noticed that with Visual Studio 2017: &lt;a style=&quot;text-align: center; line-height: 1.5;&quot; href=&quot;https://blogs.msdn.microsoft.com/visualstudioalm/2016/08/22/work-items-now-open-in-the-web-from-visual-studio-15/&quot;&gt;Work items now open in the web from Visual Studio ’15’&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;While the official post shows why that change was made and what advantages the web form brings, I wanted to quickly point out some small things that were done to make this behavior more usable.&lt;/p&gt;
+
+&lt;p&gt;You can follow along by downloading &lt;a href=&quot;https://www.visualstudio.com/en-us/downloads/visual-studio-next-downloads-vs.aspx&quot;&gt;Visual Studio 2017&lt;/a&gt; and connecting to your &lt;a href=&quot;https://www.visualstudio.com/products/visual-studio-team-services-vs&quot;&gt;Team Services&lt;/a&gt; or &lt;a href=&quot;https://www.visualstudio.com/en-us/news/releasenotes/tfs15-relnotes&quot;&gt;Team Foundation Server 2017&lt;/a&gt; instance.&lt;/p&gt;
+
+&lt;h1 id=&quot;running-queries-from-visual-studio&quot;&gt;Running Queries from Visual Studio&lt;/h1&gt;
+
+&lt;p&gt;There is still the full work item query tree available in Visual Studio, including favorites:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/08/team-explorer-1.png&quot;&gt;&lt;img class=&quot;size-full wp-image-807 aligncenter&quot; src=&quot;/assets/wp-content/uploads/2016/08/team-explorer-1.png&quot; alt=&quot;team-explorer&quot; width=&quot;325&quot; height=&quot;584&quot; srcset=&quot;/assets/wp-content/uploads/2016/08/team-explorer-1.png 325w, /assets/wp-content/uploads/2016/08/team-explorer-1-167x300.png 167w&quot; sizes=&quot;(max-width: 325px) 100vw, 325px&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;You can also still create and run new or existing queries and look at the results:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/08/query-1.png&quot;&gt;&lt;img class=&quot;size-full wp-image-813 aligncenter&quot; src=&quot;/assets/wp-content/uploads/2016/08/query-1.png&quot; alt=&quot;query-1&quot; width=&quot;620&quot; height=&quot;402&quot; srcset=&quot;/assets/wp-content/uploads/2016/08/query-1.png 1067w, /assets/wp-content/uploads/2016/08/query-1-300x195.png 300w, /assets/wp-content/uploads/2016/08/query-1-768x498.png 768w, /assets/wp-content/uploads/2016/08/query-1-1024x664.png 1024w&quot; sizes=&quot;(max-width: 620px) 100vw, 620px&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;If you look at the screenshot above, you can see that I have run the “My Bugs” query and that I have selected the second work item from the result, with id 62. When I open this work item now, it will launch in my browser and display the now familiar modern work item form:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/08/query-2.png&quot;&gt;&lt;img class=&quot;size-full wp-image-814 aligncenter&quot; src=&quot;/assets/wp-content/uploads/2016/08/query-2.png&quot; alt=&quot;Opened Work Item&quot; width=&quot;620&quot; height=&quot;458&quot; srcset=&quot;/assets/wp-content/uploads/2016/08/query-2.png 935w, /assets/wp-content/uploads/2016/08/query-2-300x222.png 300w, /assets/wp-content/uploads/2016/08/query-2-768x568.png 768w&quot; sizes=&quot;(max-width: 620px) 100vw, 620px&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;And if you look closely, you can see that in the upper right hand corner of the work item form it displays “2 of 4” and some buttons:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/08/query-3.png&quot;&gt;&lt;img class=&quot;size-full wp-image-815 aligncenter&quot; src=&quot;/assets/wp-content/uploads/2016/08/query-3.png&quot; alt=&quot;query-3&quot; width=&quot;244&quot; height=&quot;40&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;When you open a work item from a query result in Visual Studio, we don’t want you lose the query context you were in. So, when opening the work item we pass some context information along, in this case this included the name of the query that you ran and the position of the work item inside of that query result. Then, in the web we can restore this context, show you the work item, and also give you the option to easily switch to the next/previous work item in the “My Bugs” query:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/08/query-4.png&quot;&gt;&lt;img class=&quot;size-full wp-image-816 aligncenter&quot; src=&quot;/assets/wp-content/uploads/2016/08/query-4.png&quot; alt=&quot;query-4&quot; width=&quot;311&quot; height=&quot;82&quot; srcset=&quot;/assets/wp-content/uploads/2016/08/query-4.png 311w, /assets/wp-content/uploads/2016/08/query-4-300x79.png 300w&quot; sizes=&quot;(max-width: 311px) 100vw, 311px&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;You can also just return to the full query result in the web:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/08/query-5.png&quot;&gt;&lt;img class=&quot;size-full wp-image-817 aligncenter&quot; src=&quot;/assets/wp-content/uploads/2016/08/query-5.png&quot; alt=&quot;query-5&quot; width=&quot;620&quot; height=&quot;458&quot; srcset=&quot;/assets/wp-content/uploads/2016/08/query-5.png 935w, /assets/wp-content/uploads/2016/08/query-5-300x222.png 300w, /assets/wp-content/uploads/2016/08/query-5-768x568.png 768w&quot; sizes=&quot;(max-width: 620px) 100vw, 620px&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Preserving the context this way works with all queries in Visual Studio, even new and unsaved ones.&lt;figure id=&quot;attachment_818&quot; aria-describedby=&quot;caption-attachment-818&quot; style=&quot;width: 713px&quot; class=&quot;wp-caption aligncenter&quot;&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/08/new-query-1.png&quot;&gt;&lt;img class=&quot;wp-image-818 size-full&quot; src=&quot;/assets/wp-content/uploads/2016/08/new-query-1.png&quot; alt=&quot;New, unsaved query in Visual Studio&quot; width=&quot;713&quot; height=&quot;350&quot; srcset=&quot;/assets/wp-content/uploads/2016/08/new-query-1.png 713w, /assets/wp-content/uploads/2016/08/new-query-1-300x147.png 300w&quot; sizes=&quot;(max-width: 713px) 100vw, 713px&quot; /&gt;&lt;/a&gt;&amp;lt;figcaption id=&quot;caption-attachment-818&quot; class=&quot;wp-caption-text&quot;&amp;gt;New, unsaved query in Visual Studio&amp;lt;/figcaption&amp;gt;&amp;lt;/figure&amp;gt; &lt;figure id=&quot;attachment_819&quot; aria-describedby=&quot;caption-attachment-819&quot; style=&quot;width: 1009px&quot; class=&quot;wp-caption aligncenter&quot;&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/08/new-query-2.png&quot;&gt;&lt;img class=&quot;wp-image-819 size-full&quot; src=&quot;/assets/wp-content/uploads/2016/08/new-query-2.png&quot; alt=&quot;Work item opened from query result in web&quot; width=&quot;1009&quot; height=&quot;656&quot; srcset=&quot;/assets/wp-content/uploads/2016/08/new-query-2.png 1009w, /assets/wp-content/uploads/2016/08/new-query-2-300x195.png 300w, /assets/wp-content/uploads/2016/08/new-query-2-768x499.png 768w&quot; sizes=&quot;(max-width: 1009px) 100vw, 1009px&quot; /&gt;&lt;/a&gt;&amp;lt;figcaption id=&quot;caption-attachment-819&quot; class=&quot;wp-caption-text&quot;&amp;gt;Work item opened from query result in web&amp;lt;/figcaption&amp;gt;&lt;/figure&gt; &lt;figure id=&quot;attachment_820&quot; aria-describedby=&quot;caption-attachment-820&quot; style=&quot;width: 1053px&quot; class=&quot;wp-caption aligncenter&quot;&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/08/new-query-3.png&quot;&gt;&lt;img class=&quot;wp-image-820 size-full&quot; src=&quot;/assets/wp-content/uploads/2016/08/new-query-3.png&quot; alt=&quot;Web query editor&quot; width=&quot;1053&quot; height=&quot;532&quot; srcset=&quot;/assets/wp-content/uploads/2016/08/new-query-3.png 1053w, /assets/wp-content/uploads/2016/08/new-query-3-300x152.png 300w, /assets/wp-content/uploads/2016/08/new-query-3-768x388.png 768w, /assets/wp-content/uploads/2016/08/new-query-3-1024x517.png 1024w&quot; sizes=&quot;(max-width: 1053px) 100vw, 1053px&quot; /&gt;&lt;/a&gt;&amp;lt;figcaption id=&quot;caption-attachment-820&quot; class=&quot;wp-caption-text&quot;&amp;gt;Web query editor&amp;lt;/figcaption&amp;gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;linking-work-items-to-code-changes&quot;&gt;Linking Work Items to Code Changes&lt;/h1&gt;
+
+&lt;p&gt;With the &lt;a href=&quot;https://www.visualstudio.com/docs/work/backlogs/add-work-items#link-items-to-support-traceability&quot;&gt;Development&lt;/a&gt; section on the new work item form we have made it really easy to view code changes that contributed to work item, be it he implementation of a feature or a bugfix:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;size-full wp-image-793 aligncenter&quot; src=&quot;https://cschleiden.files.wordpress.com/2016/08/commit-dnd-result.png&quot; alt=&quot;commit-dnd-result.png&quot; width=&quot;893&quot; height=&quot;672&quot; srcset=&quot;/assets/wp-content/uploads/2016/08/commit-dnd-result.png 893w, /assets/wp-content/uploads/2016/08/commit-dnd-result-300x226.png 300w, /assets/wp-content/uploads/2016/08/commit-dnd-result-768x578.png 768w&quot; sizes=&quot;(max-width: 893px) 100vw, 893px&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;To associate your code changes with your work items you can create a link after the fact from the work item form, or in Visual Studio when you commit or check in your code. For both Git and TFVC you can still run work item queries from the &lt;em&gt;Changes&lt;/em&gt; or &lt;em&gt;Pending Changes&lt;/em&gt; view and even drag and drop work items from the query result to the &lt;em&gt;Related Work Items&lt;/em&gt; section. Adding a work item to a git commit:&lt;figure id=&quot;attachment_792&quot; aria-describedby=&quot;caption-attachment-792&quot; style=&quot;width: 1062px&quot; class=&quot;wp-caption aligncenter&quot;&gt;&lt;/figure&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;wp-image-792 size-full&quot; src=&quot;https://cschleiden.files.wordpress.com/2016/08/commit-dnd.gif&quot; alt=&quot;Adding a related work item to a git commit&quot; width=&quot;1062&quot; height=&quot;687&quot; /&gt; &amp;lt;figcaption id=&quot;caption-attachment-792&quot; class=&quot;wp-caption-text&quot;&amp;gt;Adding a related work item to a git commit&amp;lt;/figcaption&amp;gt;&amp;lt;/figure&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;#&lt;/p&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="TFS" /><category term="visualstudio" /><summary type="html">If you have used Visual Studio 2017 to connect to a Team Services instance, or you follow the Microsoft ALM blog you will have noticed that with Visual Studio 2017: Work items now open in the web from Visual Studio ’15’!</summary></entry><entry><title type="html">Sommerurlaub auf Kauai in Hawaii — 10hourflight</title><link href="https://cschleiden.dev/sommerurlaub-auf-kauai-in-hawaii-10hourflight/" rel="alternate" type="text/html" title="Sommerurlaub auf Kauai in Hawaii — 10hourflight" /><published>2016-06-26T23:09:21-05:00</published><updated>2016-06-26T23:09:21-05:00</updated><id>https://cschleiden.dev/sommerurlaub-auf-kauai-in-hawaii-10hourflight</id><content type="html" xml:base="https://cschleiden.dev/sommerurlaub-auf-kauai-in-hawaii-10hourflight/">&lt;p&gt;Miriam’s blog (in German) about what we do when we are not working at MSFT:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://10hourflight.wordpress.com/2016/06/16/sommerurlaub-auf-kauai-in-hawaii/&quot;&gt;&lt;img src=&quot;https://10hourflight.files.wordpress.com/2016/06/g0101092.jpg?w=1440&amp;amp;quality=80&amp;amp;strip=info&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Da wir so nah wohnen, dachten wir, fliegen wir mal nach Hawai’i. Im Mai war es endlich soweit – 10 Tage auf Kaua’i, eine der kleineren Insel des Staates Hawai’i im Norden. Da sonst nicht so viel passiert ist im Mai, hier ein ausführlicher Bericht!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;via &lt;a href=&quot;https://10hourflight.wordpress.com/2016/06/16/sommerurlaub-auf-kauai-in-hawaii/&quot;&gt;Sommerurlaub auf Kauai in Hawaii — 10hourflight&lt;/a&gt;&lt;/p&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><summary type="html">Miriam’s blog (in German) about what we do when we are not working at MSFT:</summary></entry><entry><title type="html">VSTS Tags MRU extension – Part 2</title><link href="https://cschleiden.dev/vsts-tags-mru-extension-part-2/" rel="alternate" type="text/html" title="VSTS Tags MRU extension – Part 2" /><published>2016-02-28T23:46:11-06:00</published><updated>2016-02-28T23:46:11-06:00</updated><id>https://cschleiden.dev/vsts-tags-mru-extension-part-2</id><content type="html" xml:base="https://cschleiden.dev/vsts-tags-mru-extension-part-2/">&lt;p&gt;In the &lt;a href=&quot;https://cschleiden.wordpress.com/2016/02/24/vsts-tags-mru-extension-part-1&quot;&gt;last post&lt;/a&gt; we ended up with a list of tags a user added last to a work item. The next step is now to keep an MRU list with tags from earlier sessions and update it when new tags are added.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Every time the user adds tags to a work item we want to merge these new tags with the (persisted) list of tags. We will keep a maximum of N tags and need to either only add tags to the list (if&lt;/td&gt;
+      &lt;td&gt;tags&lt;/td&gt;
+      &lt;td&gt;&amp;lt; N), or and and remove (if&lt;/td&gt;
+      &lt;td&gt;tags&lt;/td&gt;
+      &lt;td&gt;&amp;gt; N), or just reorder the tags in the list, so that the most recently used tags appear first in the final dropdown menu.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;##&lt;/p&gt;
+
+&lt;h2 id=&quot;keeping-mru-list-of-tags&quot;&gt;Keeping MRU list of tags&lt;/h2&gt;
+
+&lt;p&gt;We want to store at maximum 5 tags for now, so we add a constant to our app.ts:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+/** Maximum size of MRU */&lt;br /&gt;
+const MAX_TAGS = 5;&lt;br /&gt;
+[/code]&lt;/p&gt;
+
+&lt;p&gt;And as before, we implement our business logic as a simple singleton:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+class Tags {&lt;br /&gt;
+/** Key used for document service */&lt;br /&gt;
+private static KEY: string = “tags”;&lt;br /&gt;
+private static instance: Tags = null;&lt;/p&gt;
+
+&lt;p&gt;/** Get or create singleton instance */&lt;br /&gt;
+public static getInstance(): Tags {&lt;br /&gt;
+if (!Tags.instance) {&lt;br /&gt;
+Tags.instance = new Tags(MAX_TAGS);&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;return Tags.instance;&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;constructor(private maxCount: number) {&lt;br /&gt;
+}&lt;br /&gt;
+}&lt;br /&gt;
+[/code]&lt;/p&gt;
+
+&lt;p&gt;This class needs to keep track of&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;what tags are currently in the MRU list&lt;/li&gt;
+  &lt;li&gt;the order of tags&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;While we could maintain a dictionary depicting whether a tag is in the list and a queue with the MRU order, for only 5 tags a simple array is probably be enough.&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+private queue: string[] = [];&lt;br /&gt;
+[/code]&lt;br /&gt;
+Now, when we add tag, and it is not in the queue yet, we just add it in front of the queue, or we delete it from its current position in the queue and &lt;strong&gt;then&lt;/strong&gt; add it in front of the queue.&lt;/p&gt;
+
+&lt;p&gt;In order to maintain our maximum of 5 tags, we add another method &lt;em&gt;prune&lt;/em&gt;, that removes tags from the end of the queue if the overall count is more than the configured max and call it&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+public addTag(tag: string) {&lt;br /&gt;
+// Remove tag from current position&lt;br /&gt;
+var idx = this.dict[tag];&lt;br /&gt;
+if (idx !== -1) {&lt;br /&gt;
+this.queue.splice(idx, 1);&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;// Add tag in first position and record position&lt;br /&gt;
+this.queue.unshift(tag);&lt;/p&gt;
+
+&lt;p&gt;this.prune();&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;/** Ensure only maximum number of tags configured is stored */&lt;br /&gt;
+private prune() {&lt;br /&gt;
+if (this.queue.length &amp;lt; this.maxCount) {&lt;br /&gt;
+for (var i = 0; i &amp;lt; this.queue.length – MAX_TAGS; ++i) {&lt;br /&gt;
+this.queue.pop();&lt;br /&gt;
+}&lt;br /&gt;
+}&lt;br /&gt;
+}&lt;br /&gt;
+[/code]&lt;br /&gt;
+For later displaying tags in the context menu, we can just return the current queue which contains our tags in the correct order&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+public getTags(): string[] {&lt;br /&gt;
+return this.queue;&lt;br /&gt;
+}&lt;br /&gt;
+[/code]&lt;/p&gt;
+
+&lt;h2 id=&quot;persisting-data-from-an-extension&quot;&gt;Persisting Data from an extension&lt;/h2&gt;
+
+&lt;p&gt;The VSTS framework provides the &lt;em&gt;&lt;a href=&quot;https://www.visualstudio.com/en-us/integrate/extensions/develop/data-storage&quot;&gt;ExtensionDataService&lt;/a&gt;&lt;/em&gt; which allows us to store key/value pairs or collections of JSON documents on the VSTS servers. Usage is quite simple, to store a value we just need to get an instance of the service, and call &lt;em&gt;setValue&lt;/em&gt; with a key and a value. The value can be as simple as a string, or an JS object that’s transparently serialized to JSON. We can also pass a scope, that limits values either to an &lt;em&gt;“account”&lt;/em&gt; or a &lt;em&gt;“user”&lt;/em&gt; scope:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+VSS.getService(VSS.ServiceIds.ExtensionData).then((dataService) =&amp;gt; {&lt;br /&gt;
+dataService.setValue(“key”, “value”, { scopeType: “User” });&lt;br /&gt;
+});&lt;br /&gt;
+[/code]&lt;br /&gt;
+For the tags extension we want a &lt;em&gt;user&lt;/em&gt; scope and our value to store will be an array of strings containing our tags.&lt;/p&gt;
+
+&lt;h2 id=&quot;persisting-tags&quot;&gt;Persisting Tags&lt;/h2&gt;
+
+&lt;p&gt;First step is again to add another import to our &lt;em&gt;app.ts&lt;/em&gt; file:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]import VSS_Extension_Service = require(“VSS/SDK/Services/ExtensionData”);[/code]&lt;br /&gt;
+To keep it simple, loading tags is something we’d like to do only once at the beginning of a session, and then save every time tags are added. This way, we might run into conflicts if the user is working with different browser tabs/windows at the same time, but for this sample that last-write-wins concurrency is enough.&lt;/p&gt;
+
+&lt;p&gt;Using the &lt;em&gt;ExtensionDataService&lt;/em&gt; we can modify the &lt;em&gt;getInstance&lt;/em&gt; call to retrieve the list of tags from the data service using &lt;em&gt;getValue&lt;/em&gt; and add every one using the &lt;em&gt;addTag&lt;/em&gt; method we implemented above. Since service calls use Promises, we change &lt;em&gt;getInstance&lt;/em&gt; to return a promise instead of a value. If the instance has already been created, we use _Q(&lt;value&gt;)_ to return an immediately resolved promise, otherwise we retrieve tags and then create the instance:&lt;/value&gt;&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+/** Get or create singleton instance */&lt;br /&gt;
+public static getInstance(): IPromise&lt;Tags&gt; {  
+if (Tags.instance) {  
+return Q(Tags.instance);  
+} else {  
+return VSS.getService(VSS.ServiceIds.ExtensionData).then(  
+(dataService: VSS\_Extension\_Service.ExtensionDataService) =&amp;gt; {  
+return dataService.getValue(Tags.KEY, {  
+defaultValue: [],  
+scopeType: &quot;User&quot;  
+}).then((savedTags: string[]) =&amp;gt; {  
+Tags.instance = new Tags(MAX_TAGS);  
+if (savedTags) {  
+savedTags.forEach(t =&amp;gt; Tags.instance.addTag(t));  
+}&lt;/Tags&gt;&lt;/p&gt;
+
+&lt;p&gt;return Tags.instance;&lt;br /&gt;
+});&lt;br /&gt;
+});&lt;br /&gt;
+}&lt;br /&gt;
+}&lt;br /&gt;
+[/code]&lt;br /&gt;
+Persisting tags will be done in another method, again getting a service instance (we could cache the instance), and calling then calling &lt;em&gt;setValue&lt;/em&gt;. A promise is returned to allow callers to wait for the end of the call:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+public persist(): IPromise&lt;any&gt; {  
+return VSS.getService(VSS.ServiceIds.ExtensionData).then(  
+(dataService: VSS\_Extension\_Service.ExtensionDataService) =&amp;gt; {  
+dataService.setValue(Tags.KEY, this.queue, {  
+scopeType: &quot;User&quot;  
+});  
+});  
+}  
+[/code]  
+Since we do want to show the tag context menu as fast as possible, we will proactively initialized that tag service as soon as the extension file is loaded:&lt;/any&gt;&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+// Proactively initialize instance and load tags&lt;br /&gt;
+Tags.getInstance();&lt;br /&gt;
+[/code]&lt;/p&gt;
+
+&lt;h2 id=&quot;showing-tags-in-work-item-context-menu&quot;&gt;Showing Tags in work item context menu&lt;/h2&gt;
+
+&lt;p&gt;We are nearly done,&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+// Register context menu action&lt;br /&gt;
+VSS.register(“tags-mru-work-item-menu”, {&lt;br /&gt;
+getMenuItems: (context) =&amp;gt; {&lt;br /&gt;
+return Tags.getInstance().then(tags =&amp;gt; {&lt;br /&gt;
+var childItems: IContributedMenuItem[] = [];&lt;br /&gt;
+tags.getTags().forEach(tag =&amp;gt; {&lt;br /&gt;
+childItems.push(&lt;IContributedMenuItem&gt;{  
+text: tag,  
+title: \`Add tag: ${tag}\`,  
+action: () =&amp;gt; {});  
+});  
+});&lt;/IContributedMenuItem&gt;&lt;/p&gt;
+
+&lt;p&gt;if (childItems.length === 0) {&lt;br /&gt;
+childItems.push(&lt;IContributedMenuItem&gt;{  
+title: &quot;No tag added&quot;,  
+disabled: true  
+});  
+}&lt;/IContributedMenuItem&gt;&lt;/p&gt;
+
+&lt;p&gt;return [&lt;IContributedMenuItem&gt;{  
+title: &quot;Recent Tags&quot;,  
+childItems: childItems  
+}]  
+});  
+});  
+});  
+[/code]&lt;/IContributedMenuItem&gt;&lt;/p&gt;
+
+&lt;p&gt; &lt;/p&gt;
+
+&lt;h2 id=&quot;updating-work-items&quot;&gt;Updating work items&lt;/h2&gt;
+
+&lt;p&gt;Final step is to add an action to the child menu items to actually add the tag to all selected work items. First we need to determine the selected work items. Unfortunately, the different VSTS views are not consistent in exposing the ids of selected work items right now. We need to look for different properties in the passed &lt;em&gt;context&lt;/em&gt; depending on the view we are in. The logic is:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Backlog&lt;/strong&gt; – array of numbers called &lt;em&gt;workItemIds&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Boards (Kanban/Iteration)&lt;/strong&gt; – single number called &lt;em&gt;id&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Query results&lt;/strong&gt; – array of numbers called &lt;em&gt;ids&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To unify in an array called &lt;em&gt;ids&lt;/em&gt; we need to add the following code to the beginning of the &lt;em&gt;getMenuItems&lt;/em&gt; method:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+// Not all areas use the same format for passing work item ids.&lt;br /&gt;
+// “ids” for Queries, “workItemIds” for backlogs, “id” for boards&lt;br /&gt;
+var ids = context.ids || context.workItemIds;&lt;br /&gt;
+if (!ids || context.id) {&lt;br /&gt;
+// Boards only support a single work item&lt;br /&gt;
+ids = [context.id];&lt;br /&gt;
+}&lt;br /&gt;
+[/code]&lt;br /&gt;
+Then, in the &lt;em&gt;action&lt;/em&gt; handler of our child menu items, we need to:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Get the work items&lt;/li&gt;
+  &lt;li&gt;For each work item
+    &lt;ol&gt;
+      &lt;li&gt;Get the existing value for the &lt;em&gt;System.Tags&lt;/em&gt; field&lt;/li&gt;
+      &lt;li&gt;Concatenate with the tag to add using “;” as separator&lt;/li&gt;
+      &lt;li&gt;Update work item&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Since we are changing work items not opened in any form right now, we need to use the REST API for the update operations. Some additional imports are required:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+import TFS_Wit_Contracts = require(“TFS/WorkItemTracking/Contracts”);&lt;br /&gt;
+import TFS_Wit_Client = require(“TFS/WorkItemTracking/RestClient”);&lt;br /&gt;
+import TFS_Wit_Services = require(“TFS/WorkItemTracking/Services”);&lt;br /&gt;
+[/code]&lt;br /&gt;
+Then we just get an http client and start iterating over the work items:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+// Get work items, add the new tag to the list of existing tags, then update&lt;br /&gt;
+var client = TFS_Wit_Client.getClient();&lt;br /&gt;
+client.getWorkItems(ids).then((workItems) =&amp;gt; {&lt;br /&gt;
+for (var workItem of workItems) {&lt;br /&gt;
+client.updateWorkItem([{&lt;br /&gt;
+“op”: “add”,&lt;br /&gt;
+“path”: “/fields/System.Tags”,&lt;br /&gt;
+“value”: (workItem.fields[“System.Tags”] || “”) + “;” + tag&lt;br /&gt;
+}], workItem.id);&lt;br /&gt;
+}&lt;br /&gt;
+});&lt;br /&gt;
+[/code]&lt;br /&gt;
+(Potential optimization would be to use the batch API for the work item updates instead of making a single call per work item)&lt;/p&gt;
+
+&lt;h2 id=&quot;all-done&quot;&gt;All done&lt;/h2&gt;
+
+&lt;p&gt;That’s it. The extension is done, can be published, and should mostly work as designed. I say mostly, because, if you remember, I mentioned earlier that there is one drawback, for which no workaround exists yet: When we add a tag, we need to use the REST API to update the work items. When we do this, the current VSTS view does not know that a work item has been updated, and does not refresh automatically.&lt;/p&gt;
+
+&lt;p&gt;Ideally, there would be a way to tell VSTS from an extension that a work item has been changed, but no such service is exposed at the moment. This means, users have to manually refresh the view or a specific work item after using the extension to add a new tag. For example like in this short gif (click to view full screen):&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://cschleiden.files.wordpress.com/2016/02/add-tag.gif&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;aligncenter  wp-image-751&quot; src=&quot;https://cschleiden.files.wordpress.com/2016/02/add-tag.gif?w=1024&quot; alt=&quot;add-tag&quot; width=&quot;494&quot; height=&quot;331&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I do think, however, that the extension still provides value, and will publish it in the marketplace soon. Let me me know in the comments if anything is unclear or doesn’t work.&lt;/p&gt;
+
+&lt;p&gt;Again, the code is available at &lt;a href=&quot;https://github.com/cschleiden/vsts-extension-tags-mru&quot;&gt;https://github.com/cschleiden/vsts-extension-tags-mru&lt;/a&gt;. Small details might vary, but I mostly tried to keep these posts and the code in sync.&lt;/p&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><summary type="html">In the last post we ended up with a list of tags a user added last to a work item. The next step is now to keep an MRU list with tags from earlier sessions and update it when new tags are added.</summary></entry><entry><title type="html">VSTS Tags MRU extension – Part 1</title><link href="https://cschleiden.dev/vsts-tags-mru-extension-part-1/" rel="alternate" type="text/html" title="VSTS Tags MRU extension – Part 1" /><published>2016-02-25T00:49:38-06:00</published><updated>2016-02-25T00:49:38-06:00</updated><id>https://cschleiden.dev/vsts-tags-mru-extension-part-1</id><content type="html" xml:base="https://cschleiden.dev/vsts-tags-mru-extension-part-1/">&lt;p align=&quot;justify&quot;&gt;
+  I often find myself adding the same tags over and over to work items. Example: While we use features to group our user stories, it is often convenient to also add a tag per feature, since these can show up on the cards on the different boards, making it easy to see what belongs to which feature:
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image2.png&quot;&gt;&lt;img style=&quot;background-image:none;float:none;margin-left:auto;display:block;margin-right:auto;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb2.png&quot; alt=&quot;image&quot; width=&quot;376&quot; height=&quot;203&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  So let’s say I’m working on a feature called “Tag Extension”. Our feature is broken down into a few user stories and and we have applied a tag “Tag Extension” to all of them:
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image.png&quot;&gt;&lt;img style=&quot;background-image:none;float:none;margin-left:auto;display:block;margin-right:auto;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb.png&quot; alt=&quot;image&quot; width=&quot;518&quot; height=&quot;130&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  Then we add another story using the add panel on the backlog. It&amp;#8217;s parented to the feature but it&amp;#8217;s missing the tag applied to the other ones:
+&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image3.png&quot;&gt;&lt;img class=&quot; aligncenter&quot; style=&quot;background-image:none;display:inline;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb3.png&quot; alt=&quot;image&quot; width=&quot;407&quot; height=&quot;199&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/02/image1.png&quot;&gt;&lt;img class=&quot; aligncenter&quot; style=&quot;background-image:none;display:inline;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb1.png&quot; alt=&quot;image&quot; width=&quot;514&quot; height=&quot;184&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align:left;&quot; align=&quot;center&quot;&gt;
+  While I could now open the user story and add the tag, what I’d like to have is something like this:
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image4.png&quot;&gt;&lt;img style=&quot;background-image:none;float:none;margin-left:auto;display:block;margin-right:auto;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb4.png&quot; alt=&quot;image&quot; width=&quot;421&quot; height=&quot;390&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot; align=&quot;justify&quot;&gt;
+  Open the context menu for a work item anywhere in the product, have a list of the tags I added last to any work item, and allowing me to easily add one of them with a single click.
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot; align=&quot;justify&quot;&gt;
+  Fortunately, we can build this with just a few lines of code using the VSTS extensions API. There is one little drawback &amp;#8211; more on that later &amp;#8211; but we can get quite close to what I just described. I will be using the seed project I mentioned &lt;a href=&quot;https://cschleiden.wordpress.com/2016/02/24/extending-vsts-setup&quot;&gt;earlier&lt;/a&gt;, you can just clone the repo or download it as a zip if you want to follow along: &lt;a title=&quot;https://github.com/cschleiden/vsts-extension-ts-seed-simple&quot; href=&quot;https://github.com/cschleiden/vsts-extension-ts-seed-simple&quot;&gt;https://github.com/cschleiden/vsts-extension-ts-seed-simple&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  You can also skip immediately ahead to the finished version:&lt;br /&gt; &lt;a href=&quot;https://github.com/cschleiden/vsts-extension-tags-mru&quot;&gt;https://github.com/cschleiden/vsts-extension-tags-mru&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;h2 align=&quot;justify&quot;&gt;
+  Capturing tags as they are added
+&lt;/h2&gt;
+
+&lt;p&gt;The first task to generating the MRU list is to capture which tags are added to work items. In order to receive notifications about changes to the work item form, we need to add a contribution of type &lt;em&gt;&lt;a href=&quot;https://www.visualstudio.com/integrate/extensions/develop/add-workitem-extension#listenforevents&quot; target=&quot;_blank&quot;&gt;ms.vss-work-web.work-item-notifications&lt;/a&gt;&lt;/em&gt; to our extension. This allows us to listen to events like &lt;em&gt;onFieldChanged&lt;/em&gt; (a field on the form has been changed) or &lt;em&gt;onSaved&lt;/em&gt; (work item has been saved). So, we can just replace the existing contribution in the manifest with this:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+{&lt;br /&gt;
+“id”: “tags-mru-work-item-form-observer”,&lt;br /&gt;
+“type”: “ms.vss-work-web.work-item-notifications”,&lt;br /&gt;
+“targets”: [&lt;br /&gt;
+“ms.vss-work-web.work-item-form”&lt;br /&gt;
+],&lt;br /&gt;
+“properties”: {&lt;br /&gt;
+“uri”: “index.html”&lt;br /&gt;
+}&lt;br /&gt;
+}&lt;br /&gt;
+[/code]&lt;br /&gt;
+and place the matching typescript code in app.ts (replacing the existing &lt;em&gt;VSS.register&lt;/em&gt; call):&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+// Register work item change listener&lt;br /&gt;
+VSS.register(“tags-mru-work-item-form-observer”, (context) =&amp;gt; {&lt;br /&gt;
+return {&lt;br /&gt;
+onFieldChanged: (args) =&amp;gt; {&lt;br /&gt;
+if (args.changedFields[“System.Tags”]) {&lt;br /&gt;
+var changedTags: string = args.changedFields[“System.Tags”];&lt;/p&gt;
+
+&lt;p&gt;console.log(`Tags changed: ${changedTags}`);&lt;br /&gt;
+}&lt;br /&gt;
+},&lt;br /&gt;
+onLoaded: (args) =&amp;gt; {&lt;br /&gt;
+console.log(“Work item loaded”);&lt;br /&gt;
+},&lt;br /&gt;
+onUnloaded: (args) =&amp;gt; {&lt;br /&gt;
+console.log(“Work item unloaded”);&lt;br /&gt;
+},&lt;br /&gt;
+onSaved: (args) =&amp;gt; {&lt;br /&gt;
+console.log(“Work item saved”);&lt;br /&gt;
+},&lt;br /&gt;
+onReset: (args) =&amp;gt; {&lt;br /&gt;
+console.log(“Work item reset”);&lt;br /&gt;
+},&lt;br /&gt;
+onRefreshed: (args) =&amp;gt; {&lt;br /&gt;
+console.log(“Work item refreshed”);&lt;br /&gt;
+}&lt;br /&gt;
+};&lt;br /&gt;
+});&lt;br /&gt;
+[/code]&lt;br /&gt;
+When we publish this extension to our account, create a new work item, add a couple tags, and then save the work item, we will see messages like these in the console:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/wp-content/uploads/2016/02/image22.png&quot;&gt;&lt;img style=&quot;background-image:none;padding-top:0;padding-left:0;display:inline;padding-right:0;border:0;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb22.png&quot; alt=&quot;image&quot; width=&quot;965&quot; height=&quot;256&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;
+  As you can see, all tags are reported as a &lt;b&gt;single&lt;/b&gt; field separated by semicolons. That means, that we need a way to identify when a tag is added. An easy way to accomplish this, is to get the list of tags when a work item is opened, and then when it&amp;#8217;s saved to diff the original and current tags.
+&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;
+  To get the tags when the work item is opened, we can utilize the &lt;em&gt;&lt;a href=&quot;https://www.visualstudio.com/en-us/integrate/extensions/develop/add-workitem-extension&quot;&gt;WorkItemFormService&lt;/a&gt;&lt;/em&gt;. We need to import the framework module providing it:
+&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+import TFS_Wit_Services = require(“TFS/WorkItemTracking/Services”);&lt;br /&gt;
+[/code]&lt;br /&gt;
+and then we can get an instance of the service when a work item is opened, and get the current value of the &lt;em&gt;System.Tags&lt;/em&gt; field.&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+onLoaded: (args) =&amp;gt; {&lt;br /&gt;
+// Get original tags from work item&lt;br /&gt;
+TFS_Wit_Services.WorkItemFormService.getService().then(wi =&amp;gt; {&lt;br /&gt;
+(&amp;lt;IPromise&lt;string&gt;&amp;gt;wi.getFieldValue(&quot;System.Tags&quot;)).then(  
+(changedTags: string) =&amp;gt; {  
+// TODO: Save  
+});  
+});  
+}  
+[/code]&lt;/string&gt;&lt;/p&gt;
+
+&lt;p style=&quot;text-align:justify;&quot;&gt;
+  Since it&amp;#8217;s possible to open multiple work items in VSTS at the same time, we cannot simply store original and updated tags in two variables, but need both current and updated tags keyed to a work item, identified by its id. A simple singleton solution could be the following:
+&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
+/** Split tags into string array */&lt;br /&gt;
+function splitTags(rawTags: string): string[] {&lt;br /&gt;
+return rawTags.split(“;”).map(t =&amp;gt; t.trim());&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;/**&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Tags are stored as a single field, separated by “;”.&lt;/li&gt;
+  &lt;li&gt;We need to keep track of the tags when a work item was&lt;/li&gt;
+  &lt;li&gt;opened, and the ones when it’s closed. The intersection&lt;/li&gt;
+  &lt;li&gt;are the tags added.&lt;br /&gt;
+*/&lt;br /&gt;
+class WorkItemTagsListener {&lt;br /&gt;
+private static instance: WorkItemTagsListener = null;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;public static getInstance(): WorkItemTagsListener {&lt;br /&gt;
+if (!WorkItemTagsListener.instance) {&lt;br /&gt;
+WorkItemTagsListener.instance = new WorkItemTagsListener();&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;return WorkItemTagsListener.instance;&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;/** Holds tags when work item was opened */&lt;br /&gt;
+private orgTags: { [workItemId: number]: string[] } = {};&lt;/p&gt;
+
+&lt;p&gt;/** Tags added */&lt;br /&gt;
+private newTags: { [workItemId: number]: string[] } = {};&lt;/p&gt;
+
+&lt;p&gt;public setOriginalTags(workItemId: number, tags: string[]) {&lt;br /&gt;
+this.orgTags[workItemId] = tags;&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;public setNewTags(workItemId: number, tags: string[]) {&lt;br /&gt;
+this.newTags[workItemId] = tags;&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;public clearForWorkItem(workItemId: number) {&lt;br /&gt;
+delete this.orgTags[workItemId];&lt;br /&gt;
+delete this.newTags[workItemId];&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;public commitTagsForWorkItem(workItemId: number): IPromise {&lt;br /&gt;
+// Generate intersection between old and new tags&lt;br /&gt;
+var diffTags = this.newTags[workItemId]&lt;br /&gt;
+.filter(t =&amp;gt; this.orgTags[workItemId].indexOf(t) &amp;lt; 0);&lt;br /&gt;
+// TODO: Store&lt;br /&gt;
+return Q(null);&lt;br /&gt;
+}&lt;br /&gt;
+}&lt;br /&gt;
+[/code]&lt;/p&gt;
+
+&lt;p&gt;hooking it up to the observer:&lt;/p&gt;
+
+&lt;p&gt;[code language=”javascript” gutter=”false”] // Register work item change listener VSS.register(“tags-mru-work-item-form-observer”, (context) =&amp;gt; {&lt;br /&gt;
+return {&lt;br /&gt;
+onFieldChanged: (args) =&amp;gt; {&lt;br /&gt;
+// (2)&lt;br /&gt;
+if (args.changedFields[“System.Tags”]) {&lt;br /&gt;
+var changedTags: string = args.changedFields[“System.Tags”];&lt;br /&gt;
+WorkItemTagsListener.getInstance()&lt;br /&gt;
+.setNewTags(args.id, splitTags(changedTags));&lt;br /&gt;
+}&lt;br /&gt;
+},&lt;br /&gt;
+onLoaded: (args) =&amp;gt; {&lt;br /&gt;
+// (1)&lt;br /&gt;
+// Get original tags from work item&lt;br /&gt;
+TFS_Wit_Services.WorkItemFormService.getService().then(wi =&amp;gt; {&lt;br /&gt;
+(&lt;IPromise&gt;wi.getFieldValue(&quot;System.Tags&quot;)).then(  
+changedTagsRaw =&amp;gt; {  
+WorkItemTagsListener.getInstance()  
+.setOriginalTags(args.id, splitTags(changedTagsRaw));  
+});  
+});  
+},  
+onUnloaded: (args) =&amp;gt; {  
+// (4)  
+WorkItemTagsListener.getInstance().clearForWorkItem(args.id);  
+},  
+onSaved: (args) =&amp;gt; {  
+// (3)  
+WorkItemTagsListener.getInstance().commitTagsForWorkItem(args.id);  
+},  
+onReset: (args) =&amp;gt; {  
+// (5)  
+WorkItemTagsListener.getInstance().setNewTags(args.id, []);  
+},  
+onRefreshed: (args) =&amp;gt; {  
+// (5)  
+WorkItemTagsListener.getInstance().setNewTags(args.id, []);  
+}  
+};  
+});  
+[/code]&lt;/IPromise&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Retrieve the tags of a work item when it’s opened, storing them in the WorkItemTagsListener instance&lt;/li&gt;
+  &lt;li&gt;Whenever the &lt;em&gt;System.Tags&lt;/em&gt; field is changed, store the tags as the new tags in the TagsListener instance&lt;/li&gt;
+  &lt;li&gt;When the work item is actually saved, commit the new tags to the MRU list (not yet implemented)&lt;/li&gt;
+  &lt;li&gt;Reset the work item’s data when it’s unloaded&lt;/li&gt;
+  &lt;li&gt;Only reset the new tags when edits to a work item are discarded&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This enables us to detect added tags to any work items. The next part will cover actually storing the tags per user, showing them in a context menu, and applying to work items.&lt;/p&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="HowTo" /><category term="Microsoft" /><summary type="html">I often find myself adding the same tags over and over to work items. Example: While we use features to group our user stories, it is often convenient to also add a tag per feature, since these can show up on the cards on the different boards, making it easy to see what belongs to which feature:</summary></entry></feed>
