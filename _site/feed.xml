@@ -1,14 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://cschleiden.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://cschleiden.dev/" rel="alternate" type="text/html" hreflang="en" /><updated>2020-02-17T22:28:31-06:00</updated><id>https://cschleiden.dev/feed.xml</id><title type="html">cschleiden</title><subtitle>Software engineer at GitHub, former MSFT. Born and raised in Cologne, Germany. Loves climbing mountains in the PNW!
-</subtitle><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><entry><title type="html">test2</title><link href="https://cschleiden.dev/blog/2020-02-16-test2/" rel="alternate" type="text/html" title="test2" /><published>2020-02-16T22:16:34-06:00</published><updated>2020-02-16T22:16:34-06:00</updated><id>https://cschleiden.dev/blog/test2</id><content type="html" xml:base="https://cschleiden.dev/blog/2020-02-16-test2/">&lt;p&gt;test3&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;asdf&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;``&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;asdf&lt;/code&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;asdfad 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><summary type="html">test3</summary></entry><entry><title type="html">Darken your screen</title><link href="https://cschleiden.dev/darken-your-screen/" rel="alternate" type="text/html" title="Darken your screen" /><published>2019-08-12T00:00:00-05:00</published><updated>2019-08-12T00:00:00-05:00</updated><id>https://cschleiden.dev/spf</id><content type="html" xml:base="https://cschleiden.dev/darken-your-screen/">&lt;p&gt;Often when presenting screen designs in meetings the projector blows out highlights and small details, making it very hard to critique the overall design. If you are using a Mac you can use the awesome &lt;a href=&quot;https://github.com/tannerc/spf&quot;&gt;SPF&lt;/a&gt; to add a semi-transparent dark overlay over your screen. If you are on a Windows machine - or you don’t want to install an app for this, and you are presenting your designs using Figma in the browser anyway - use the following bookmarklets:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://cschleiden.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://cschleiden.dev/" rel="alternate" type="text/html" hreflang="en" /><updated>2020-02-17T22:39:07-06:00</updated><id>https://cschleiden.dev/feed.xml</id><title type="html">cschleiden</title><subtitle>Software engineer at GitHub, former MSFT. Born and raised in Cologne, Germany. Loves climbing mountains in the PNW!
+</subtitle><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><entry><title type="html">Darken your screen</title><link href="https://cschleiden.dev/darken-your-screen/" rel="alternate" type="text/html" title="Darken your screen" /><published>2019-08-12T00:00:00-05:00</published><updated>2019-08-12T00:00:00-05:00</updated><id>https://cschleiden.dev/spf</id><content type="html" xml:base="https://cschleiden.dev/darken-your-screen/">&lt;p&gt;Often when presenting screen designs in meetings the projector blows out highlights and small details, making it very hard to critique the overall design. If you are using a Mac you can use the awesome &lt;a href=&quot;https://github.com/tannerc/spf&quot;&gt;SPF&lt;/a&gt; to add a semi-transparent dark overlay over your screen. If you are on a Windows machine - or you don’t want to install an app for this, and you are presenting your designs using Figma in the browser anyway - use the following bookmarklets:&lt;/p&gt;
 
 &lt;iframe src=&quot;https://codesandbox.io/embed/x76lx3w1ko?fontsize=14&quot; title=&quot;In-browser SPF&quot; allow=&quot;geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media&quot; style=&quot;width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;&quot; sandbox=&quot;allow-modals allow-forms allow-popups allow-scripts allow-same-origin&quot;&gt;&lt;/iframe&gt;
 
@@ -662,4 +653,106 @@ WorkItemTagsListener.getInstance().setNewTags(args.id, []);
   &lt;li&gt;Only reset the new tags when edits to a work item are discarded&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;This enables us to detect added tags to any work items. The next part will cover actually storing the tags per user, showing them in a context menu, and applying to work items.&lt;/p&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="HowTo" /><category term="Microsoft" /><summary type="html">I often find myself adding the same tags over and over to work items. Example: While we use features to group our user stories, it is often convenient to also add a tag per feature, since these can show up on the cards on the different boards, making it easy to see what belongs to which feature:</summary></entry></feed>
+&lt;p&gt;This enables us to detect added tags to any work items. The next part will cover actually storing the tags per user, showing them in a context menu, and applying to work items.&lt;/p&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="HowTo" /><category term="Microsoft" /><summary type="html">I often find myself adding the same tags over and over to work items. Example: While we use features to group our user stories, it is often convenient to also add a tag per feature, since these can show up on the cards on the different boards, making it easy to see what belongs to which feature:</summary></entry><entry><title type="html">Extending VSTS – Setup</title><link href="https://cschleiden.dev/extending-vsts-setup/" rel="alternate" type="text/html" title="Extending VSTS – Setup" /><published>2016-02-25T00:49:18-06:00</published><updated>2016-02-25T00:49:18-06:00</updated><id>https://cschleiden.dev/extending-vsts-setup</id><content type="html" xml:base="https://cschleiden.dev/extending-vsts-setup/">&lt;p style=&quot;text-align:justify;&quot;&gt;
+  Last year &lt;a href=&quot;https://www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx&quot;&gt;Visual Studio Team Services&lt;/a&gt; (formerly known as Visual Studio Online) released support for &lt;a href=&quot;https://www.visualstudio.com/en-us/integrate/extensions/overview&quot;&gt;extensions&lt;/a&gt;. There are some great samples on &lt;a href=&quot;https://github.com/Microsoft/vsts-extension-samples&quot;&gt;GitHub&lt;/a&gt; and a growing number of finished extensions in the &lt;a href=&quot;https://marketplace.visualstudio.com/#VSTS&quot;&gt;marketplace&lt;/a&gt;. One of my published extensions is &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=ms-devlabs.estimate&quot;&gt;Estimate&lt;/a&gt;, a planning poker implementation for VSTS.
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  Extending VSTS is really easy, there is &lt;a href=&quot;https://www.visualstudio.com/en-us/integrate/extensions/overview&quot;&gt;documentation&lt;/a&gt; and some great examples at the official &lt;a href=&quot;https://github.com/Microsoft/vsts-extension-samples&quot;&gt;GitHub&lt;/a&gt; repository.
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  Since I work on the Agile planning tools and work item tracking, I would like to show with a few simple examples how you can add functionality to your backlogs, boards, and queries. To make it really easy I’ve published  a small seed project that contributes a single menu item to the work item context menu and which will be the base for some extensions with a bit more functionality. If you’re already familiar with VSTS extensions feel free to skip immediately to &lt;a href=&quot;https://cschleiden.wordpress.com/2016/02/24/vsts-tags-mru-extension-part-1&quot;&gt;part 2&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image5.png&quot;&gt;&lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb5.png&quot; alt=&quot;image&quot; width=&quot;425&quot; height=&quot;83&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt;
+  The seed project is available at &lt;a href=&quot;https://github.com/cschleiden/vsts-extension-ts-seed-simple&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt;; here is a step by step description how to build, publish, and install it:
+&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;div align=&quot;justify&quot;&gt;
+ First you need a VSTS account, it’s free, just &lt;a href=&quot;https://www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx&quot;&gt;register&lt;/a&gt; with your Microsoft account.
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div align=&quot;justify&quot;&gt;
+ Create a publisher: With your Microsoft account, sign in at the &lt;a href=&quot;https://marketplace.visualstudio.com/manage&quot;&gt;marketplace&lt;/a&gt; and pick an ID and a display name:&lt;br /&gt; &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image6.png&quot;&gt;&lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb6.png&quot; alt=&quot;image&quot; width=&quot;496&quot; height=&quot;238&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div align=&quot;justify&quot;&gt;
+ Generate a personal access token: Login to VSTS, go to &lt;em&gt;My Security&lt;/em&gt;:&lt;br /&gt; &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image7.png&quot;&gt;&lt;br /&gt; &lt;img class=&quot; size-full wp-image-770 aligncenter&quot; src=&quot;https://cschleiden.files.wordpress.com/2016/02/security.png&quot; alt=&quot;security&quot; width=&quot;308&quot; height=&quot;126&quot; /&gt;&lt;/a&gt;&lt;br /&gt; then to the &lt;em&gt;Personal access tokens&lt;/em&gt; section:&lt;br /&gt; &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image8.png&quot;&gt;&lt;br /&gt; &lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb8.png&quot; alt=&quot;image&quot; width=&quot;373&quot; height=&quot;161&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;&lt;br /&gt; generate a token for &lt;em&gt;All accessible accounts&lt;/em&gt;:&lt;br /&gt; &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image9.png&quot;&gt;&lt;br /&gt; &lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb9.png&quot; alt=&quot;image&quot; width=&quot;434&quot; height=&quot;240&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;copy and save the generate token for later:&lt;br /&gt; &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image10.png&quot;&gt;&lt;br /&gt; &lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb10.png&quot; alt=&quot;image&quot; width=&quot;828&quot; height=&quot;90&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div align=&quot;justify&quot;&gt;
+ Clone (or download as zip and extract) the seed project from:&lt;br /&gt; &lt;a title=&quot;https://github.com/cschleiden/vsts-extension-ts-seed-simple&quot; href=&quot;https://github.com/cschleiden/vsts-extension-ts-seed-simple&quot;&gt;https://github.com/cschleiden/vsts-extension-ts-seed-simple&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div align=&quot;justify&quot;&gt;
+ Install &lt;a href=&quot;https://nodejs.org/en/&quot; target=&quot;_blank&quot;&gt;nodejs&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div align=&quot;justify&quot;&gt;
+ cd into the folder where you placed the project in step 4
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div align=&quot;justify&quot;&gt;
+ Install required dependencies with
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;pre&amp;gt;npm install&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;div align=&quot;justify&quot;&gt;
+ Open the extension manifest, vss-extension.json
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;div align=&quot;justify&quot;&gt;
+ Change &lt;your-publisher&gt; to the publisher ID you created in step 2:&lt;br /&gt; &lt;a href=&quot;/assets/wp-content/uploads/2016/02/image11.png&quot;&gt;&lt;br /&gt; &lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb11.png&quot; alt=&quot;image&quot; width=&quot;580&quot; height=&quot;263&quot; border=&quot;0&quot; /&gt;&lt;/a&gt;
+    &amp;lt;/div&amp;gt;
+
+&lt;/your-publisher&gt;&lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;As part of step 5, the &lt;a href=&quot;https://github.com/Microsoft/tfs-cli&quot; target=&quot;_blank&quot;&gt;TFS Cross Platform Command Line Interface&lt;/a&gt; was installed. This will be used to package and publish the extension. Login to your account by executing 
+    &amp;lt;pre&amp;gt;tfx login –service-url https://marketplace.visualstudio.com&amp;lt;/pre&amp;gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;when prompted for the token, use the one generated in step 3. This will save the login information for subsequent operations:  
+[&amp;lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb12.png&quot; alt=&quot;image&quot; width=&quot;673&quot; height=&quot;149&quot; border=&quot;0&quot; /&amp;gt;](/assets/wp-content/uploads/2016/02/image12.png)(**Update:** the uri has changed, please use &amp;lt;https://marketplace.visualstudio.com&amp;gt;)&amp;lt;/li&amp;gt; 
+
+  * &amp;lt;div align=&quot;justify&quot;&amp;gt;
+      Finally, execute
+    &amp;lt;/div&amp;gt;
+    
+    &amp;lt;pre&amp;gt;grunt publish-dev&amp;lt;/pre&amp;gt;
+    
+    &amp;lt;div align=&quot;justify&quot;&amp;gt;
+      to build, package, and publish the extension using the development configuration. If everything works the output should be similar to this:&amp;lt;br /&amp;gt; &amp;lt;a href=&quot;/assets/wp-content/uploads/2016/02/image13.png&quot;&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb13.png&quot; alt=&quot;image&quot; width=&quot;934&quot; height=&quot;643&quot; border=&quot;0&quot; /&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;/a&amp;gt;
+    &amp;lt;/div&amp;gt;
+
+  * &amp;lt;div align=&quot;justify&quot;&amp;gt;
+      Share with your account: The extension has now been published as a private extension, no one else can see it yet. To test it, we need to share it with our account. There are two ways, one is using the tfx command line, the other is using again the &amp;lt;a href=&quot;https://app.market.visualstudio.com/manage&quot; target=&quot;_blank&quot;&amp;gt;Marketplace&amp;lt;/a&amp;gt;. When you login again you should now see the extension and a &amp;lt;em&amp;gt;Share&amp;lt;/em&amp;gt; button:&amp;lt;br /&amp;gt; &amp;lt;a href=&quot;/assets/wp-content/uploads/2016/02/image14.png&quot;&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb14.png&quot; alt=&quot;image&quot; width=&quot;1296&quot; height=&quot;69&quot; border=&quot;0&quot; /&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;br /&amp;gt; Just share it with your account&amp;lt;br /&amp;gt; &amp;lt;a href=&quot;/assets/wp-content/uploads/2016/02/image15.png&quot;&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb15.png&quot; alt=&quot;image&quot; width=&quot;597&quot; height=&quot;280&quot; border=&quot;0&quot; /&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;/a&amp;gt;
+    &amp;lt;/div&amp;gt;
+
+  * &amp;lt;div align=&quot;justify&quot;&amp;gt;
+      &amp;lt;strong&amp;gt;Install:&amp;lt;/strong&amp;gt; After sharing the extension, it should show up in the &amp;lt;em&amp;gt;Manage extensions&amp;lt;/em&amp;gt; page of your VSTS account:&amp;lt;br /&amp;gt; &amp;lt;a href=&quot;/assets/wp-content/uploads/2016/02/image16.png&quot;&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb16.png&quot; alt=&quot;image&quot; width=&quot;483&quot; height=&quot;188&quot; border=&quot;0&quot; /&amp;gt;&amp;lt;/a&amp;gt;to install, select it, confirm, and allow the requested OAuth scopes:&amp;lt;br /&amp;gt; &amp;lt;a href=&quot;/assets/wp-content/uploads/2016/02/image17.png&quot;&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;img class=&quot; aligncenter&quot; style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb17.png&quot; alt=&quot;image&quot; width=&quot;185&quot; height=&quot;244&quot; border=&quot;0&quot; /&amp;gt;&amp;lt;img class=&quot; aligncenter&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb18.png&quot; alt=&quot;image&quot; width=&quot;269&quot; height=&quot;208&quot; border=&quot;0&quot; /&amp;gt;&amp;lt;/a&amp;gt; &amp;lt;a href=&quot;/assets/wp-content/uploads/2016/02/image19.png&quot;&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;img class=&quot; aligncenter&quot; style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb19.png&quot; alt=&quot;image&quot; width=&quot;567&quot; height=&quot;501&quot; border=&quot;0&quot; /&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;/a&amp;gt;
+    &amp;lt;/div&amp;gt;
+
+  * &amp;lt;div align=&quot;justify&quot;&amp;gt;
+      &amp;lt;strong&amp;gt;Test&amp;lt;/strong&amp;gt;: If you now navigate to a query result (create a query and some work items if you haven’t) and open the context menu for any work item, you should see the menu action contributed by the extension:&amp;lt;br /&amp;gt; &amp;lt;a href=&quot;/assets/wp-content/uploads/2016/02/image20.png&quot;&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;img class=&quot;&quot; style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb20.png&quot; alt=&quot;image&quot; width=&quot;433&quot; height=&quot;673&quot; border=&quot;0&quot; /&amp;gt;&amp;lt;/a&amp;gt;click will execute the registered action and show the id of the selected work item:&amp;lt;br /&amp;gt; &amp;lt;a href=&quot;/assets/wp-content/uploads/2016/02/image21.png&quot;&amp;gt;&amp;lt;br /&amp;gt; &amp;lt;img style=&quot;margin-right:auto;margin-left:auto;float:none;display:block;background-image:none;&quot; title=&quot;image&quot; src=&quot;/assets/wp-content/uploads/2016/02/image_thumb21.png&quot; alt=&quot;image&quot; width=&quot;704&quot; height=&quot;246&quot; border=&quot;0&quot; /&amp;gt;&amp;lt;/a&amp;gt;
+    &amp;lt;/div&amp;gt;&amp;lt;/ol&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="HowTo" /><category term="Microsoft" /><summary type="html">Last year Visual Studio Team Services (formerly known as Visual Studio Online) released support for extensions. There are some great samples on GitHub and a growing number of finished extensions in the marketplace. One of my published extensions is Estimate, a planning poker implementation for VSTS.</summary></entry></feed>
