@@ -14,7 +14,7 @@ jobs:
         ref: site
         fetch-depth: 0
     - run: |
-        git fetch --all --unshallow
+        git fetch --all
     - run: git merge origin/master -m "Get master"
     - name: Build
       run: |
