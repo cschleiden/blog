@@ -7,9 +7,9 @@ layout: post
 guid: https://cschleiden.wordpress.com/?p=606
 permalink: /vsts-tags-mru-extension-part-2/
 ---
-In the [last post](https://cschleiden.wordpress.com/2016/02/24/vsts-tags-mru-extension-part-1) we ended up with a list of tags a user added last to a work item. The next step is now to keep an MRU list with tags from earlier sessions and update it when new tags are added.
+In the [last post](https://cschleiden.dev/vsts-tags-mru-extension-part-1) we ended up with a list of tags a user added last to a work item. The next step is now to keep an MRU list with tags from earlier sessions and update it when new tags are added.
 
-Every time the user adds tags to a work item we want to merge these new tags with the (persisted) list of tags. We will keep a maximum of N tags and need to either only add tags to the list (if |tags| < N), or and and remove (if |tags| > N), or just reorder the tags in the list, so that the most recently used tags appear first in the final dropdown menu.
+Every time the user adds tags to a work item we want to merge these new tags with the (persisted) list of tags. We will keep a maximum of N tags and need to either only add tags to the list (`if |tags| < N`), or and and remove (`if |tags| > N`), or just reorder the tags in the list, so that the most recently used tags appear first in the final dropdown menu.
 
 ## Keeping MRU list of tags
 
