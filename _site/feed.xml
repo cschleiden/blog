@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://cschleiden.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://cschleiden.dev/" rel="alternate" type="text/html" hreflang="en" /><updated>2020-02-23T16:13:12-06:00</updated><id>https://cschleiden.dev/feed.xml</id><title type="html">cschleiden</title><subtitle>Software engineer at GitHub, previously at MSFT. Born and raised in Cologne, Germany. Loves climbing mountains in the PNW!
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="https://cschleiden.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://cschleiden.dev/" rel="alternate" type="text/html" hreflang="en" /><updated>2020-08-04T12:49:43-05:00</updated><id>https://cschleiden.dev/feed.xml</id><title type="html">cschleiden</title><subtitle>Software engineer at GitHub, previously at MSFT. Born and raised in Cologne, Germany. Loves climbing mountains in the PNW!
 </subtitle><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><entry><title type="html">GitHub Actions for VS Code extension</title><link href="https://cschleiden.dev/blog/2020-02-23-github-actions-for-vs-code-extension/" rel="alternate" type="text/html" title="GitHub Actions for VS Code extension" /><published>2020-02-23T15:19:06-06:00</published><updated>2020-02-23T15:19:06-06:00</updated><id>https://cschleiden.dev/blog/github-actions-for-vs-code-extension</id><content type="html" xml:base="https://cschleiden.dev/blog/2020-02-23-github-actions-for-vs-code-extension/">&lt;p&gt;I’ve always been a fan of VS Code’s extensibility model. There a great docs and examples, and overall the development experience is very nice. So when the new GitHub &lt;a href=&quot;https://github.blog/changelog/2020-01-27-github-actions-api-beta/&quot;&gt;Actions API&lt;/a&gt; came out, I started building an extension utilizing that to show GitHub Actions workflows and runs for your current repository in VS Code.&lt;/p&gt;
 
 &lt;p&gt;The extension checks the current workspace for git repositories with an &lt;code class=&quot;highlighter-rouge&quot;&gt;origin&lt;/code&gt; of  &lt;code class=&quot;highlighter-rouge&quot;&gt;github.com&lt;/code&gt;. If it finds that, it uses the API to retrieve workflows and their runs.&lt;/p&gt;
@@ -192,38 +192,34 @@ https://nextjs.org/blog/next-9#built-in-zero-config-typescript-support&lt;/p&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;##&lt;/p&gt;
-
 &lt;h2 id=&quot;keeping-mru-list-of-tags&quot;&gt;Keeping MRU list of tags&lt;/h2&gt;
 
 &lt;p&gt;We want to store at maximum 5 tags for now, so we add a constant to our app.ts:&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-/** Maximum size of MRU */&lt;br /&gt;
-const MAX_TAGS = 5;&lt;br /&gt;
-[/code]&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/** Maximum size of MRU */&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;MAX_TAGS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;And as before, we implement our business logic as a simple singleton:&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-class Tags {&lt;br /&gt;
-/** Key used for document service */&lt;br /&gt;
-private static KEY: string = “tags”;&lt;br /&gt;
-private static instance: Tags = null;&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Tags&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;  
+  &lt;span class=&quot;cm&quot;&gt;/** Key used for document service */&lt;/span&gt;  
+  &lt;span class=&quot;kr&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;KEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;tags&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  
+  &lt;span class=&quot;kr&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Tags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
-&lt;p&gt;/** Get or create singleton instance */&lt;br /&gt;
-public static getInstance(): Tags {&lt;br /&gt;
-if (!Tags.instance) {&lt;br /&gt;
-Tags.instance = new Tags(MAX_TAGS);&lt;br /&gt;
-}&lt;/p&gt;
+  &lt;span class=&quot;cm&quot;&gt;/** Get or create singleton instance */&lt;/span&gt;  
+  &lt;span class=&quot;kr&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Tags&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;  
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;  
+      &lt;span class=&quot;nx&quot;&gt;Tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;instance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;MAX_TAGS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-&lt;p&gt;return Tags.instance;&lt;br /&gt;
-}&lt;/p&gt;
-
-&lt;p&gt;constructor(private maxCount: number) {&lt;br /&gt;
-}&lt;br /&gt;
-}&lt;br /&gt;
-[/code]&lt;/p&gt;
+  &lt;span class=&quot;kd&quot;&gt;constructor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;maxCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;  
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;  
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;  
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;This class needs to keep track of&lt;/p&gt;
 
@@ -234,141 +230,137 @@ Tags.instance = new Tags(MAX_TAGS);&lt;br /&gt;
 
 &lt;p&gt;While we could maintain a dictionary depicting whether a tag is in the list and a queue with the MRU order, for only 5 tags a simple array is probably be enough.&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-private queue: string[] = [];&lt;br /&gt;
-[/code]&lt;br /&gt;
-Now, when we add tag, and it is not in the queue yet, we just add it in front of the queue, or we delete it from its current position in the queue and &lt;strong&gt;then&lt;/strong&gt; add it in front of the queue.&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, when we add tag, and it is not in the queue yet, we just add it in front of the queue, or we delete it from its current position in the queue and &lt;strong&gt;then&lt;/strong&gt; add it in front of the queue.&lt;/p&gt;
 
 &lt;p&gt;In order to maintain our maximum of 5 tags, we add another method &lt;em&gt;prune&lt;/em&gt;, that removes tags from the end of the queue if the overall count is more than the configured max and call it&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-public addTag(tag: string) {&lt;br /&gt;
-// Remove tag from current position&lt;br /&gt;
-var idx = this.dict[tag];&lt;br /&gt;
-if (idx !== -1) {&lt;br /&gt;
-this.queue.splice(idx, 1);&lt;br /&gt;
-}&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;addTag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Remove tag from current position\&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;idx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;idx&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;splice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-&lt;p&gt;// Add tag in first position and record position&lt;br /&gt;
-this.queue.unshift(tag);&lt;/p&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Add tag in first position and record position\&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;unshift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 
-&lt;p&gt;this.prune();&lt;br /&gt;
-}&lt;/p&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;prune&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-&lt;p&gt;/** Ensure only maximum number of tags configured is stored */&lt;br /&gt;
-private prune() {&lt;br /&gt;
-if (this.queue.length &amp;lt; this.maxCount) {&lt;br /&gt;
-for (var i = 0; i &amp;lt; this.queue.length – MAX_TAGS; ++i) {&lt;br /&gt;
-this.queue.pop();&lt;br /&gt;
-}&lt;br /&gt;
-}&lt;br /&gt;
-}&lt;br /&gt;
-[/code]&lt;br /&gt;
-For later displaying tags in the context menu, we can just return the current queue which contains our tags in the correct order&lt;/p&gt;
+&lt;span class=&quot;cm&quot;&gt;/** Ensure only maximum number of tags configured is stored */&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;prune&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;maxCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8211&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;MAX_TAGS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-public getTags(): string[] {&lt;br /&gt;
-return this.queue;&lt;br /&gt;
-}&lt;br /&gt;
-[/code]&lt;/p&gt;
+&lt;p&gt;For later displaying tags in the context menu, we can just return the current queue which contains our tags in the correct order&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getTags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;persisting-data-from-an-extension&quot;&gt;Persisting Data from an extension&lt;/h2&gt;
 
 &lt;p&gt;The VSTS framework provides the &lt;em&gt;&lt;a href=&quot;https://www.visualstudio.com/en-us/integrate/extensions/develop/data-storage&quot;&gt;ExtensionDataService&lt;/a&gt;&lt;/em&gt; which allows us to store key/value pairs or collections of JSON documents on the VSTS servers. Usage is quite simple, to store a value we just need to get an instance of the service, and call &lt;em&gt;setValue&lt;/em&gt; with a key and a value. The value can be as simple as a string, or an JS object that’s transparently serialized to JSON. We can also pass a scope, that limits values either to an &lt;em&gt;“account”&lt;/em&gt; or a &lt;em&gt;“user”&lt;/em&gt; scope:&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-VSS.getService(VSS.ServiceIds.ExtensionData).then((dataService) =&amp;gt; {&lt;br /&gt;
-dataService.setValue(“key”, “value”, { scopeType: “User” });&lt;br /&gt;
-});&lt;br /&gt;
-[/code]&lt;br /&gt;
+&lt;p&gt;[code language=”javascript” gutter=”false”]\
+VSS.getService(VSS.ServiceIds.ExtensionData).then((dataService) =&amp;gt; {\
+dataService.setValue(“key”, “value”, { scopeType: “User” });\
+});\
+[/code]\
 For the tags extension we want a &lt;em&gt;user&lt;/em&gt; scope and our value to store will be an array of strings containing our tags.&lt;/p&gt;
 
 &lt;h2 id=&quot;persisting-tags&quot;&gt;Persisting Tags&lt;/h2&gt;
 
 &lt;p&gt;First step is again to add another import to our &lt;em&gt;app.ts&lt;/em&gt; file:&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]import VSS_Extension_Service = require(“VSS/SDK/Services/ExtensionData”);[/code]&lt;br /&gt;
+&lt;p&gt;[code language=”javascript” gutter=”false”]import VSS_Extension_Service = require(“VSS/SDK/Services/ExtensionData”);[/code]\
 To keep it simple, loading tags is something we’d like to do only once at the beginning of a session, and then save every time tags are added. This way, we might run into conflicts if the user is working with different browser tabs/windows at the same time, but for this sample that last-write-wins concurrency is enough.&lt;/p&gt;
 
-&lt;p&gt;Using the &lt;em&gt;ExtensionDataService&lt;/em&gt; we can modify the &lt;em&gt;getInstance&lt;/em&gt; call to retrieve the list of tags from the data service using &lt;em&gt;getValue&lt;/em&gt; and add every one using the &lt;em&gt;addTag&lt;/em&gt; method we implemented above. Since service calls use Promises, we change &lt;em&gt;getInstance&lt;/em&gt; to return a promise instead of a value. If the instance has already been created, we use _Q(&lt;value&gt;)_ to return an immediately resolved promise, otherwise we retrieve tags and then create the instance:&lt;/value&gt;&lt;/p&gt;
+&lt;p&gt;Using the &lt;em&gt;ExtensionDataService&lt;/em&gt; we can modify the &lt;em&gt;getInstance&lt;/em&gt; call to retrieve the list of tags from the data service using &lt;em&gt;getValue&lt;/em&gt; and add every one using the &lt;em&gt;addTag&lt;/em&gt; method we implemented above. Since service calls use Promises, we change &lt;em&gt;getInstance&lt;/em&gt; to return a promise instead of a value. If the instance has already been created, we use *Q(&lt;value&gt;)* to return an immediately resolved promise, otherwise we retrieve tags and then create the instance:&lt;/value&gt;&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-/** Get or create singleton instance */&lt;br /&gt;
-public static getInstance(): IPromise&lt;Tags&gt; {  
-if (Tags.instance) {  
-return Q(Tags.instance);  
-} else {  
-return VSS.getService(VSS.ServiceIds.ExtensionData).then(  
-(dataService: VSS\_Extension\_Service.ExtensionDataService) =&amp;gt; {  
-return dataService.getValue(Tags.KEY, {  
-defaultValue: [],  
-scopeType: &quot;User&quot;  
-}).then((savedTags: string[]) =&amp;gt; {  
-Tags.instance = new Tags(MAX_TAGS);  
-if (savedTags) {  
-savedTags.forEach(t =&amp;gt; Tags.instance.addTag(t));  
+&lt;p&gt;[code language=”javascript” gutter=”false”]\
+/** Get or create singleton instance */\
+public static getInstance(): IPromise&lt;Tags&gt; {\
+if (Tags.instance) {\
+return Q(Tags.instance);\
+} else {\
+return VSS.getService(VSS.ServiceIds.ExtensionData).then(\
+(dataService: VSS_Extension_Service.ExtensionDataService) =&amp;gt; {\
+return dataService.getValue(Tags.KEY, {\
+defaultValue: \[],\
+scopeType: &quot;User&quot;\
+}).then((savedTags: string\[]) =&amp;gt; {\
+Tags.instance = new Tags(MAX_TAGS);\
+if (savedTags) {\
+savedTags.forEach(t =&amp;gt; Tags.instance.addTag(t));\
 }&lt;/Tags&gt;&lt;/p&gt;
 
-&lt;p&gt;return Tags.instance;&lt;br /&gt;
-});&lt;br /&gt;
-});&lt;br /&gt;
-}&lt;br /&gt;
-}&lt;br /&gt;
-[/code]&lt;br /&gt;
+&lt;p&gt;return Tags.instance;\
+});\
+});\
+}\
+}\
+[/code]\
 Persisting tags will be done in another method, again getting a service instance (we could cache the instance), and calling then calling &lt;em&gt;setValue&lt;/em&gt;. A promise is returned to allow callers to wait for the end of the call:&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-public persist(): IPromise&lt;any&gt; {  
-return VSS.getService(VSS.ServiceIds.ExtensionData).then(  
-(dataService: VSS\_Extension\_Service.ExtensionDataService) =&amp;gt; {  
-dataService.setValue(Tags.KEY, this.queue, {  
-scopeType: &quot;User&quot;  
-});  
-});  
-}  
-[/code]  
+&lt;p&gt;[code language=”javascript” gutter=”false”]\
+public persist(): IPromise&lt;any&gt; {\
+return VSS.getService(VSS.ServiceIds.ExtensionData).then(\
+(dataService: VSS_Extension_Service.ExtensionDataService) =&amp;gt; {\
+dataService.setValue(Tags.KEY, this.queue, {\
+scopeType: &quot;User&quot;\
+});\
+});\
+}\
+\[/code]\
 Since we do want to show the tag context menu as fast as possible, we will proactively initialized that tag service as soon as the extension file is loaded:&lt;/any&gt;&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-// Proactively initialize instance and load tags&lt;br /&gt;
-Tags.getInstance();&lt;br /&gt;
+&lt;p&gt;[code language=”javascript” gutter=”false”]\
+// Proactively initialize instance and load tags\
+Tags.getInstance();\
 [/code]&lt;/p&gt;
 
 &lt;h2 id=&quot;showing-tags-in-work-item-context-menu&quot;&gt;Showing Tags in work item context menu&lt;/h2&gt;
 
 &lt;p&gt;We are nearly done,&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-// Register context menu action&lt;br /&gt;
-VSS.register(“tags-mru-work-item-menu”, {&lt;br /&gt;
-getMenuItems: (context) =&amp;gt; {&lt;br /&gt;
-return Tags.getInstance().then(tags =&amp;gt; {&lt;br /&gt;
-var childItems: IContributedMenuItem[] = [];&lt;br /&gt;
-tags.getTags().forEach(tag =&amp;gt; {&lt;br /&gt;
-childItems.push(&lt;IContributedMenuItem&gt;{  
-text: tag,  
-title: \`Add tag: ${tag}\`,  
-action: () =&amp;gt; {});  
-});  
-});&lt;/IContributedMenuItem&gt;&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Register context menu action\&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;VSS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tags-mru-work-item-menu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;getMenuItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;childItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;IContributedMenuItem&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getTags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;forEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tag&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;childItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;IContributedMenuItem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`Add tag: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;\`,\
+action: () =&amp;gt; {});\
+});\
+});
 
-&lt;p&gt;if (childItems.length === 0) {&lt;br /&gt;
-childItems.push(&lt;IContributedMenuItem&gt;{  
-title: &quot;No tag added&quot;,  
-disabled: true  
-});  
-}&lt;/IContributedMenuItem&gt;&lt;/p&gt;
+if (childItems.length === 0) {\
+childItems.push(&amp;lt;IContributedMenuItem&amp;gt;{\
+title: &quot;No tag added&quot;,\
+disabled: true\
+});\
+}
 
-&lt;p&gt;return [&lt;IContributedMenuItem&gt;{  
-title: &quot;Recent Tags&quot;,  
-childItems: childItems  
-}]  
-});  
-});  
-});  
-[/code]&lt;/IContributedMenuItem&gt;&lt;/p&gt;
-
-&lt;p&gt; &lt;/p&gt;
+return [&amp;lt;IContributedMenuItem&amp;gt;{\
+title: &quot;Recent Tags&quot;,\
+childItems: childItems\
+}]\
+});\
+});\
+});\
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;updating-work-items&quot;&gt;Updating work items&lt;/h2&gt;
 
@@ -382,20 +374,22 @@ childItems: childItems
 
 &lt;p&gt;To unify in an array called &lt;em&gt;ids&lt;/em&gt; we need to add the following code to the beginning of the &lt;em&gt;getMenuItems&lt;/em&gt; method:&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-// Not all areas use the same format for passing work item ids.&lt;br /&gt;
-// “ids” for Queries, “workItemIds” for backlogs, “id” for boards&lt;br /&gt;
-var ids = context.ids || context.workItemIds;&lt;br /&gt;
-if (!ids || context.id) {&lt;br /&gt;
-// Boards only support a single work item&lt;br /&gt;
-ids = [context.id];&lt;br /&gt;
-}&lt;br /&gt;
-[/code]&lt;br /&gt;
-Then, in the &lt;em&gt;action&lt;/em&gt; handler of our child menu items, we need to:&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Not all areas use the same format for passing work item ids.\&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// &quot;ids&quot; for Queries, &quot;workItemIds&quot; for backlogs, &quot;id&quot; for boards\&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ids&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ids&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;workItemIds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ids&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Boards only support a single work item\&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;ids&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, in the &lt;em&gt;action&lt;/em&gt; handler of our child menu items, we need to:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;Get the work items&lt;/li&gt;
-  &lt;li&gt;For each work item
+  &lt;li&gt;
+    &lt;p&gt;For each work item&lt;/p&gt;
+
     &lt;ol&gt;
       &lt;li&gt;Get the existing value for the &lt;em&gt;System.Tags&lt;/em&gt; field&lt;/li&gt;
       &lt;li&gt;Concatenate with the tag to add using “;” as separator&lt;/li&gt;
@@ -406,27 +400,27 @@ Then, in the &lt;em&gt;action&lt;/em&gt; handler of our child menu items, we nee
 
 &lt;p&gt;Since we are changing work items not opened in any form right now, we need to use the REST API for the update operations. Some additional imports are required:&lt;/p&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-import TFS_Wit_Contracts = require(“TFS/WorkItemTracking/Contracts”);&lt;br /&gt;
-import TFS_Wit_Client = require(“TFS/WorkItemTracking/RestClient”);&lt;br /&gt;
-import TFS_Wit_Services = require(“TFS/WorkItemTracking/Services”);&lt;br /&gt;
-[/code]&lt;br /&gt;
-Then we just get an http client and start iterating over the work items:&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TFS_Wit_Contracts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;TFS/WorkItemTracking/Contracts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TFS_Wit_Client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;TFS/WorkItemTracking/RestClient&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TFS_Wit_Services&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;TFS/WorkItemTracking/Services&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;[code language=”javascript” gutter=”false”]&lt;br /&gt;
-// Get work items, add the new tag to the list of existing tags, then update&lt;br /&gt;
-var client = TFS_Wit_Client.getClient();&lt;br /&gt;
-client.getWorkItems(ids).then((workItems) =&amp;gt; {&lt;br /&gt;
-for (var workItem of workItems) {&lt;br /&gt;
-client.updateWorkItem([{&lt;br /&gt;
-“op”: “add”,&lt;br /&gt;
-“path”: “/fields/System.Tags”,&lt;br /&gt;
-“value”: (workItem.fields[“System.Tags”] || “”) + “;” + tag&lt;br /&gt;
-}], workItem.id);&lt;br /&gt;
-}&lt;br /&gt;
-});&lt;br /&gt;
-[/code]&lt;br /&gt;
-(Potential optimization would be to use the batch API for the work item updates instead of making a single call per work item)&lt;/p&gt;
+&lt;p&gt;Then we just get an http client and start iterating over the work items:&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Get work items, add the new tag to the list of existing tags, then update\&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TFS_Wit_Client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getWorkItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;workItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workItem&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;updateWorkItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;s2&quot;&gt;&quot;op&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;add&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;s2&quot;&gt;&quot;path&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/fields/System.Tags&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;s2&quot;&gt;&quot;value&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;workItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fields&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;System.Tags&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}],&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;workItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;\&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(Potential optimization would be to use the batch API for the work item updates instead of making a single call per work item)&lt;/p&gt;
 
 &lt;h2 id=&quot;all-done&quot;&gt;All done&lt;/h2&gt;
 
