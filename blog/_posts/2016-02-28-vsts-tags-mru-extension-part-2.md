@@ -6,237 +6,238 @@ author: cschleiden
 layout: post
 guid: https://cschleiden.wordpress.com/?p=606
 permalink: /vsts-tags-mru-extension-part-2/
-
 ---
 In the [last post](https://cschleiden.wordpress.com/2016/02/24/vsts-tags-mru-extension-part-1) we ended up with a list of tags a user added last to a work item. The next step is now to keep an MRU list with tags from earlier sessions and update it when new tags are added.
 
 Every time the user adds tags to a work item we want to merge these new tags with the (persisted) list of tags. We will keep a maximum of N tags and need to either only add tags to the list (if |tags| < N), or and and remove (if |tags| > N), or just reorder the tags in the list, so that the most recently used tags appear first in the final dropdown menu.
 
-## 
-
 ## Keeping MRU list of tags
 
 We want to store at maximum 5 tags for now, so we add a constant to our app.ts:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-/*\* Maximum size of MRU \*/  
+```javascript
+/** Maximum size of MRU */
 const MAX_TAGS = 5;  
-[/code]
+```
 
 And as before, we implement our business logic as a simple singleton:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
+```javascript
 class Tags {  
-/*\* Key used for document service \*/  
-private static KEY: string = "tags";  
-private static instance: Tags = null;
+  /** Key used for document service */  
+  private static KEY: string = "tags";  
+  private static instance: Tags = null;
 
-/*\* Get or create singleton instance \*/  
-public static getInstance(): Tags {  
-if (!Tags.instance) {  
-Tags.instance = new Tags(MAX_TAGS);  
-}
+  /** Get or create singleton instance */  
+  public static getInstance(): Tags {  
+    if (!Tags.instance) {  
+      Tags.instance = new Tags(MAX_TAGS);  
+    }
+  
+    return Tags.instance;  
+  }
 
-return Tags.instance;  
-}
-
-constructor(private maxCount: number) {  
+  constructor(private maxCount: number) {  
+  }  
 }  
-}  
-[/code]
+```
 
 This class needs to keep track of
 
-  * what tags are currently in the MRU list
-  * the order of tags
+* what tags are currently in the MRU list
+* the order of tags
 
 While we could maintain a dictionary depicting whether a tag is in the list and a queue with the MRU order, for only 5 tags a simple array is probably be enough.
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-private queue: string[] = [];  
-[/code]  
+```javascript
+private queue: string[] = [];
+```
+
 Now, when we add tag, and it is not in the queue yet, we just add it in front of the queue, or we delete it from its current position in the queue and **then** add it in front of the queue.
 
-In order to maintain our maximum of 5 tags, we add another method _prune_, that removes tags from the end of the queue if the overall count is more than the configured max and call it
+In order to maintain our maximum of 5 tags, we add another method *prune*, that removes tags from the end of the queue if the overall count is more than the configured max and call it
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-public addTag(tag: string) {  
-// Remove tag from current position  
-var idx = this.dict[tag];  
-if (idx !== -1) {  
-this.queue.splice(idx, 1);  
+```javascript
+public addTag(tag: string) {
+  // Remove tag from current position\
+  var idx = this.dict[tag];
+  if (idx !== -1) {
+    this.queue.splice(idx, 1);
+  }
+
+  // Add tag in first position and record position\
+  this.queue.unshift(tag);
+
+  this.prune();
 }
 
-// Add tag in first position and record position  
-this.queue.unshift(tag);
-
-this.prune();  
+/** Ensure only maximum number of tags configured is stored */
+private prune() {
+  if (this.queue.length < this.maxCount) {
+    for (var i = 0; i < this.queue.length &#8211; MAX_TAGS; ++i) {
+      this.queue.pop();
+    }
+  }
 }
+```
 
-/*\* Ensure only maximum number of tags configured is stored \*/  
-private prune() {  
-if (this.queue.length < this.maxCount) {  
-for (var i = 0; i < this.queue.length &#8211; MAX_TAGS; ++i) {  
-this.queue.pop();  
-}  
-}  
-}  
-[/code]  
 For later displaying tags in the context menu, we can just return the current queue which contains our tags in the correct order
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-public getTags(): string[] {  
-return this.queue;  
-}  
-[/code]
+```javascript
+public getTags(): string[] {
+  return this.queue;
+}
+```
 
 ## Persisting Data from an extension
 
-The VSTS framework provides the _[ExtensionDataService](https://www.visualstudio.com/en-us/integrate/extensions/develop/data-storage)_ which allows us to store key/value pairs or collections of JSON documents on the VSTS servers. Usage is quite simple, to store a value we just need to get an instance of the service, and call _setValue_ with a key and a value. The value can be as simple as a string, or an JS object that&#8217;s transparently serialized to JSON. We can also pass a scope, that limits values either to an _&#8220;account&#8221;_ or a _&#8220;user&#8221;_ scope:
+The VSTS framework provides the *[ExtensionDataService](https://www.visualstudio.com/en-us/integrate/extensions/develop/data-storage)* which allows us to store key/value pairs or collections of JSON documents on the VSTS servers. Usage is quite simple, to store a value we just need to get an instance of the service, and call *setValue* with a key and a value. The value can be as simple as a string, or an JS object that&#8217;s transparently serialized to JSON. We can also pass a scope, that limits values either to an *&#8220;account&#8221;* or a *&#8220;user&#8221;* scope:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-VSS.getService(VSS.ServiceIds.ExtensionData).then((dataService) => {  
-dataService.setValue("key", "value", { scopeType: "User" });  
-});  
-[/code]  
-For the tags extension we want a _user_ scope and our value to store will be an array of strings containing our tags.
+\[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]\
+VSS.getService(VSS.ServiceIds.ExtensionData).then((dataService) => {\
+dataService.setValue("key", "value", { scopeType: "User" });\
+});\
+\[/code]\
+For the tags extension we want a *user* scope and our value to store will be an array of strings containing our tags.
 
 ## Persisting Tags
 
-First step is again to add another import to our _app.ts_ file:
+First step is again to add another import to our *app.ts* file:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]import VSS\_Extension\_Service = require("VSS/SDK/Services/ExtensionData");[/code]  
+\[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]import VSS_Extension_Service = require("VSS/SDK/Services/ExtensionData");\[/code]\
 To keep it simple, loading tags is something we&#8217;d like to do only once at the beginning of a session, and then save every time tags are added. This way, we might run into conflicts if the user is working with different browser tabs/windows at the same time, but for this sample that last-write-wins concurrency is enough.
 
-Using the _ExtensionDataService_ we can modify the _getInstance_ call to retrieve the list of tags from the data service using _getValue_ and add every one using the _addTag_ method we implemented above. Since service calls use Promises, we change _getInstance_ to return a promise instead of a value. If the instance has already been created, we use _Q(<value>)_ to return an immediately resolved promise, otherwise we retrieve tags and then create the instance:
+Using the *ExtensionDataService* we can modify the *getInstance* call to retrieve the list of tags from the data service using *getValue* and add every one using the *addTag* method we implemented above. Since service calls use Promises, we change *getInstance* to return a promise instead of a value. If the instance has already been created, we use *Q(<value>)* to return an immediately resolved promise, otherwise we retrieve tags and then create the instance:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-/*\* Get or create singleton instance \*/  
-public static getInstance(): IPromise<Tags> {  
-if (Tags.instance) {  
-return Q(Tags.instance);  
-} else {  
-return VSS.getService(VSS.ServiceIds.ExtensionData).then(  
-(dataService: VSS\_Extension\_Service.ExtensionDataService) => {  
-return dataService.getValue(Tags.KEY, {  
-defaultValue: [],  
-scopeType: "User"  
-}).then((savedTags: string[]) => {  
-Tags.instance = new Tags(MAX_TAGS);  
-if (savedTags) {  
-savedTags.forEach(t => Tags.instance.addTag(t));  
+\[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]\
+/\*\* Get or create singleton instance */\
+public static getInstance(): IPromise<Tags> {\
+if (Tags.instance) {\
+return Q(Tags.instance);\
+} else {\
+return VSS.getService(VSS.ServiceIds.ExtensionData).then(\
+(dataService: VSS_Extension_Service.ExtensionDataService) => {\
+return dataService.getValue(Tags.KEY, {\
+defaultValue: \[],\
+scopeType: "User"\
+}).then((savedTags: string\[]) => {\
+Tags.instance = new Tags(MAX_TAGS);\
+if (savedTags) {\
+savedTags.forEach(t => Tags.instance.addTag(t));\
 }
 
-return Tags.instance;  
-});  
-});  
-}  
-}  
-[/code]  
-Persisting tags will be done in another method, again getting a service instance (we could cache the instance), and calling then calling _setValue_. A promise is returned to allow callers to wait for the end of the call:
+return Tags.instance;\
+});\
+});\
+}\
+}\
+\[/code]\
+Persisting tags will be done in another method, again getting a service instance (we could cache the instance), and calling then calling *setValue*. A promise is returned to allow callers to wait for the end of the call:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-public persist(): IPromise<any> {  
-return VSS.getService(VSS.ServiceIds.ExtensionData).then(  
-(dataService: VSS\_Extension\_Service.ExtensionDataService) => {  
-dataService.setValue(Tags.KEY, this.queue, {  
-scopeType: "User"  
-});  
-});  
-}  
-[/code]  
+\[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]\
+public persist(): IPromise<any> {\
+return VSS.getService(VSS.ServiceIds.ExtensionData).then(\
+(dataService: VSS_Extension_Service.ExtensionDataService) => {\
+dataService.setValue(Tags.KEY, this.queue, {\
+scopeType: "User"\
+});\
+});\
+}\
+\[/code]\
 Since we do want to show the tag context menu as fast as possible, we will proactively initialized that tag service as soon as the extension file is loaded:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-// Proactively initialize instance and load tags  
-Tags.getInstance();  
-[/code]
+\[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]\
+// Proactively initialize instance and load tags\
+Tags.getInstance();\
+\[/code]
 
 ## Showing Tags in work item context menu
 
 We are nearly done,
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-// Register context menu action  
-VSS.register("tags-mru-work-item-menu", {  
-getMenuItems: (context) => {  
-return Tags.getInstance().then(tags => {  
-var childItems: IContributedMenuItem[] = [];  
-tags.getTags().forEach(tag => {  
-childItems.push(<IContributedMenuItem>{  
-text: tag,  
-title: \`Add tag: ${tag}\`,  
-action: () => {});  
-});  
+```javascript
+// Register context menu action\
+VSS.register("tags-mru-work-item-menu", {\
+getMenuItems: (context) => {\
+return Tags.getInstance().then(tags => {\
+var childItems: IContributedMenuItem\[] = \[];\
+tags.getTags().forEach(tag => {\
+childItems.push(<IContributedMenuItem>{\
+text: tag,\
+title: \`Add tag: ${tag}\`,\
+action: () => {});\
+});\
 });
 
-if (childItems.length === 0) {  
-childItems.push(<IContributedMenuItem>{  
-title: "No tag added",  
-disabled: true  
-});  
+if (childItems.length === 0) {\
+childItems.push(<IContributedMenuItem>{\
+title: "No tag added",\
+disabled: true\
+});\
 }
 
-return [<IContributedMenuItem>{  
-title: "Recent Tags",  
-childItems: childItems  
-}]  
-});  
-});  
-});  
-[/code]
-
-&nbsp;
+return [<IContributedMenuItem>{\
+title: "Recent Tags",\
+childItems: childItems\
+}]\
+});\
+});\
+});\
+```
 
 ## Updating work items
 
-Final step is to add an action to the child menu items to actually add the tag to all selected work items. First we need to determine the selected work items. Unfortunately, the different VSTS views are not consistent in exposing the ids of selected work items right now. We need to look for different properties in the passed _context_ depending on the view we are in. The logic is:
+Final step is to add an action to the child menu items to actually add the tag to all selected work items. First we need to determine the selected work items. Unfortunately, the different VSTS views are not consistent in exposing the ids of selected work items right now. We need to look for different properties in the passed *context* depending on the view we are in. The logic is:
 
-  * **Backlog** &#8211; array of numbers called _workItemIds_
-  * **Boards (Kanban/Iteration)** &#8211; single number called _id_
-  * **Query results** &#8211; array of numbers called _ids_
+* **Backlog** &#8211; array of numbers called *workItemIds*
+* **Boards (Kanban/Iteration)** &#8211; single number called *id*
+* **Query results** &#8211; array of numbers called *ids*
 
-To unify in an array called _ids_ we need to add the following code to the beginning of the _getMenuItems_ method:
+To unify in an array called *ids* we need to add the following code to the beginning of the *getMenuItems* method:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-// Not all areas use the same format for passing work item ids.  
-// "ids" for Queries, "workItemIds" for backlogs, "id" for boards  
-var ids = context.ids || context.workItemIds;  
-if (!ids || context.id) {  
-// Boards only support a single work item  
-ids = [context.id];  
-}  
-[/code]  
-Then, in the _action_ handler of our child menu items, we need to:
+```javascript
+// Not all areas use the same format for passing work item ids.\
+// "ids" for Queries, "workItemIds" for backlogs, "id" for boards\
+var ids = context.ids || context.workItemIds;\
+if (!ids || context.id) {\
+// Boards only support a single work item\
+ids = \[context.id];\
+}\
+```
 
-  1. Get the work items
-  2. For each work item 
-      1. Get the existing value for the _System.Tags_ field
-      2. Concatenate with the tag to add using &#8220;;&#8221; as separator
-      3. Update work item
+Then, in the *action* handler of our child menu items, we need to:
+
+1. Get the work items
+2. For each work item 
+
+   1. Get the existing value for the *System.Tags* field
+   2. Concatenate with the tag to add using &#8220;;&#8221; as separator
+   3. Update work item
 
 Since we are changing work items not opened in any form right now, we need to use the REST API for the update operations. Some additional imports are required:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-import TFS\_Wit\_Contracts = require("TFS/WorkItemTracking/Contracts");  
-import TFS\_Wit\_Client = require("TFS/WorkItemTracking/RestClient");  
-import TFS\_Wit\_Services = require("TFS/WorkItemTracking/Services");  
-[/code]  
+```javascript
+import TFS_Wit_Contracts = require("TFS/WorkItemTracking/Contracts");\
+import TFS_Wit_Client = require("TFS/WorkItemTracking/RestClient");\
+import TFS_Wit_Services = require("TFS/WorkItemTracking/Services");\
+```
+
 Then we just get an http client and start iterating over the work items:
 
-[code language=&#8221;javascript&#8221; gutter=&#8221;false&#8221;]  
-// Get work items, add the new tag to the list of existing tags, then update  
-var client = TFS\_Wit\_Client.getClient();  
-client.getWorkItems(ids).then((workItems) => {  
-for (var workItem of workItems) {  
-client.updateWorkItem([{  
-"op": "add",  
-"path": "/fields/System.Tags",  
-"value": (workItem.fields["System.Tags"] || "") + ";" + tag  
-}], workItem.id);  
-}  
-});  
-[/code]  
+```javascript
+// Get work items, add the new tag to the list of existing tags, then update\
+var client = TFS_Wit_Client.getClient();\
+client.getWorkItems(ids).then((workItems) => {\
+for (var workItem of workItems) {\
+client.updateWorkItem([{\
+"op": "add",\
+"path": "/fields/System.Tags",\
+"value": (workItem.fields\["System.Tags"] || "") + ";" + tag\
+}], workItem.id);\
+}\
+});\
+```
+
 (Potential optimization would be to use the batch API for the work item updates instead of making a single call per work item)
 
 ## All done

@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -23,7 +24,7 @@ jobs:
       run: |
         docker run \
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future"
+        jekyll/builder:latest /bin/bash -c "gem install bundler:1.16.1 && chmod 777 /srv/jekyll && jekyll build --future"
     - run: git add -f _site    
     - run: git commit -m "Build ${{ github.sha }}"
     - run: git push
