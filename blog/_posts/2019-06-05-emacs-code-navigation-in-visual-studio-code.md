@@ -6,9 +6,193 @@ author: cschleiden
 layout: post
 guid: https://www.cschleiden.dev/?p=913
 permalink: /emacs-code-navigation-in-visual-studio-code/
-
 ---
-I&#8217;ll admit it, in the eternal fight between vim and Emacs I&#8217;m firmly on the Emacs side. Now, I haven&#8217;t used actual Emacs in a while, but I&#8217;m so used to the navigation shortcuts that on every machine I use, I:
+I'll admit it, in the eternal fight between vim and Emacs I'm firmly on the Emacs side. Now, I haven't used actual Emacs in a while, but I'm so used to the navigation shortcuts that on every machine I use, I:
 
-  1. map `CapsLock` to be another `Ctrl` key, for Windows I keep the .reg file below in my OneDrive and import it on every new machine.
-  2. update my VS Code keybindings to enable the common Emacs keyboard navigation shortscuts like `Ctrl+n`, `Ctrl+p`, etc. My settings sync via the excellent [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync) plugin, but I also keep them up-to-date in the linked gist below. Unfortunately, Ctrl+n/p does not work in all popups and view, so sometimes it&#8217;s still required to use the cursor keys, but for most code operations my fingers don&#8217;t have to leave the home row.
+1. Map `CapsLock` to be another `Ctrl` key, for Windows I keep the .reg file below in my OneDrive and import it on every new machine.
+2. Update my VS Code keybindings to enable the common Emacs keyboard navigation shortcuts like `Ctrl+n`, `Ctrl+p`, etc. My settings sync ~~via the excellent [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync) plugin~~ via the integrated sync, but I also keep them up-to-date in the linked gist below. Unfortunately, Ctrl+n/p does not work in all popups and view, so sometimes it's still required to use the cursor keys, but for most code operations my fingers don't have to leave the home row.
+
+[Gist](https://gist.github.com/cschleiden/83951ef763581478e81a44566111c779)
+
+Copy:
+
+
+```jsonc
+// Place your key bindings in this file to overwrite the defaults
+[
+    {
+        "key": "ctrl+k ctrl+s",
+        "command": "saveAll",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "cursorUp"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "cursorDown"
+    },
+    {
+        "key": "ctrl+f",
+        "command": "cursorRight",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "cursorLeft",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+f",
+        "command": "cursorWordRight",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+b",
+        "command": "cursorWordLeft",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+backspace",
+        "command": "deleteWordLeft",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+a",
+        "command": "cursorHome",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "cursorEnd",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+d",
+        "command": "deleteRight",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+d",
+        "command": "deleteWordRight",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+i",
+        "command": "actions.find"
+    },
+    {
+        "key": "ctrl+shift+t",
+        "command": "workbench.action.tasks.runTask",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+,",
+        "command": "workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+alt+a",
+        "command": "editor.action.selectAll",
+        "when": "editorTextFocus"
+    },
+    // Navigation in code
+    {
+      "key": "ctrl+alt+p",
+      "command": "cursorPageUp",
+      "when": "editorTextFocus"
+    },
+    // note: work around mac issue with alt+n
+    {
+      "key": "ctrl+alt+n",
+      "command": "cursorPageDown",
+      "when": "editorTextFocus"
+    },
+    // Navigation in dialogs
+    {
+        "key": "ctrl+p",
+        "command": "showPrevParameterHint",
+        "when": "editorTextFocus && parameterHintsMultipleSignatures && parameterHintsVisible"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "selectPrevSuggestion",
+        "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "showNextParameterHint",
+        "when": "editorTextFocus && parameterHintsMultipleSignatures && parameterHintsVisible"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "selectNextSuggestion",
+        "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+    },
+    // Selection
+    {
+        "key": "ctrl+shift+n",
+        "command": "cursorDownSelect"
+    },
+    {
+        "key": "ctrl+shift+p",
+        "command": "cursorUpSelect"
+    },
+    {
+        "key": "ctrl+shift+f",
+        "command": "cursorRightSelect"
+    },
+    {
+        "key": "ctrl+shift+b",
+        "command": "cursorLeftSelect"
+    },
+    {
+        "key": "ctrl+shift+e",
+        "command": "cursorEndSelect"
+    },
+    {
+        "key": "ctrl+shift+a",
+        "command": "cursorHomeSelect"
+    },
+    {
+        "key": "shift+alt+f",
+        "command": "cursorWordRightSelect"
+    },
+    {
+        "key": "shift+alt+b",
+        "command": "cursorWordLeftSelect"
+    },
+    // Search
+    {
+        "key": "ctrl+alt+f",
+        "command": "workbench.action.findInFiles"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "-deleteAllRight",
+        "when": "textInputFocus && !editorReadonly"
+    },
+    // Mouse navigation
+    {
+      "key": "cmd+]",
+      "command": "workbench.action.navigateForward",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+[",
+      "command": "workbench.action.navigateBack",
+      "when": "editorTextFocus"
+    },
+    // go
+    {
+      "key": "shift+cmd+t",
+      "command": "go.toggle.test.file",
+      "when": "editorLangId == 'go'"
+    },
+    // Terminal
+    {
+        "key": "cmd+ctrl+t",
+        "command": "workbench.panel.terminal.focus"
+    }
+]
+```
