@@ -24,8 +24,10 @@ author:
 menu:
   - title:             Blog
     url:               /
+  - title:             Projects
+    url:               /projects
   - title:             About
-    url:               /about/
+    url:               /about
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
@@ -130,7 +132,7 @@ hydejack:
   # Set to true to disable the built-in search functionality.
   # Note that search is disabled during local use to save on build time.
   # Run Jekyll with the `JEKYLL_ENV` environment variable set to `production` to enable.
-  no_search:           false
+  no_search:           true
 
   # Set to `true` if you do not want parts of the css inlined in <head/>
   # This will increase site build speed dramatically!
@@ -228,18 +230,16 @@ collections:
 # ========================================================================================
 
 exclude:
+  - .jekyll-cache
+  - .sass-cache
+  - .vscode
+  - .git
+  - '*.toml'
   - vendor
   - Gemfile
   - Gemfile.lock
-  - node_modules
-  - package.json
-  - package-lock.json
-  - webpack.config.js
-  - "*.gemspec"
-  - _js
-  - _plugins
-  - .sass-cache
 include:
+  - .well-known
   - LICENSE.md
 
 
