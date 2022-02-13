@@ -21,5 +21,3 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         target_branch: site
-      env:
-        BUNDLER_V: 1.17.3

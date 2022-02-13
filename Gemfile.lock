@@ -108,6 +108,3 @@ DEPENDENCIES
   jekyll-theme-hydejack (~> 9.1)
   jekyll-titles-from-headings
   webrick
-
-BUNDLED WITH
-   1.17.3
