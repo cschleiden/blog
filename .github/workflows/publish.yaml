@@ -11,22 +11,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/cache@v2
       with:
-        ref: site
-        fetch-depth: 0
-    - run: |
-        git fetch --all
-    - run: |
-        git config --global user.email "cschleiden@outlook.com"
-        git config --global user.name "Christopher Schleiden"
-    - run: git merge origin/master -m "Get master"
-    - name: Build
-      run: |
-        docker run \
-        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "gem install bundler:1.16.1 && chmod 777 /srv/jekyll && jekyll build --future"
-      env:
-        JEKYLL_ENV: production
-    - run: git add -f _site
-    - run: git commit -m "Build ${{ github.sha }}"
-    - run: git push
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    - uses: helaili/jekyll-action@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        target_branch: site
