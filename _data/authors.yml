@@ -57,7 +57,7 @@ cschleiden:
     # npm:             <username>
     # hackernews:      <username>
     # trello:          <firstnamelastname>
-    # linkedin:        <firstname-lastname-string>
+    linkedin:        cschleiden
     # xing:            <firstname_lastname_counter>
     # blogger:         <number>
     # delicious:       <username>
