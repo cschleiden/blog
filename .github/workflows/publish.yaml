@@ -1,5 +1,5 @@
 name: Publish
-on: 
+on:
   push:
     branches:
       - master
@@ -18,13 +18,15 @@ jobs:
         git fetch --all
     - run: |
         git config --global user.email "cschleiden@outlook.com"
-        git config --global user.name "Christopher Schleiden" 
+        git config --global user.name "Christopher Schleiden"
     - run: git merge origin/master -m "Get master"
     - name: Build
       run: |
         docker run \
         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
         jekyll/builder:latest /bin/bash -c "gem install bundler:1.16.1 && chmod 777 /srv/jekyll && jekyll build --future"
-    - run: git add -f _site    
+      env:
+        JEKYLL_ENV: production
+    - run: git add -f _site
     - run: git commit -m "Build ${{ github.sha }}"
     - run: git push
