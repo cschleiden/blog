@@ -1,7 +1,7 @@
 ---
 layout: post
 categories: blog
-title: 'go-workflows: Durable Workflows in Go - Part 1'
+title: 'go-workflows: Durable Workflows in Go Part 1'
 date: 2022-02-13T21:19:06.690Z
 ---
 
