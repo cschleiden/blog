@@ -1,13 +1,13 @@
 ---
 layout: post
 categories: blog
-title: 'go-dt: Durable Workflows in Go - Part 1'
+title: 'go-workflows: Durable Workflows in Go - Part 1'
 date: 2022-02-13T21:19:06.690Z
 ---
 
 Lately I've been getting interested in "durable workflows" as implemented by Azure's [Durable Task Framework](https://www.github.com/azure/durabletask) (DTFx), the basis for [Azure Durable Functions](https://docs.microsoft.com/en-us/azure/azure-functions/durable/durable-functions-overview?tabs=csharp) and [Temporal](http://temporal.io). To really understand how a library or a framework works, what problems it solves, and why certain decisions were made the way they were made, I often tend to try to re-implement my own version, even if only with minimal functionality.
 
-So for durable workflows I started to build [go-dt](https://www.github.com/cschleiden/go-dt), a not quite production-ready mix of Durable Tasks and Temporal written in Go. It started as a number of very small experiments over the holidays, but it kind of snowballed from there, and I'm approaching something that's quite usable. For the next few posts I'll try to explain what `go-dt` is and how it works.
+So for durable workflows I started to build [go-workflows](https://www.github.com/cschleiden/go-workflows), a not quite production-ready mix of Durable Tasks and Temporal written in Go. It started as a number of very small experiments over the holidays, but it kind of snowballed from there, and I'm approaching something that's quite usable. For the next few posts I'll try to explain what `go-workflows` is and how it works.
 
 The library is still a work in progress so some of the details and the example code might've changed by now although I'll try to keep everything in sync. The general concepts should still be valid, though.
 
@@ -107,18 +107,18 @@ It's consumed as a library, with various options for the backend implemented in 
 
 When looking at DTFx I've focused on the usage with a database, i.e. the SQL Server provider. In that case it's a two-tier architecture. _Clients_ and _workers_ - which could also be in the same process - both talk directly to the same database.
 
-![](/assets/posts/2022-02-go-dt-pt1/dtfx.drawio.svg)
+![](/assets/posts/2022-02-go-workflows-pt1/dtfx.drawio.svg)
 
 ## Temporal
 Temporal is a fork of Uber's _Cadence_, and has some great documentation at https://temporal.io. It uses some of the same concepts as DTFx and was written by some of the engineers who were involved in DTFx as well.
 
 It comes with a server with various roles that you interact with, see the [documentation](https://docs.temporal.io/docs/temporal-explained/introduction) for a detailed introduction.
 
-# go-dt
+# go-workflows
 
-`go-dt` is written from scratch, but borrows concepts very liberally from both DTFx and Temporal. While both DTFx and Temporal are quite similar due to their shared heritage, go-dt's internals for persistence align more with DTFx due to the provider concepts, while the user visible interface is more similar to Temporal's, to work around Go's indeterministic `select` statement behavior, for example.
+`go-workflows` is written from scratch, but borrows concepts very liberally from both DTFx and Temporal. While both DTFx and Temporal are quite similar due to their shared heritage, go-workflows's internals for persistence align more with DTFx due to the provider concepts, while the user visible interface is more similar to Temporal's, to work around Go's indeterministic `select` statement behavior, for example.
 
-Its overall architecture is the same as DTFx that there are clients and workers, and both interface via a pluggable implementation to a backend. What DTFx calls _providers_ I called _backends_ . So far I've written a Sqlite and a MySQL implementation, which also makes go-dt programs two tier architectures.
+Its overall architecture is the same as DTFx that there are clients and workers, and both interface via a pluggable implementation to a backend. What DTFx calls _providers_ I called _backends_ . So far I've written a Sqlite and a MySQL implementation, which also makes go-workflows programs two tier architectures.
 
 When writing workflows in C#, you have to avoid certain library, but in general you can use all language features. `async`/`await` and exception handling are even central to writing workflows.
 
