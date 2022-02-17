@@ -9,15 +9,15 @@ Some of my side projects. Some were built to experiment with technologies I don'
 * this unordered seed list will be replaced by the toc
 {:toc .large-only}
 
-### go-dt
+### go-workflows
 
-Small library to execute durable workflows [https://github.com/cschleiden/go-dt](https://github.com/cschleiden/go-dt) in Go.
+Small library to execute durable workflows [https://github.com/cschleiden/go-workflows](https://github.com/cschleiden/go-workflows) in Go.
 
 ### Impera
 
 ![](/assets/projects/impera.png)
 
-[https://www.imperaonline.de](https://github.com/cschleiden/go-dt)
+[https://www.imperaonline.de](https://www.imperaonline.de)
 
 Impera is a small browser game allowing you to play the classic _world domination game_ online. The game has been online for nearly 20 years, going through various iterations.
 
