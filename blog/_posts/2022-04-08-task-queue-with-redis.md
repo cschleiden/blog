@@ -75,4 +75,6 @@ By _not_ specifying the `NOACK` parameter for the `XREADGROUP` command, Redis re
 
 I had an additional requirement to support only unique task ids in a give task queue, but that was easy to add by combining the `XADD` and `XACK` / `XDEL` commands with an additional set and the `SADD` / `SREM` commands.
 
-The implementation for this is available in https://github.com/cschleiden/go-workflows/commit/42bedfe1139df5e892ecddf7290712ebc4ed6ab1.
+The implementation for this is available [here](https://github.com/cschleiden/go-workflows/blob/42bedfe1139df5e892ecddf7290712ebc4ed6ab1/backend/redis/taskqueue/queue.go).
+
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Fcschleiden%2Fgo-workflows%2Fblob%2F42bedfe1139df5e892ecddf7290712ebc4ed6ab1%2Fbackend%2Fredis%2Ftaskqueue%2Fqueue.go&style=github&showBorder=on&showLineNumbers=on&showFileMeta=on&showCopy=on"></script>
