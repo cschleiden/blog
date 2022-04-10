@@ -18,7 +18,7 @@ This allows to push tasks, pop tasks, and keep track of the tasks being worked o
 One problem with this approach is that to pick up task, we now have to perform two operations:
 
 1. [`BLMOVE pending processing RIGHT LEFT <timeout>`](https://redis.io/commands/blmove/) to wait for a task in the _pending_ list and move it to _processing_, and then
-2. [`ZADD time <now + lock_timeout> <task id>`] to update the score.
+2. [`ZADD time <now + lock_timeout> <task id>`](https://redis.io/commands/zadd/) to update the score.
 
 We cannot execute the `BLMOVE` and `ZADD` in a single, atomic operation like a lua script, since we do want the blocking behavior or `BLMOVE` -- which you cannot use in a script. This leaves the possibility of a race condition with the periodic heartbeat check. What could happen is that we execute `BLMOVE`, and then before we can do the `ZADD`, the heartbeat check starts running. It would encounter a task in the _processing_ list without a score. To work around that, we can give up the blocking `BLMOVE` and use `LMOVE` with `ZADD` in a script and polling instead, but that increases load on the redis server, especially with multiple workers.
 
