@@ -71,10 +71,18 @@ By _not_ specifying the `NOACK` parameter for the `XREADGROUP` command, Redis re
 
  To prevent long running tasks from being acquired by another worker, workers periodically execute `XCLAIM` on their already claimed message. This resets the _idle time_ and serves as a heartbeat for the task.
 
+ ```redis
+ XCLAIM task-queue task-workers <consumer> 0 <message id task>
+ ```
+
+ I'm not using it yet, but we increase the retry counter every time so that we know how often a task was picked up again. Also pass `0` as the min-idle time, to always claim the message - even though it's already claimed by this worker.
+
 ### Enforcing uniqueness
 
 I had an additional requirement to support only unique task ids in a give task queue, but that was easy to add by combining the `XADD` and `XACK` / `XDEL` commands with an additional set and the `SADD` / `SREM` commands.
 
-The implementation for this is available [here](https://github.com/cschleiden/go-workflows/blob/42bedfe1139df5e892ecddf7290712ebc4ed6ab1/backend/redis/taskqueue/queue.go).
+## Implementation
+
+An implementation for this in Go is available [here](https://github.com/cschleiden/go-workflows/blob/42bedfe1139df5e892ecddf7290712ebc4ed6ab1/backend/redis/taskqueue/queue.go).
 
 <script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Fcschleiden%2Fgo-workflows%2Fblob%2F42bedfe1139df5e892ecddf7290712ebc4ed6ab1%2Fbackend%2Fredis%2Ftaskqueue%2Fqueue.go&style=github&showBorder=on&showLineNumbers=on&showFileMeta=on&showCopy=on"></script>
