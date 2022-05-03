@@ -224,6 +224,6 @@ signal.Notify(c2, os.Interrupt)
 
 That's it for Part 1.
 
-- [Part 1 - Durable workflows and event sourcing](blog/2022-02-13-go-workflows-part1)
-- [Part 2 - Cooperative scheduler and events in-depth](blog/2022-05-02-go-workflows-part2)
+- [Part 1 - Durable workflows and event sourcing](/blog/2022-02-13-go-workflows-part1)
+- [Part 2 - Cooperative scheduler and events in-depth](/blog/2022-05-02-go-workflows-part2)
 - Part 3 - Architecture & Backends

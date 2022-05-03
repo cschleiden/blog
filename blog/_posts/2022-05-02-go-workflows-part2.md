@@ -5,14 +5,14 @@ title: 'go-workflows: Durable Workflows in Go Part 2'
 # date: 2022-05-02T20:19:06.690Z
 ---
 
-Continuing from the last [post]](blog/2022-02-13-go-workflows-part1), I wanted to go into a bit more detail about the internals, and how workflows are executed in [go-workflows](https://www.github.com/cschleiden/go-workflows). I have re-implemented this independently, but the core concepts are the same as used in Temporal and Cadence.
+Continuing from the last [post](/blog/2022-02-13-go-workflows-part1), I wanted to go into a bit more detail about the internals, and how workflows are executed in [go-workflows](https://www.github.com/cschleiden/go-workflows). I have re-implemented this independently, but the core concepts are the same as used in Temporal and Cadence.
 
 * this unordered seed list will be replaced by the toc
 {:toc .large-only}
 
 ## Recap: indirect activity execution
 
-As a reminder, [part 1](blog/2022-02-13-go-workflows-part1) explained how event sourcing is used to indirectly execute workflow code with this example. I've updated the code to use [Go generics](https://cschleiden.dev/blog/2022-03-06-go-workflows-generics/), and made it a bit more verbose to show the return types of `ExecuteActivity`:
+As a reminder, [part 1](/blog/2022-02-13-go-workflows-part1) explained how event sourcing is used to indirectly execute workflow code with this example. I've updated the code to use [Go generics](https://cschleiden.dev/blog/2022-03-06-go-workflows-generics/), and made it a bit more verbose to show the return types of `ExecuteActivity`:
 
 ```go
 func OrderWorkflow(ctx workflow.Context, item string) error {
@@ -270,6 +270,6 @@ This time there are two events to execute:
 
 I hope this helps a bit to understand how the execution of a workflow can be paused and resumed. To really grasp the concepts I've found it helpful to just clone the [repository](https://github.com/cschleiden/go-workflows) or open it in a Codespace and debug one of the samples with the in-memory backend. With this post as a reference, it shouldn't be too difficult to follow the flow.
 
-- [Part 1 - Durable workflows and event sourcing](blog/2022-02-13-go-workflows-part1)
-- [Part 2 - Cooperative scheduler and events in-depth](blog/2022-05-02-go-workflows-part2)
+- [Part 1 - Durable workflows and event sourcing](/blog/2022-02-13-go-workflows-part1)
+- [Part 2 - Cooperative scheduler and events in-depth](/blog/2022-05-02-go-workflows-part2)
 - Part 3 - Architecture & Backends
