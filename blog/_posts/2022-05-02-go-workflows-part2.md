@@ -5,9 +5,10 @@ title: 'go-workflows: Durable Workflows in Go Part 2'
 # date: 2022-05-02T20:19:06.690Z
 ---
 
-_This is part 2 of the series, part 1 is [here](blog/2022-02-13-go-workflows-part1)._
+Continuing from the last [post]](blog/2022-02-13-go-workflows-part1), I wanted to go into a bit more detail about the internals, and how workflows are executed in [go-workflows](https://www.github.com/cschleiden/go-workflows). I have re-implemented this independently, but the core concepts are the same as used in Temporal and Cadence.
 
-Continuing from the last post, I wanted to go into a bit more detail about the internals, and how workflows are executed in [go-workflows](https://www.github.com/cschleiden/go-workflows). I have re-implemented this independently, but the core concepts are the same as used in Temporal and Cadence.
+* this unordered seed list will be replaced by the toc
+{:toc .large-only}
 
 ## Recap: indirect activity execution
 
