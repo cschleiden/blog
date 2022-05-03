@@ -176,7 +176,7 @@ type SettableFuture[T any] interface {
 
 So whenever the workflows is in a blocked state, and we are executing an event from the history that contains a result, we can look up its corresponding `Future` in the workflow state via its `ScheduleEventID` and then set the value. Then continue the execution of the workflow-coroutine and the blocked `Future.Get` call now returns the value and the workflow can continue.
 
-## Creating events: commands
+## Creating events: `Command`s
 
 So far we've skipped over how events are created. The answer are `Commands`, which are also tracked in the workflow state:
 
@@ -214,7 +214,7 @@ func ExecuteActivity[T any](ctx workflow.Context, activity interface{}) Future[T
 }
 ```
 
-## Putting it all together:
+## Example workflow execution
 
 Simplified this happens when we execute a workflow like:
 
