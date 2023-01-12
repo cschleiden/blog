@@ -107,9 +107,10 @@ DEPENDENCIES
   jekyll-readme-index
   jekyll-redirect-from
   jekyll-relative-links
+  jekyll-sass-converter
   jekyll-seo-tag
   jekyll-sitemap
-  jekyll-theme-hydejack (~> 9.1)
+  jekyll-theme-hydejack (~> 9.1.6)
   jekyll-titles-from-headings
   webrick
 
