@@ -96,7 +96,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  jekyll (~> 4.1)
+  jekyll (~> 4.3.1)
   jekyll-compose
   jekyll-default-layout
   jekyll-feed
