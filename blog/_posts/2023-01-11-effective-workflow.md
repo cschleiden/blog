@@ -33,7 +33,7 @@ jobs:
 
 is run, it uses workflows from another repo: `cschleiden/cschleiden-called`. But when you look at the [workflow file for the run](https://github.com/cschleiden/cschleiden-calling/actions/runs/3899294169/workflow) in the UI:
 
-![workflow file for the run](res/2023-01-11-20-57-57.png)
+![workflow file for the run](/assets/posts/2023-01-11-effective-workflow/2023-01-11-20-57-57.png)
 
 you don't see the called workflows. You also don't know exactly which version was used. While it's relatively easy in this example since the called workflows are referenced from default branch:
 
@@ -77,4 +77,4 @@ $ gh effective-workflow view <run-id>
 
 to see the calling workflow, every called workflow at the SHA that was used for the run and from where it was called. So as an example for the [run](https://github.com/cschleiden/cschleiden-calling/actions/runs/3899294169) mentioned before, the output would be:
 
-![Example output of the extension](res/2023-01-11-21-05-40.png)
+![Example output of the extension](/assets/posts/2023-01-11-effective-workflow/2023-01-11-21-05-40.png)
