@@ -4,7 +4,7 @@ gem "jekyll", "~> 4.3.1"
 
 gem "jekyll-theme-hydejack", "~> 9.1.6"
 
-gem "jekyll-sass-converter"
+gem "jekyll-sass-converter", "~> 2.0"
 
 # If you want to use GitHub Pages, remove the "gem "jekyll"" above and
 # uncomment the line below. To upgrade, run `bundle update github-pages`.
