@@ -1,7 +1,7 @@
 ---
 layout: post
 categories: blog
-title: 'Reusable Effective Workflow GitHub CLI extension'
+title: 'Effective Workflow GitHub CLI extension'
 # date: 2023-01-11T20:49:06.690Z
 ---
 GitHub Actions supports a feature for reuse called ["Reusable workflows"](https://docs.github.com/en/actions/using-workflows/reusing-workflows). It allows you to include workflow jobs defined in a shared workflow file.
