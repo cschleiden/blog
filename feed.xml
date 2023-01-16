@@ -1,0 +1,1280 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="https://cschleiden.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://cschleiden.dev/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-01-16T02:35:47+00:00</updated><id>https://cschleiden.dev/feed.xml</id><title type="html">cschleiden</title><subtitle>Software engineer at GitHub, previously at MSFT. Born and raised in Cologne, Germany. Loves climbing mountains in the PNW!
+</subtitle><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><entry><title type="html">Effective Workflow GitHub CLI extension</title><link href="https://cschleiden.dev/blog/2023-01-11-effective-workflow/" rel="alternate" type="text/html" title="Effective Workflow GitHub CLI extension" /><published>2023-01-11T00:00:00+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/blog/effective-workflow</id><content type="html" xml:base="https://cschleiden.dev/blog/2023-01-11-effective-workflow/"><![CDATA[<p>GitHub Actions supports a feature for reuse called <a href="https://docs.github.com/en/actions/using-workflows/reusing-workflows">“Reusable workflows”</a>. It allows you to include workflow jobs defined in a shared workflow file.</p>
+
+<p>One drawback is that you don’t get to see the whole workflow file for a workflow run anymore. The UI still shows you the <em>calling</em> workflow, but you don’t see the <em>called</em> workflows at their respective versions. For example, when this <a href="https://github.com/cschleiden/cschleiden-calling/blob/main/.github/workflows/calling.yml">simple workflow</a>:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Call a reusable workflow</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">workflow_dispatch</span><span class="pi">:</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">call-workflow</span><span class="pi">:</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">cschleiden/cschleiden-called/.github/workflows/called.yml@main</span>
+    <span class="na">with</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">monalisa'</span>
+
+  <span class="na">call-workflow2</span><span class="pi">:</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">cschleiden/cschleiden-called/.github/workflows/called.yml@main</span>
+    <span class="na">with</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">cschleiden'</span>
+
+  <span class="na">echo</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">run</span><span class="pi">:</span> <span class="s">echo 'world'</span>
+</code></pre></div></div>
+
+<p>is run, it uses workflows from another repo: <code class="language-plaintext highlighter-rouge">cschleiden/cschleiden-called</code>. But when you look at the <a href="https://github.com/cschleiden/cschleiden-calling/actions/runs/3899294169/workflow">workflow file for the run</a> in the UI:</p>
+
+<p><img src="/assets/posts/2023-01-11-effective-workflow/2023-01-11-20-57-57.png" alt="workflow file for the run" /></p>
+
+<p>you don’t see the called workflows. You also don’t know exactly which version was used. While it’s relatively easy in this example since the called workflows are referenced from default branch:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">call-workflow2</span><span class="pi">:</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">cschleiden/cschleiden-called/.github/workflows/called.yml@main</span>
+</code></pre></div></div>
+
+<p>in other scenarios they might be referenced from other branches, tags, or SHAs.</p>
+
+<p>One way to figure out is to use the <a href="https://api.github.com/repos/cschleiden/cschleiden-calling/actions/runs/3899294169">REST API</a> which does include the information which called workflows were included:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="nl">"referenced_workflows"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cschleiden/cschleiden-called/.github/workflows/called.yml@main"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21f5e61d865b5e06afff7fa8e05251908a98e955"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"refs/heads/main"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cschleiden/cschleiden-called/.github/workflows/called2.yml@main"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21f5e61d865b5e06afff7fa8e05251908a98e955"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"refs/heads/main"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="err">,</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Since getting the full picture from the API takes some manual work, I put together a quick <a href="http://github.com/cli/cli">GitHub CLI</a> extension to show the <em>effective workflow</em>, that is the calling workflow and every workflow in the reusable workflow callchain: <a href="https://github.com/cschleiden/gh-effective-workflow">https://github.com/cschleiden/gh-effective-workflow</a></p>
+
+<p>It’s easy to install, once you have the GitHub CLI installed, just run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gh extension <span class="nb">install </span>https://github.com/cschleiden/gh-effective-workflow
+</code></pre></div></div>
+
+<p>and then you can use</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gh effective-workflow view &lt;run-id&gt;
+</code></pre></div></div>
+
+<p>to see the calling workflow, every called workflow at the SHA that was used for the run and from where it was called. So as an example for the <a href="https://github.com/cschleiden/cschleiden-calling/actions/runs/3899294169">run</a> mentioned before, the output would be:</p>
+
+<p><img src="/assets/posts/2023-01-11-effective-workflow/2023-01-11-21-05-40.png" alt="Example output of the extension" /></p>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><summary type="html"><![CDATA[GitHub Actions supports a feature for reuse called “Reusable workflows”. It allows you to include workflow jobs defined in a shared workflow file.]]></summary></entry><entry><title type="html">go-workflows: Durable Workflows in Go Part 2</title><link href="https://cschleiden.dev/blog/2022-05-02-go-workflows-part2/" rel="alternate" type="text/html" title="go-workflows: Durable Workflows in Go Part 2" /><published>2022-05-02T00:00:00+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/blog/go-workflows-part2</id><content type="html" xml:base="https://cschleiden.dev/blog/2022-05-02-go-workflows-part2/"><![CDATA[<p>Continuing from the last <a href="/blog/2022-02-13-go-workflows-part1">post</a>, I wanted to go into a bit more detail about the internals, and how workflows are executed in <a href="https://www.github.com/cschleiden/go-workflows">go-workflows</a>. I have re-implemented this independently, but the core concepts are the same as used in Temporal and Cadence.</p>
+
+<ul class="large-only" id="markdown-toc">
+  <li><a href="#recap-indirect-activity-execution" id="markdown-toc-recap-indirect-activity-execution">Recap: indirect activity execution</a></li>
+  <li><a href="#workflow-execution-coroutines" id="markdown-toc-workflow-execution-coroutines">Workflow execution: coroutines</a></li>
+  <li><a href="#yielding-when-waiting-for-a-result" id="markdown-toc-yielding-when-waiting-for-a-result">Yielding when waiting for a result</a></li>
+  <li><a href="#workflow-state-tracking-the-future" id="markdown-toc-workflow-state-tracking-the-future">Workflow state: tracking the <code class="language-plaintext highlighter-rouge">Future</code></a></li>
+  <li><a href="#creating-events-commands" id="markdown-toc-creating-events-commands">Creating events: <code class="language-plaintext highlighter-rouge">Command</code>s</a></li>
+  <li><a href="#example-workflow-execution" id="markdown-toc-example-workflow-execution">Example workflow execution</a></li>
+  <li><a href="#summary" id="markdown-toc-summary">Summary</a></li>
+</ul>
+
+<h2 id="recap-indirect-activity-execution">Recap: indirect activity execution</h2>
+
+<p>As a reminder, <a href="/blog/2022-02-13-go-workflows-part1">part 1</a> explained how event sourcing is used to indirectly execute workflow code with this example. I’ve updated the code to use <a href="https://cschleiden.dev/blog/2022-03-06-go-workflows-generics/">Go generics</a>, and made it a bit more verbose to show the return types of <code class="language-plaintext highlighter-rouge">ExecuteActivity</code>:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">OrderWorkflow</span><span class="p">(</span><span class="n">ctx</span> <span class="n">workflow</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">item</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="k">var</span> <span class="n">processFuture</span> <span class="n">Future</span><span class="p">[</span><span class="n">any</span><span class="p">]</span>
+	<span class="n">process</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+	<span class="n">_</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">process</span><span class="o">.</span><span class="n">Get</span><span class="p">[</span><span class="n">any</span><span class="p">](</span><span class="n">ctx</span><span class="p">)</span>
+
+	<span class="k">var</span> <span class="n">sendConfirmation</span> <span class="n">Future</span><span class="p">[</span><span class="n">any</span><span class="p">]</span>
+	<span class="n">sendConfirmation</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">SendConfirmation</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+	<span class="n">_</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">sendConfirmation</span><span class="o">.</span><span class="n">Get</span><span class="p">[</span><span class="n">any</span><span class="p">](</span><span class="n">ctx</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="no">nil</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">Process</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">item</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="c">// ...</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="no">nil</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">SendConfirmation</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">item</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="c">// ...</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Confirmation for:"</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="no">nil</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>So when this workflow is executed, we don’t call <code class="language-plaintext highlighter-rouge">Process</code> or <code class="language-plaintext highlighter-rouge">SendConfirmation</code> directly, but instead we pass them to <code class="language-plaintext highlighter-rouge">workflow.ExecuteActivity</code>. <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> returns a <code class="language-plaintext highlighter-rouge">Future[T]</code>, similar to a <code class="language-plaintext highlighter-rouge">Task&lt;T&gt;</code> in C# or <code class="language-plaintext highlighter-rouge">Promise&lt;T&gt;</code> in Type/JavaScript. It represents the future result of an async call, in this case the execution of the activities <code class="language-plaintext highlighter-rouge">Process</code> and <code class="language-plaintext highlighter-rouge">SendConfirmation</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Future</code> interface itself is very simple:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">]</span> <span class="k">interface</span> <span class="p">{</span>
+	<span class="n">Get</span><span class="p">(</span><span class="n">ctx</span> <span class="n">workflow</span><span class="o">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Its only method is <code class="language-plaintext highlighter-rouge">Get</code>, which takes a <code class="language-plaintext highlighter-rouge">workflow.Context</code>, blocks until the result is available, and returns the result or an <code class="language-plaintext highlighter-rouge">error</code>.</p>
+
+<p>In our workflow, we instruct the workflow engine to execute an activity, and then block until the result is available by calling <code class="language-plaintext highlighter-rouge">Get</code> on the returned <code class="language-plaintext highlighter-rouge">Future</code>. At this point we need to pause the workflow execution, and resume once the activity result is available. This is the same whether we are executing the workflow for the first time, or we are replaying existing events. How do we do that?</p>
+
+<h2 id="workflow-execution-coroutines">Workflow execution: coroutines</h2>
+
+<p>go-workflows (as well as Temporal/Cadence) use a form of cooperative multitasking for executing workflows. To execute workflows, we make use of Go’s concurrency features. High-level, we execute the workflow in a goroutine and communicate with the running workflow via channels. When the workflow is waiting for a result, it does a blocking receive <code class="language-plaintext highlighter-rouge">&lt;-</code> on a channel, and when the result is available, the workflow engine sends a signal on that channel to unblock the workflow and let the execution continue.</p>
+
+<p>In practice there is some more control required: we need to know if a workflow is currently blocked, if it’s already finished, if it’s deadlocked, if it has hit any panics, etc. To manage that, go-workflows has a “coroutine” implementation. The important functionality are these three methods:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">Coroutine</span> <span class="k">interface</span> <span class="p">{</span>
+	<span class="c">// Execute continues execution of a blocked corouting and waits until</span>
+	<span class="c">// it is finished or blocked again</span>
+	<span class="n">Execute</span><span class="p">()</span>
+
+	<span class="c">// Yield yields execution and stops coroutine execution</span>
+	<span class="n">Yield</span><span class="p">()</span>
+
+	<span class="c">// Blocked indicates if the Corotine is blocked</span>
+	<span class="n">Blocked</span><span class="p">()</span> <span class="kt">bool</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>There is more to the real implementation, but the core aspects are starting or continuing the execution (<code class="language-plaintext highlighter-rouge">Execute</code>), blocking and yielding ing when waiting for a result (<code class="language-plaintext highlighter-rouge">Yield</code>), and checking whether the coroutine is currently blocked (<code class="language-plaintext highlighter-rouge">Blocked</code>).</p>
+
+<p>The concrete implementation of the <code class="language-plaintext highlighter-rouge">Coroutine</code> interface is made available via the context to the executed workflow. Simplified, the workflow engine executes a workflow like this:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">NewCoroutine</span><span class="p">(</span><span class="n">ctx</span> <span class="n">Context</span><span class="p">,</span> <span class="n">fn</span> <span class="k">func</span><span class="p">(</span><span class="n">ctx</span> <span class="n">Context</span><span class="p">)</span> <span class="kt">error</span><span class="p">)</span> <span class="n">Coroutine</span> <span class="p">{</span>
+	<span class="n">s</span> <span class="o">:=</span> <span class="n">newState</span><span class="p">()</span>
+	<span class="n">ctx</span> <span class="o">=</span> <span class="n">withCoState</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+
+	<span class="k">go</span> <span class="k">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="c">// yield before the first execution</span>
+		<span class="n">s</span><span class="o">.</span><span class="n">yield</span><span class="p">()</span>
+
+		<span class="c">// Execute passed</span>
+		<span class="n">s</span><span class="o">.</span><span class="n">err</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+	<span class="p">}()</span>
+
+	<span class="k">return</span> <span class="n">s</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Create new coroutine state, add as a value to the context.</li>
+  <li>Spawn new goroutine
+    <ol>
+      <li>Call <code class="language-plaintext highlighter-rouge">Yield</code> before the first execution</li>
+      <li>Execute the passed in <code class="language-plaintext highlighter-rouge">fn</code> which in this case is the workflow: pass in the context with the coroutine state</li>
+    </ol>
+  </li>
+  <li>Return coroutine</li>
+</ol>
+
+<h2 id="yielding-when-waiting-for-a-result">Yielding when waiting for a result</h2>
+
+<p>The key for interacting with <code class="language-plaintext highlighter-rouge">Future</code> and other synchronization primitives is that the coroutine state is added to the context. From the earlier example we saw that the blocking <code class="language-plaintext highlighter-rouge">Get</code> takes a <code class="language-plaintext highlighter-rouge">workflow.Context</code> as a parameter, and this coroutine state is the main reason.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">Future[T]</code> implementation of <code class="language-plaintext highlighter-rouge">Get</code> roughly looks like this:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">f</span> <span class="o">*</span><span class="n">future</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="n">Get</span><span class="p">(</span><span class="n">ctx</span> <span class="n">workflow</span><span class="o">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">hasValue</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="no">nil</span>
+		<span class="p">}</span>
+
+		<span class="n">cr</span> <span class="o">:=</span> <span class="n">getCoState</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+		<span class="n">cr</span><span class="o">.</span><span class="n">Yield</span><span class="p">()</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We check if the future has a value set. If there is one, return the value (error handling omitted here). If there is no value, get the executing coroutine from the passed in <code class="language-plaintext highlighter-rouge">workflow.Context</code>. Then <code class="language-plaintext highlighter-rouge">Yield</code> the current execution, which blocks until the coroutine is woken up again, for example, because a new value is available for a <code class="language-plaintext highlighter-rouge">Future</code>.</p>
+
+<h2 id="workflow-state-tracking-the-future">Workflow state: tracking the <code class="language-plaintext highlighter-rouge">Future</code></h2>
+
+<p>Now that we have seen how workflow execution can block and wait for a result, let’s see how we can unblock it.</p>
+
+<p>In addition to the coroutine state, the <code class="language-plaintext highlighter-rouge">workflow.Context</code> is also used to pass around a <code class="language-plaintext highlighter-rouge">workflowState</code>. While the coroutine implementation is generic and not tied to any specific workflow features, the <code class="language-plaintext highlighter-rouge">workflowState</code> <em>is</em> specific to the workflow execution. Among other things it keeps track of <code class="language-plaintext highlighter-rouge">Futures</code> representing future results in the current workflow:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">workflowState</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">scheduleEventID</span> <span class="kt">int64</span>
+	<span class="n">pendingFutures</span>  <span class="k">map</span><span class="p">[</span><span class="kt">int64</span><span class="p">]</span><span class="n">SettableFuture</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>For executing an activity (or a subworkflow or …) we perform these steps:</p>
+
+<div class="language-golang highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">ExecuteActivity</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">](</span><span class="n">ctx</span> <span class="n">workflow</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">activity</span> <span class="k">interface</span><span class="p">{})</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+	<span class="c">// 1. Create a new future</span>
+	<span class="n">f</span> <span class="o">:=</span> <span class="n">NewFuture</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+
+	<span class="c">// 2. Get the current workflow state from the workflow.Context</span>
+	<span class="n">wfState</span> <span class="o">:=</span> <span class="n">getWorkflowState</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+
+	<span class="c">// 3. Get the next _schedule event ID_ from the workflow state, this is a monotonically increasing ID used for correlating events</span>
+	<span class="n">eventID</span> <span class="o">:=</span> <span class="n">wfState</span><span class="o">.</span><span class="n">GetNextScheduleEventID</span><span class="p">()</span>
+
+	<span class="c">// 4. Track the future in the workflow state</span>
+	<span class="n">wfState</span><span class="o">.</span><span class="n">TrackFuture</span><span class="p">(</span><span class="n">eventID</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+	<span class="c">// ... generate the ActivityScheduledEvent with eventID</span>
+
+ 	<span class="c">// 5. Return future to caller</span>
+	<span class="k">return</span> <span class="n">f</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">TrackFuture</code> adds the future to the <code class="language-plaintext highlighter-rouge">workflowState</code>’s <code class="language-plaintext highlighter-rouge">pendingFutures</code> map under the given event ID. This allows us to provide a value once we receive an <code class="language-plaintext highlighter-rouge">ActivityCompleted</code> or <code class="language-plaintext highlighter-rouge">ActivityFailed</code> event.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SettableFuture[T]</code> is just a simple extension of <code class="language-plaintext highlighter-rouge">Future[T]</code> and allows the caller to provide a value, all it does is to store the value and an optional error:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">SettableFuture</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">]</span> <span class="k">interface</span> <span class="p">{</span>
+	<span class="n">Future</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+
+	<span class="n">Set</span><span class="p">(</span><span class="n">v</span> <span class="n">T</span><span class="p">,</span> <span class="n">err</span> <span class="kt">error</span><span class="p">)</span> <span class="kt">error</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>So whenever the workflows is in a blocked state, and we are executing an event from the history that contains a result, we can look up its corresponding <code class="language-plaintext highlighter-rouge">Future</code> in the workflow state via its <code class="language-plaintext highlighter-rouge">ScheduleEventID</code> and then set the value. Then continue the execution of the workflow-coroutine and the blocked <code class="language-plaintext highlighter-rouge">Future.Get</code> call now returns the value and the workflow can continue.</p>
+
+<h2 id="creating-events-commands">Creating events: <code class="language-plaintext highlighter-rouge">Command</code>s</h2>
+
+<p>So far we’ve skipped over how events are created. The answer are <code class="language-plaintext highlighter-rouge">Commands</code>, which are also tracked in the workflow state:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">WorkflowState</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">scheduleEventID</span> <span class="kt">int64</span>
+	<span class="n">pendingFutures</span>  <span class="k">map</span><span class="p">[</span><span class="kt">int64</span><span class="p">]</span><span class="n">DecodingSettable</span>
+	<span class="n">commands</span>        <span class="p">[]</span><span class="o">*</span><span class="n">command</span><span class="o">.</span><span class="n">Command</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Commands are actions to be performed by the workflow executor after the current workflow execution is finished. In the current example, <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> creates and tracks the <code class="language-plaintext highlighter-rouge">Future</code> as shown above, but it also adds a pending <code class="language-plaintext highlighter-rouge">ScheduleActivityTaskCommand</code> to the workflow state:</p>
+
+<div class="language-golang highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">ExecuteActivity</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">](</span><span class="n">ctx</span> <span class="n">workflow</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">activity</span> <span class="k">interface</span><span class="p">{})</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+	<span class="c">// 1. Create a new future</span>
+	<span class="n">f</span> <span class="o">:=</span> <span class="n">NewFuture</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+
+	<span class="c">// 2. Get the current workflow state from the workflow.Context</span>
+	<span class="n">wfState</span> <span class="o">:=</span> <span class="n">getWorkflowState</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+
+	<span class="c">// 3. Get the next _schedule event ID_ from the workflow state, this is a monotonically increasing ID used for correlating events</span>
+	<span class="n">eventID</span> <span class="o">:=</span> <span class="n">wfState</span><span class="o">.</span><span class="n">GetNextScheduleEventID</span><span class="p">()</span>
+
+	<span class="c">// 4. Track the future in the workflow state</span>
+	<span class="n">wfState</span><span class="o">.</span><span class="n">TrackFuture</span><span class="p">(</span><span class="n">eventID</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+
+	<span class="c">// ==&gt; 5. Add a new command for scheduling this activity</span>
+	<span class="n">name</span> <span class="o">:=</span> <span class="n">fn</span><span class="o">.</span><span class="n">Name</span><span class="p">(</span><span class="n">activity</span><span class="p">)</span>
+	<span class="n">cmd</span> <span class="o">:=</span> <span class="n">command</span><span class="o">.</span><span class="n">NewScheduleActivityTaskCommand</span><span class="p">(</span><span class="n">scheduleEventID</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+	<span class="n">wfState</span><span class="o">.</span><span class="n">AddCommand</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cmd</span><span class="p">)</span>
+
+ 	<span class="c">// 6. Return future to caller</span>
+	<span class="k">return</span> <span class="n">f</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="example-workflow-execution">Example workflow execution</h2>
+
+<p>Simplified this happens when we execute a workflow like:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">OrderWorkflow</span><span class="p">(</span><span class="n">ctx</span> <span class="n">workflow</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">item</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="k">var</span> <span class="n">processFuture</span> <span class="n">Future</span><span class="p">[</span><span class="n">any</span><span class="p">]</span>
+	<span class="n">process</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+	<span class="n">_</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">process</span><span class="o">.</span><span class="n">Get</span><span class="p">[</span><span class="n">any</span><span class="p">](</span><span class="n">ctx</span><span class="p">)</span>
+
+	<span class="k">var</span> <span class="n">sendConfirmation</span> <span class="n">Future</span><span class="p">[</span><span class="n">any</span><span class="p">]</span>
+	<span class="n">sendConfirmation</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">SendConfirmation</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+	<span class="n">_</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">sendConfirmation</span><span class="o">.</span><span class="n">Get</span><span class="p">[</span><span class="n">any</span><span class="p">](</span><span class="n">ctx</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="no">nil</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>First workflow execution</strong></p>
+
+<ol>
+  <li>Create new workflow state, add to context</li>
+  <li>Create new <code class="language-plaintext highlighter-rouge">Coroutine</code>, pass the workflow function as <code class="language-plaintext highlighter-rouge">fn</code>. Receive workflow state in the context</li>
+  <li>Start the workflow.</li>
+  <li>When <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> is called we create a new <code class="language-plaintext highlighter-rouge">Future</code> and track it in the workflow state. We also add a new <code class="language-plaintext highlighter-rouge">Command</code> that yields a <code class="language-plaintext highlighter-rouge">ScheduleActivity</code> event.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">process.Get</code> call blocks since at this point the future does not have a result</li>
+</ol>
+
+<p>Now the workflow cannot make progress. There are no events to execute since this is the first execution, and the coroutine stays blocked. At this point we process all pending commands from the workflow state, and pass their events to the backend.</p>
+
+<p><strong>Activity execution</strong></p>
+
+<ol>
+  <li>The backend takes the <code class="language-plaintext highlighter-rouge">ScheduleActivity</code> event, persists it in the workflow instance history, and schedules the activity execution for an activity worker</li>
+  <li>Activity worker executes the activity: runs the activity code and records the result in a <code class="language-plaintext highlighter-rouge">ActivityCompleted</code> event</li>
+  <li>The backend persists the <code class="language-plaintext highlighter-rouge">ActivityCompleted</code> event and schedules a workflow execution for a workflow worker</li>
+</ol>
+
+<p><strong>Second workflow execution</strong></p>
+
+<p>This time there are two events to execute:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ScheduleActivity</code> with the name and inputs of the activity</li>
+  <li><code class="language-plaintext highlighter-rouge">ActivityCompleted</code> with the result</li>
+</ul>
+
+<ol>
+  <li>Create new workflow state, add to context</li>
+  <li>Create new <code class="language-plaintext highlighter-rouge">Coroutine</code>, pass the workflow function as <code class="language-plaintext highlighter-rouge">fn</code>. Receive workflow state in the context</li>
+  <li>Start the workflow.</li>
+  <li>When <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> is called we create a new <code class="language-plaintext highlighter-rouge">Future</code> and track it in the workflow state. We also add a new <code class="language-plaintext highlighter-rouge">Command</code> that yields a <code class="language-plaintext highlighter-rouge">ScheduleActivity</code> event.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">process.Get</code> call blocks since at this point the future does not have a result</li>
+  <li>This time, since we have an event, we execute the first event in the history: <code class="language-plaintext highlighter-rouge">ScheduleActivity</code>. This event matches the command and future we just created, so we remove the command, since it has already been executed.</li>
+  <li>Try to continue the workflow execution. Since the future still has no result, the workflow stays blocked</li>
+  <li>Execute the next event: <code class="language-plaintext highlighter-rouge">ActivityCompleted</code>. This event has the result of the activity, so we set the future’s result and continue the workflow execution.</li>
+  <li>The workflow is unblocked and progresses to the next <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> call</li>
+  <li>and so on…</li>
+</ol>
+
+<h2 id="summary">Summary</h2>
+
+<p>I hope this helps a bit to understand how the execution of a workflow can be paused and resumed. To really grasp the concepts I’ve found it helpful to just clone the <a href="https://github.com/cschleiden/go-workflows">repository</a> or open it in a Codespace and debug one of the samples with the in-memory backend. With this post as a reference, it shouldn’t be too difficult to follow the flow.</p>
+
+<ul>
+  <li><a href="/blog/2022-02-13-go-workflows-part1">Part 1 - Durable workflows and event sourcing</a></li>
+  <li><a href="/blog/2022-05-02-go-workflows-part2">Part 2 - Cooperative scheduler and events in-depth</a></li>
+  <li>Part 3 - Architecture &amp; Backends</li>
+</ul>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><summary type="html"><![CDATA[Continuing from the last post, I wanted to go into a bit more detail about the internals, and how workflows are executed in go-workflows. I have re-implemented this independently, but the core concepts are the same as used in Temporal and Cadence.]]></summary></entry><entry><title type="html">Simple task queue with Redis Streams</title><link href="https://cschleiden.dev/blog/2022-04-08-task-queue-with-redis/" rel="alternate" type="text/html" title="Simple task queue with Redis Streams" /><published>2022-04-08T16:30:00+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/blog/task-queue-with-redis</id><content type="html" xml:base="https://cschleiden.dev/blog/2022-04-08-task-queue-with-redis/"><![CDATA[<p>Lately I’ve done a bit more work with Redis. While I had used it via abstractions at previous jobs, I had never interacted with it directly so there were a few things to catch up on.</p>
+
+<p>One of the scenarios I needed it for, was a simple task queue for <a href="https://github.com/cschleiden/go-workflows">go-workflows</a>. Basic requirements where the ability to push and pop tasks, not having to do polling so use blocking (<code class="language-plaintext highlighter-rouge">*BL*</code>) Redis commands, and resiliency to worker failures. So if a worker pops a task off the queue and doesn’t finish or heartbeats it within a certain timeframe, it should become available again for another worker.</p>
+
+<h2 id="using-lists-and-blmove">Using lists and <code class="language-plaintext highlighter-rouge">BLMOVE</code></h2>
+
+<p>The first idea, and how many task queues were originally implemented in Redis, was to use two lists. One for <em>pending</em> tasks, one for tasks being processed (<em>processing</em>) and move items between them atomically with <code class="language-plaintext highlighter-rouge">BRPOPLPUSH</code> or its more generic successor <code class="language-plaintext highlighter-rouge">BLMOVE</code>.</p>
+
+<p>This allows to push tasks, pop tasks, and keep track of the tasks being worked on currently. The problem is when a worker crashes, we need to somehow move tasks from the <em>processing</em> list back to the <em>pending</em> list. One option is to keep track of when a worker picked up a task, or sent a heartbeat, in a separate sorted set <code class="language-plaintext highlighter-rouge">ZSET</code>. The score is the time the worker acquired or renewed the lease last. We can then occasionally check the processing list for tasks that have been in there for too long, and move them back to the pending list and delete them from the sorted set.</p>
+
+<p>One problem with this approach is that to pick up task, we now have to perform two operations:</p>
+
+<ol>
+  <li><a href="https://redis.io/commands/blmove/"><code class="language-plaintext highlighter-rouge">BLMOVE pending processing RIGHT LEFT &lt;timeout&gt;</code></a> to wait for a task in the <em>pending</em> list and move it to <em>processing</em>, and then</li>
+  <li><a href="https://redis.io/commands/zadd/"><code class="language-plaintext highlighter-rouge">ZADD time &lt;now + lock_timeout&gt; &lt;task id&gt;</code></a> to update the score.</li>
+</ol>
+
+<p>We cannot execute the <code class="language-plaintext highlighter-rouge">BLMOVE</code> and <code class="language-plaintext highlighter-rouge">ZADD</code> in a single, atomic operation like a lua script, since we do want the blocking behavior or <code class="language-plaintext highlighter-rouge">BLMOVE</code> – which you cannot use in a script. This leaves the possibility of a race condition with the periodic heartbeat check. What could happen is that we execute <code class="language-plaintext highlighter-rouge">BLMOVE</code>, and then before we can do the <code class="language-plaintext highlighter-rouge">ZADD</code>, the heartbeat check starts running. It would encounter a task in the <em>processing</em> list without a score. To work around that, we can give up the blocking <code class="language-plaintext highlighter-rouge">BLMOVE</code> and use <code class="language-plaintext highlighter-rouge">LMOVE</code> with <code class="language-plaintext highlighter-rouge">ZADD</code> in a script and polling instead, but that increases load on the redis server, especially with multiple workers.</p>
+
+<p>We can also take this scenario into account for the heartbeat check, and ignore any entry in <em>pending</em> which doesn’t have a score, yet, but that complicates the cleanup logic.</p>
+
+<h2 id="using-redis-streams">Using Redis streams</h2>
+
+<p>What I ended up using were <a href="https://redis.io/docs/manual/data-types/streams/">Redis Streams</a>. Streams have a number of interesting properties, that make them a good fit for the requirements mentioned above.</p>
+
+<p>When starting up, we create a stream <code class="language-plaintext highlighter-rouge">task-queue</code>, and a single consumer group for all workers: <code class="language-plaintext highlighter-rouge">task-workers</code>. Then we generate a unique name for each worker, and treat each as a single consumer in the consumer group.</p>
+
+<h3 id="adding-tasks">Adding tasks</h3>
+
+<p>To add new tasks to the queue, we <code class="language-plaintext highlighter-rouge">XADD</code> a new message:</p>
+
+<pre><code class="language-redis">XADD task-queue * id &lt;id of task&gt;
+</code></pre>
+
+<h3 id="retrieving-tasks">Retrieving tasks</h3>
+
+<p>Then each worker executes <code class="language-plaintext highlighter-rouge">XREADGROUP</code> for reading new messages as part of the consumer group. The consumer group behavior for Redis Streams is similar to the one of Kafka, where only one consumer in the group receives the message:</p>
+
+<pre><code class="language-redis">XREADGROUP &lt;group&gt; &lt;consumer&gt; COUNT 1 BLOCK &lt;timeout in ms&gt; STREAMS task-queue
+</code></pre>
+
+<h3 id="marking-tasks-as-finished">Marking tasks as finished</h3>
+
+<p>Whenever a worker has finished processing a task, we use <code class="language-plaintext highlighter-rouge">XACK</code> to acknowledge the message and then <code class="language-plaintext highlighter-rouge">XDEL</code> to delete it from the stream. We don’t have to delete the message, we could occasionally trim the whole stream, but removing it right away works well enough for this scenario.</p>
+
+<h3 id="recovering-abandoned-tasks">Recovering abandoned tasks</h3>
+
+<p>Once a worker has read a message, it starts processing it. In order to support the recovery of abandoned tasks, we take advantage of the additional <code class="language-plaintext highlighter-rouge">XACK/XPENDING</code> features of Redis.</p>
+
+<p>By <em>not</em> specifying the <code class="language-plaintext highlighter-rouge">NOACK</code> parameter for the <code class="language-plaintext highlighter-rouge">XREADGROUP</code> command, Redis requires the worker to explicitly acknowledge the message, before it is marked as delivered. Until it is acknowledged, it is not delivered to any other consumer in the group, and it is kept in a <em>Pending Entries List</em> (PEL). The PEL also tracks for each pending message, when it was read of <em>claimed</em> last. Redis calls that the <em>idle time</em>.</p>
+
+<p>To recover abandoned tasks, we can use the <code class="language-plaintext highlighter-rouge">XAUTOCLAIM</code> command. With</p>
+
+<pre><code class="language-redis"> XAUTOCLAIM task-queue task-workers &lt;consumer&gt; &lt;min-idle-time&gt; 0 COUNT 1
+</code></pre>
+
+<p>we can transfer at most one message from the PEl which has a higher <em>idle time</em> than the threshold specified to the calling worker.</p>
+
+<p>So checking for work is actually <code class="language-plaintext highlighter-rouge">XAUTOCLAIM</code> and if that doesn’t return any message, then the <code class="language-plaintext highlighter-rouge">XREADGROUP</code> command.</p>
+
+<h3 id="heartbeats-for-long-running-tasks">Heartbeats for long running tasks</h3>
+
+<p>To prevent long running tasks from being acquired by another worker, workers periodically execute <code class="language-plaintext highlighter-rouge">XCLAIM</code> on their already claimed message. This resets the <em>idle time</em> and serves as a heartbeat for the task.</p>
+
+<pre><code class="language-redis"> XCLAIM task-queue task-workers &lt;consumer&gt; 0 &lt;message id task&gt;
+</code></pre>
+
+<p>I’m not using it yet, but we increase the retry counter every time so that we know how often a task was picked up again. Also pass <code class="language-plaintext highlighter-rouge">0</code> as the min-idle time, to always claim the message - even though it’s already claimed by this worker.</p>
+
+<h3 id="enforcing-uniqueness">Enforcing uniqueness</h3>
+
+<p>I had an additional requirement to support only unique task ids in a give task queue, but that was easy to add by combining the <code class="language-plaintext highlighter-rouge">XADD</code> and <code class="language-plaintext highlighter-rouge">XACK</code> / <code class="language-plaintext highlighter-rouge">XDEL</code> commands with an additional set and the <code class="language-plaintext highlighter-rouge">SADD</code> / <code class="language-plaintext highlighter-rouge">SREM</code> commands.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>An implementation for this in Go is available <a href="https://github.com/cschleiden/go-workflows/blob/42bedfe1139df5e892ecddf7290712ebc4ed6ab1/backend/redis/taskqueue/queue.go">here</a>.</p>
+
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Fcschleiden%2Fgo-workflows%2Fblob%2F42bedfe1139df5e892ecddf7290712ebc4ed6ab1%2Fbackend%2Fredis%2Ftaskqueue%2Fqueue.go&amp;style=github&amp;showBorder=on&amp;showLineNumbers=on&amp;showFileMeta=on&amp;showCopy=on"></script>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><summary type="html"><![CDATA[Lately I’ve done a bit more work with Redis. While I had used it via abstractions at previous jobs, I had never interacted with it directly so there were a few things to catch up on.]]></summary></entry><entry><title type="html">go-workflows: Experiments with Go Generics</title><link href="https://cschleiden.dev/blog/2022-03-06-go-workflows-generics/" rel="alternate" type="text/html" title="go-workflows: Experiments with Go Generics" /><published>2022-03-06T18:30:00+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/blog/go-workflows-generics</id><content type="html" xml:base="https://cschleiden.dev/blog/2022-03-06-go-workflows-generics/"><![CDATA[<p>This is not the promised part 2 of the <a href="/blog/2022-02-13-go-workflows-part1/">go-workflows: Durable Workflows in Go</a> series but a summary of some experiments I did with the Go Generics support in the context of go-workflows.</p>
+
+<p>With Go 1.18 (finally) including support for Generics, I wanted to see how I could improve the API of go-workflows by taking advantage of Generics. Specificially calls like this which occur in a few different scenarios:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// An activity</span>
+<span class="k">func</span> <span class="n">SomeSideEffect</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">count</span> <span class="kt">int</span><span class="p">,</span> <span class="n">msg</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="kt">bool</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c">// ...</span>
+<span class="p">}</span>
+
+<span class="c">// A workflow scheduling/executing an activity</span>
+<span class="k">func</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">ctx</span> <span class="n">workflow</span><span class="o">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">f</span> <span class="o">:=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">SomeSideEffect</span><span class="p">,</span> <span class="m">42</span><span class="p">,</span> <span class="s">"Hello"</span><span class="p">)</span>
+
+  <span class="k">var</span> <span class="n">result</span> <span class="kt">bool</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">f</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">result</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+    <span class="c">// handle error</span>
+  <span class="p">}</span>
+
+  <span class="c">// Check `result`</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As mentioned in the last <a href="/blog/2022-02-13-go-workflows-part1/">post</a>, every side effect has to be executed as an <em>Activity</em>, which is a function that’s executed only once and its result is recorded in the event sourced history of the workflow.</p>
+
+<p>In the example above, <code class="language-plaintext highlighter-rouge">SomeSideEffect</code> takes two inputs: <code class="language-plaintext highlighter-rouge">count</code> and <code class="language-plaintext highlighter-rouge">msg</code> and returns a boolean result and an optional error. When the activity is executed from the workflow, the scheduler returns a Future <code class="language-plaintext highlighter-rouge">f</code> from where we can get the <code class="language-plaintext highlighter-rouge">bool</code> result. This works, but there are a couple things I don’t like about this:</p>
+
+<p>I cannot define a type for an activity that <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> accepts. Activities can have zero or more parameters, and can return zero or more results plus the error. Therefore <code class="language-plaintext highlighter-rouge">ExcuteActivity</code>’s signature currently has to look like this:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">ExecuteActivity</span><span class="p">(</span><span class="c">/*...*/</span><span class="p">,</span> <span class="n">activity</span> <span class="k">interface</span><span class="p">{},</span> <span class="n">args</span> <span class="o">...</span><span class="k">interface</span><span class="p">{})</span> <span class="n">Future</span>
+</code></pre></div></div>
+
+<p>I can check that the number of passed arguments matches the activity signature, but that has to happen at runtime via reflection. That means if it’s a long running workflow, you get feedback about problems only once the activity is scheduled.</p>
+
+<p>The other problem I have with the current approach is that <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> has to return a generic <code class="language-plaintext highlighter-rouge">Future</code> that could represent any result. When waiting for its result, you have to know what the return type of the scheduled activity is, declare a variable of that type and then call <code class="language-plaintext highlighter-rouge">Get</code> with a pointer to that variable:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="n">result</span> <span class="kt">bool</span>
+<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">f</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">result</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+</code></pre></div></div>
+
+<p>Here again, you only get feedback about any potential mismatch at runtime, when trying to get the result of the future. If <code class="language-plaintext highlighter-rouge">SomeSideEffect</code>’s return type changes in the future, the compiler cannot provide any help about now mismatched <code class="language-plaintext highlighter-rouge">Get</code> calls.</p>
+
+<p>I’ve always been a fan of statically typed languages and relying on the compiler to provide as much help as possible. Dynamic typing is great and flexible when writing, but often require a pretty detailed mental model of how the code works when reading it later.</p>
+
+<h2 id="generics-to-improve-type-safety">Generics to improve type-safety</h2>
+
+<h3 id="primitives">Primitives</h3>
+
+<p>With Go’s <a href="https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md">Type Parameters Proposal</a> aka Generics landing in the 1.18 betas and (as of now) the RC1, we can try to improve this.</p>
+
+<p>The first change was straight-forward: make the <code class="language-plaintext highlighter-rouge">Future</code> type generic, with the signature changing to:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">]</span> <span class="k">interface</span> <span class="p">{</span>
+	<span class="n">Get</span><span class="p">(</span><span class="n">ctx</span> <span class="n">Context</span><span class="p">)</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>With that, the requirement to pass a pointer to <code class="language-plaintext highlighter-rouge">Get</code> is gone and instead you can use it like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result, err := f.Get(ctx)
+</code></pre></div></div>
+
+<p>which feels a lot more natural, especially comparing it to future/promise usage in other languages.</p>
+
+<p>I’ve also updated all the other primitives required for the deterministic execution like <code class="language-plaintext highlighter-rouge">Channel</code>, the custom <code class="language-plaintext highlighter-rouge">Selector</code> etc.</p>
+
+<h3 id="wanted-behavior-for-executeactivity">Wanted behavior for <code class="language-plaintext highlighter-rouge">ExecuteActivity</code></h3>
+
+<p>The next step was to improve the API of <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> (and <code class="language-plaintext highlighter-rouge">ExecuteSubWorkflow</code> etc.) to make it more type-safe. Specifically I wanted to:</p>
+
+<ul>
+  <li>automatically infer the result of an activity to create the correct <code class="language-plaintext highlighter-rouge">Future[T]</code> type automatically</li>
+  <li>validate that the types of any passed arguments match the activity signature</li>
+</ul>
+
+<p>I have written a lot of TypeScript and there I could write the functions like this (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgGIFczqhAPAFQD5kBvAKGWQHEIwAKASgC5l8BuMgXzLNElkQoAggjDAAbsDABPAgEkQAB0zIIAD0ggAJgGdkcENIDaAXQA0rAEoQd6ADZhi5SnQB07uFADmOlvgXKYMxWNvZgHNxkMOggosAA9iDIAKJqEAiYECJikjLySirqmrr6hqYW+Na2DoR0iDlS0izZEo35gRVVYYQW7q6ePn4BmMEYWDgEXTWkFMg440kknPp6Y9h4laE1ETwA9Ps80bFiicgAyvEAthBnwFoQyTAw6fQI8TFgLCDolwBG0BZLjovCwdGAoKAvMEjL94vE7BADBYwRCQF4TDNKPNsEkjOD0BALAAiIkmHZRGJxU4AdXiUAA1jA7PEAO6MTHIN4gMHIGDIAC8KTSGUgLVy0joF2ut3uj2eogsABYAEzEgAWEDszKJDA4lC5PKMOGqYAs0CgdIxgpgrho9F1s32lGdlAAeshYfCLMh3SjIcguGQgA">Playground</a>):</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">Future</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="nx">Get</span><span class="p">():</span> <span class="nx">T</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">Activity</span><span class="o">&lt;</span><span class="nx">TInput</span> <span class="kd">extends</span> <span class="kr">any</span><span class="p">[],</span> <span class="nx">TResult</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="p">(...</span><span class="na">args</span><span class="p">:</span> <span class="nx">TInput</span><span class="p">):</span> <span class="nx">TResult</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">ExecuteActivity</span><span class="o">&lt;</span><span class="nx">TInput</span> <span class="kd">extends</span> <span class="kr">any</span><span class="p">[],</span> <span class="nx">TResult</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">activity</span><span class="p">:</span> <span class="nx">Activity</span><span class="o">&lt;</span><span class="nx">TInput</span><span class="p">,</span> <span class="nx">TResult</span><span class="o">&gt;</span><span class="p">,</span> <span class="p">...</span><span class="nx">args</span><span class="p">:</span> <span class="nx">TInput</span><span class="p">):</span> <span class="nx">Future</span><span class="o">&lt;</span><span class="nx">TResult</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{}</span> <span class="k">as</span> <span class="nx">Future</span><span class="o">&lt;</span><span class="nx">TResult</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">///</span>
+
+<span class="kd">function</span> <span class="nx">SomeSideEffect</span><span class="p">(</span><span class="nx">count</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">msg</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="p">{</span> <span class="nl">result</span><span class="p">:</span> <span class="nx">boolean</span><span class="p">;</span> <span class="nl">error</span><span class="p">:</span> <span class="kr">string</span> <span class="p">}</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span> <span class="na">result</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="na">error</span><span class="p">:</span> <span class="dl">""</span> <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">Workflow</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">ExecuteActivity</span><span class="p">(</span><span class="nx">SomeSideEffect</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="dl">"</span><span class="s2">hello</span><span class="dl">"</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">result</span><span class="p">,</span> <span class="nx">error</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">Get</span><span class="p">();</span>
+  <span class="c1">//       ^ bool,  ^ string</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<p><em>TypeScript (or JavaScript for that matter) does not natively support multiple return types, so for this example I’ve used another tuple type to mimic the Go signature and keep it concise.</em></p>
+
+<p>This uses TypeScript’s support for variadic generic tuples. It allows us to infer the types of the arguments the activity expects, and then check that the arguments passed to <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> match those.</p>
+
+<p>If you look at the help provided by the language server for the invocation of <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> you can see that it’s infered the following arguments:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">ExecuteActivity</span><span class="o">&lt;</span><span class="p">[</span><span class="kr">number</span><span class="p">,</span> <span class="kr">string</span><span class="p">],</span> <span class="p">[</span><span class="nx">boolean</span><span class="p">,</span> <span class="kr">string</span><span class="p">]</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">activity</span><span class="p">:</span> <span class="nx">Activity</span><span class="o">&lt;</span><span class="p">[</span><span class="kr">number</span><span class="p">,</span> <span class="kr">string</span><span class="p">],</span> <span class="p">[</span><span class="nx">boolean</span><span class="p">,</span> <span class="kr">string</span><span class="p">]</span><span class="o">&gt;</span><span class="p">,</span> <span class="nx">args_0</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">args_1</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="nx">boolean</span><span class="p">,</span> <span class="kr">string</span><span class="p">]</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>So it knows the return type and therefore what <code class="language-plaintext highlighter-rouge">Future</code> the function returns, and also the number of arguments and the types of the <code class="language-plaintext highlighter-rouge">args_x</code> parameters.</p>
+
+<p>Next I tried to bring this behavior to the Go API. Unfortunately, Go does not support variadic generic arguments (yet). There are some issues discussing the missing support, but given how long it took to get to this first version of Generics - and how contentious it was - it makes sense to start simpler, and then see if the support needs to be added later. Unfortunately, that means I cannot provide the same API with type-checked arguments as I did in the TypeScript sample.</p>
+
+<h3 id="go-generics---approach-1-infer-result">Go Generics - Approach 1: infer result</h3>
+
+<p>I knew that Go’s generic support isn’t as expressive as TypeScript’s yet, so I wanted to start simple. Could I keep the current runtime argument checking and just infer the result type?</p>
+
+<p>To again start with a TypeScript example (<a href="https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgGIFczqhAPAFQD5kBvAKGWQHEIwAKASgC5l8BuMgXzLNElkQoAggjDAAbsDABPAgCUIAZ3QAbMMXKU6AOl1woAc0Us4Iac1YLlajtzIx0IUcAD2IZAFEAHhASYIImKSMvJKqup0iEFS0iyBEjGh1uoANMi62vpGJmYA2gC6FhhYOEnhGhTIOCXuJJzIcIpomNh4+FbltjwA9L08Dk5ibsgAyi4AthAjwAAmEB4wML70CC6OYCwg6OMARtBp44oGLIpgUKAGFrk7Li4qEKZpp+cgBvmkldXY7rln6BBpABEgPyXXsjmcwwA6i4oABrGAqFwAd0YH0oqxAp2QMGQAF5PD4-JB4sFpHQxpNpnMFktRGkACwAJiBAAsICokYCGGxkL0GoZthBwE0QC4wMgEOyEHCZhR+ZjsTAmfjCb5-KSYhSJlNZvNFstGSzkID2ZyXICgYodWBWRdkBzFBBubz+WLJRMAA7Ae5QB1QKCwyqKiW5HDJNLQQNQd4EmDaGj0HmVfmUNPIAB6yBudzSmeQz3tXDIQA">Playground</a>):</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">interface</span> <span class="nx">Activity</span><span class="o">&lt;</span><span class="nx">TResult</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="p">(...</span><span class="na">args</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="nx">TResult</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">ExecuteActivity</span><span class="o">&lt;</span><span class="nx">TResult</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">activity</span><span class="p">:</span> <span class="nx">Activity</span><span class="o">&lt;</span><span class="nx">TResult</span><span class="o">&gt;</span><span class="p">,</span> <span class="p">...</span><span class="nx">args</span><span class="p">:</span> <span class="kr">any</span><span class="p">[]):</span> <span class="nx">Future</span><span class="o">&lt;</span><span class="nx">TResult</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{}</span> <span class="k">as</span> <span class="nx">Future</span><span class="o">&lt;</span><span class="nx">TResult</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">///</span>
+
+<span class="kd">function</span> <span class="nx">SomeSideEffect</span><span class="p">(</span><span class="nx">count</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">msg</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="p">[</span><span class="nx">boolean</span><span class="p">,</span> <span class="kr">string</span><span class="p">]</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="dl">""</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">Workflow</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">ExecuteActivity</span><span class="p">(</span><span class="nx">SomeSideEffect</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="dl">"</span><span class="s2">hello</span><span class="dl">"</span><span class="p">);</span> <span class="c1">// arguments not checkd</span>
+ <span class="c1">// const f2 = ExecuteActivity(SomeSideEffect, 42, "hello", "something else"); // no compiler error</span>
+  <span class="kd">const</span> <span class="p">[</span><span class="nx">result</span><span class="p">,</span> <span class="nx">error</span><span class="p">]</span> <span class="o">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">Get</span><span class="p">();</span>
+  <span class="c1">//       ^ bool,  ^ string</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ExecuteActivity</code> and the accepts the arguments as <code class="language-plaintext highlighter-rouge">any[]</code> which means no type-checking is done. The <code class="language-plaintext highlighter-rouge">Activity</code> type only accepts a <code class="language-plaintext highlighter-rouge">TResult</code> parameter and also accepts any arguments via <code class="language-plaintext highlighter-rouge">...args: any</code>.</p>
+
+<p>Getting this behavior is not possible in Go. At runtime defining the arguments for a function type as <code class="language-plaintext highlighter-rouge">...interface{}</code> kind of behaves like <code class="language-plaintext highlighter-rouge">...any[]</code> in TypeScript, but not at compile time. So something like this:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">Activity</span><span class="p">[</span><span class="n">TResult</span> <span class="n">any</span><span class="p">]</span> <span class="k">func</span><span class="p">(</span><span class="o">...</span><span class="k">interface</span><span class="p">{})</span> <span class="n">TResult</span>
+
+<span class="k">func</span> <span class="n">SomeSideEffect</span><span class="p">(</span><span class="n">a</span> <span class="kt">int</span><span class="p">,</span> <span class="n">f</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">a</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">ExecuteActivity</span><span class="p">[</span><span class="n">TResult</span> <span class="n">any</span><span class="p">](</span><span class="n">a</span> <span class="n">Activity</span><span class="p">[</span><span class="n">TResult</span><span class="p">])</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">SomeSideEffect</span><span class="p">)</span>
+	<span class="c">// type func(a int, f string) int of SomeSideEffect does not match Activity[TResult] (cannot infer TResult)</span>
+
+	<span class="k">var</span> <span class="n">a</span> <span class="n">Activity</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">SomeSideEffect</span>
+	<span class="c">// cannot use SomeSideEffect (value of type func(a int, f string) int) as type Activity[int] in variable declaration</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>will result in compiler errors. Basically there is no way of saying: ignore the arguments/parameters of the function, I’m only interested in the return type.</p>
+
+<h3 id="go-generics---approach-2-restrict-activity-functions">Go Generics - Approach 2: restrict activity functions</h3>
+
+<p>Another attempt was to restrict Activities to have at most one input parameter and one result.  That works, but requires defining a lot of custom types for activities that accept more than one input. It’s similar to what DurableTask does in C# (at least for some overloads), but I wanted to preserve the notion that activites are (mostly) just plain Go functions.</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">Act</span><span class="p">[</span><span class="n">TInput</span><span class="p">,</span> <span class="n">TResult</span> <span class="n">any</span><span class="p">]</span> <span class="k">func</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">TInput</span><span class="p">)</span> <span class="n">TResult</span>
+
+<span class="k">func</span> <span class="n">ExecuteActivity</span><span class="p">[</span><span class="n">TInput</span><span class="p">,</span> <span class="n">TResult</span> <span class="n">any</span><span class="p">](</span><span class="n">act</span> <span class="n">Act</span><span class="p">[</span><span class="n">TInput</span><span class="p">,</span> <span class="n">TResult</span><span class="p">],</span> <span class="n">a1</span> <span class="n">TInput</span><span class="p">)</span> <span class="n">Future</span><span class="p">[</span><span class="n">TResult</span><span class="p">]</span> <span class="p">{</span>
+	<span class="k">var</span> <span class="n">r</span> <span class="n">TResult</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="n">future</span><span class="p">[</span><span class="n">TResult</span><span class="p">]{</span><span class="n">r</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">SomeSideEffect</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">a</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="m">42</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">r</span> <span class="o">:=</span> <span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">SomeSideEffect</span><span class="p">,</span> <span class="s">"hello"</span><span class="p">)</span> <span class="c">// r is future[int]</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%T"</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+	<span class="n">r</span> <span class="o">:=</span> <span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">SomeSideEffect</span><span class="p">,</span> <span class="m">23</span><span class="p">)</span>
+	<span class="c">// cannot use 23 (untyped int constant) as string value in argument to ExecuteActivity</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="go-generics---approach-3-manually-specify-the-result-type">Go Generics - Approach 3: manually specify the result type:</h3>
+
+<p>This would allow to at least have a type-safe result, but at those cost of requiring the user to specify the result type. Argument type checking</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">ExecuteActivity</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">](</span><span class="n">act</span> <span class="k">interface</span><span class="p">{},</span> <span class="n">args</span> <span class="o">...</span><span class="k">interface</span><span class="p">{})</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+	<span class="k">var</span> <span class="n">r</span> <span class="n">T</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="n">future</span><span class="p">[</span><span class="n">T</span><span class="p">]{</span><span class="n">r</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">SomeSideEffect</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">a</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="m">42</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">r</span> <span class="o">:=</span> <span class="n">ExecuteActivity</span><span class="p">[</span><span class="kt">int</span><span class="p">](</span><span class="n">SomeSideEffect</span><span class="p">,</span> <span class="s">"hello"</span><span class="p">)</span> <span class="c">// r is future[int]</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%T"</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="go-generics---approach-4-result-and-type-safe-arguments">Go Generics - Approach 4: result and type-safe arguments</h3>
+
+<p>The generics proposal kind of mentions scenarios that require variadic generic paremeters in the <a href="https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#metrics">Metrics</a> example. As a work-around the proposal recommends multiple “overloads”. Since Go doesn’t support overloading, you need differently named functions, for example <code class="language-plaintext highlighter-rouge">ExecuteActivity1</code>, <code class="language-plaintext highlighter-rouge">ExecuteActivity2</code>, <code class="language-plaintext highlighter-rouge">ExecuteActivityN</code>, with <code class="language-plaintext highlighter-rouge">N</code> indicating the number of arguments the activity acepts.</p>
+
+<p>It’s not a great API to write, but some of it could be code generated. Example implementation for up to <code class="language-plaintext highlighter-rouge">N=3</code> (<a href="https://gotipplay.golang.org/p/hTY9OcVBciU">Gotip playground</a>):</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="s">"fmt"</span>
+
+<span class="k">type</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">]</span> <span class="k">interface</span> <span class="p">{</span>
+	<span class="n">Get</span><span class="p">()</span> <span class="n">T</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">future</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">]</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">v</span> <span class="n">T</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">f</span> <span class="o">*</span><span class="n">future</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="n">Get</span><span class="p">()</span> <span class="n">T</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">v</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">Act1</span><span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">T</span> <span class="n">any</span><span class="p">]</span> <span class="k">func</span><span class="p">(</span><span class="n">P1</span><span class="p">)</span> <span class="n">T</span>
+<span class="k">type</span> <span class="n">Act2</span><span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">T</span> <span class="n">any</span><span class="p">]</span> <span class="k">func</span><span class="p">(</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">)</span> <span class="n">T</span>
+<span class="k">type</span> <span class="n">Act3</span><span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">P3</span><span class="p">,</span> <span class="n">T</span> <span class="n">any</span><span class="p">]</span> <span class="k">func</span><span class="p">(</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">P3</span><span class="p">)</span> <span class="n">T</span>
+
+<span class="k">func</span> <span class="n">ExecuteActivity</span><span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">T</span> <span class="n">any</span><span class="p">](</span><span class="n">act</span> <span class="n">Act1</span><span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">a1</span> <span class="n">P1</span><span class="p">)</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">executeActivity</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">act</span><span class="p">,</span> <span class="n">a1</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">ExecuteActivity2</span><span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">T</span> <span class="n">any</span><span class="p">](</span><span class="n">act</span> <span class="n">Act2</span><span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">a1</span> <span class="n">P1</span><span class="p">,</span> <span class="n">a2</span> <span class="n">P2</span><span class="p">)</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">executeActivity</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">act</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">ExecuteActivity3</span><span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">P3</span><span class="p">,</span> <span class="n">T</span> <span class="n">any</span><span class="p">](</span><span class="n">act</span> <span class="n">Act3</span><span class="p">[</span><span class="n">P1</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">P3</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="n">a1</span> <span class="n">P1</span><span class="p">,</span> <span class="n">a2</span> <span class="n">P2</span><span class="p">,</span> <span class="n">a3</span> <span class="n">P3</span><span class="p">)</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">executeActivity</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">act</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">executeActivity</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">](</span><span class="n">f</span> <span class="n">activity</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">args</span> <span class="o">...</span><span class="k">interface</span><span class="p">{})</span> <span class="n">Future</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="p">{</span>
+	<span class="k">var</span> <span class="n">r</span> <span class="n">T</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="n">future</span><span class="p">[</span><span class="n">T</span><span class="p">]{</span><span class="n">r</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">activity</span><span class="p">[</span><span class="n">T</span> <span class="n">any</span><span class="p">]</span> <span class="k">interface</span><span class="p">{}</span>
+
+<span class="k">func</span> <span class="n">SomeSideEffect</span><span class="p">(</span><span class="n">a</span> <span class="kt">int</span><span class="p">,</span> <span class="n">f</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">a</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">r</span> <span class="o">:=</span> <span class="n">ExecuteActivity2</span><span class="p">(</span><span class="n">SomeSideEffect</span><span class="p">,</span> <span class="m">42</span><span class="p">,</span> <span class="s">"hello"</span><span class="p">)</span> <span class="c">// r is future[int]</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%T"</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+	<span class="c">// compiler error: cannot use 23 (untyped int constant) as string value in argument to ExecuteActivity2</span>
+	<span class="c">//	r := ExecuteActivity2(SomeSideEffect, 42, 23)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As you can see, the return type is correctly inferred, the count of the arguments passed is evaluated, and the types are checked. A user of the API has to call the right “overload” meaning the version of <code class="language-plaintext highlighter-rouge">ExecuteActivityN</code> that matches the number of arguments the activity expects. And there also has to exist a matching <code class="language-plaintext highlighter-rouge">N</code> in the first place.</p>
+
+<p>I’m not super happy with this yet, but it at least reduces the cognitive burden when working with the API. You don’t have to remember the number of arguments, their types, and the type of the result, you only have to make sure you pick the right overload.</p>
+
+<p>The internal implementation can continue to use the current <code class="language-plaintext highlighter-rouge">args ...interface{}</code> behavior for the most part.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>Overall I’m pretty excited about Generics. Support for more complex scenarios is not yet there, but in my opinion, the fewer <code class="language-plaintext highlighter-rouge">interface{}</code> runtime conversions we need, the better. For my project being able to have the custom primitives (<code class="language-plaintext highlighter-rouge">Future</code>, <code class="language-plaintext highlighter-rouge">Channel</code>, etc.) become type-safe is a big improvement and brings them closer to the developer experience of the native types.</p>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><summary type="html"><![CDATA[This is not the promised part 2 of the go-workflows: Durable Workflows in Go series but a summary of some experiments I did with the Go Generics support in the context of go-workflows.]]></summary></entry><entry><title type="html">go-workflows: Durable Workflows in Go Part 1</title><link href="https://cschleiden.dev/blog/2022-02-13-go-workflows-part1/" rel="alternate" type="text/html" title="go-workflows: Durable Workflows in Go Part 1" /><published>2022-02-13T21:19:06+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/blog/go-workflows-part1</id><content type="html" xml:base="https://cschleiden.dev/blog/2022-02-13-go-workflows-part1/"><![CDATA[<p>Lately I’ve been getting interested in “durable workflows” as implemented by Azure’s <a href="https://www.github.com/azure/durabletask">Durable Task Framework</a> (DTFx), the basis for <a href="https://docs.microsoft.com/en-us/azure/azure-functions/durable/durable-functions-overview?tabs=csharp">Azure Durable Functions</a> and <a href="http://temporal.io">Temporal</a>. To really understand how a library or a framework works, what problems it solves, and why certain decisions were made the way they were made, I often tend to try to re-implement my own version, even if only with minimal functionality.</p>
+
+<p>So for durable workflows I started to build <a href="https://www.github.com/cschleiden/go-workflows">go-workflows</a>, a not quite production-ready mix of Durable Tasks and Temporal written in Go. It started as a number of very small experiments over the holidays, but it kind of snowballed from there, and I’m approaching something that’s quite usable. For the next few posts I’ll try to explain what <code class="language-plaintext highlighter-rouge">go-workflows</code> is and how it works.</p>
+
+<p>The library is still a work in progress so some of the details and the example code might’ve changed by now although I’ll try to keep everything in sync. The general concepts should still be valid, though.</p>
+
+<ul class="large-only" id="markdown-toc">
+  <li><a href="#what-are-durable-workflows" id="markdown-toc-what-are-durable-workflows">What are durable workflows?</a>    <ul>
+      <li><a href="#core-concepts" id="markdown-toc-core-concepts">Core Concepts</a></li>
+      <li><a href="#inversion-of-execution" id="markdown-toc-inversion-of-execution">Inversion of execution</a></li>
+    </ul>
+  </li>
+  <li><a href="#durable-task-framework-dtfx" id="markdown-toc-durable-task-framework-dtfx">Durable Task Framework (DTFx)</a></li>
+  <li><a href="#temporal" id="markdown-toc-temporal">Temporal</a></li>
+  <li><a href="#go-workflows" id="markdown-toc-go-workflows">go-workflows</a>    <ul>
+      <li><a href="#example-workflow" id="markdown-toc-example-workflow">Example workflow</a>        <ul>
+          <li><a href="#workflow" id="markdown-toc-workflow">Workflow</a></li>
+          <li><a href="#activities" id="markdown-toc-activities">Activities</a></li>
+          <li><a href="#worker" id="markdown-toc-worker">Worker</a></li>
+          <li><a href="#backend" id="markdown-toc-backend">Backend</a></li>
+          <li><a href="#putting-it-all-together" id="markdown-toc-putting-it-all-together">Putting it all together</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="what-are-durable-workflows">What are durable workflows?</h2>
+
+<p>In modern software we often have to orchestrate calls to many different services to fulfill requests. If it’s all synchronous and the number of downstream services is small it might be possible to manage this manually. But when operations become more complex and it’s not enough to make a couple quick remote procedure calls to fulfill a task, it gets complicated. When you have to orchestrate long-running tasks across various services, maybe waiting a long time for results, soon keeping the code reliable becomes a burden. What happens if requests are interrupted in the middle? What happens if services crash during execution? What happens to in-flight orchestrations when a new version of the orchestrating service needs to get deployed quickly?</p>
+
+<p>You can deal with all of that by manually persisting and reading state, using queues, retries, etc. Unfortunately, all of this is complex, requires a lot of code, and soon it’s hard to follow the original business logic amid all the code to try to make this reliable.</p>
+
+<p>Both DTFx as well as Temporal are workflow engines that try to abstract this problem and allow you to write code that mostly looks like ordinary code that’s executed sequentially and focuses only on the business logic, while still dealing with crashing processes, dynamically scaling services, and so on. Their core premise is the same, but they have different approaches for solving this.</p>
+
+<h3 id="core-concepts">Core Concepts</h3>
+
+<p>Both frameworks differentiate between two kinds of code they can execute:</p>
+<ul>
+  <li>workflows (Temporal) / orchestrations (DTFx)</li>
+  <li>activities</li>
+</ul>
+
+<p><em>Workflows</em> are long-running, durable, and their main task is to orchestrate activities. While workflows mostly look like ordinary, sequential code, there are some differences and rules you have to follow, more on that later.</p>
+
+<p><em>Activities</em> are plain code, they can have side-effects, can use any language or library features.</p>
+
+<h3 id="inversion-of-execution">Inversion of execution</h3>
+
+<p>How do these frameworks execute workflows in a durable way? They use event sourcing for recording an event history of everything that can happen in a workflow. This allows them to replay these events to get back to a previous state in case of a crash, or if a worker is re-balanced.</p>
+
+<p>Looking at a very simple example workflow:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">OrderWorkflow</span><span class="p">(</span><span class="n">ctx</span> <span class="n">workflow</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">item</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="no">nil</span><span class="p">)</span>
+
+	<span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">SendConfirmation</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="no">nil</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="no">nil</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">Process</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">item</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="c">// ...</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">SendConfirmation</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">item</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="c">// ...</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Confirmation for:"</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We receive an <code class="language-plaintext highlighter-rouge">item string</code> as an input, and then schedule two activities <code class="language-plaintext highlighter-rouge">Process</code>, and <code class="language-plaintext highlighter-rouge">SendConfirmation</code>, before we return and end the workflow.</p>
+
+<p>The key is that we call <code class="language-plaintext highlighter-rouge">Process</code> and <code class="language-plaintext highlighter-rouge">SendConfirmation</code> not directly, but we do it indirectly by passing them to: <code class="language-plaintext highlighter-rouge">workflow.ExecuteActivity</code>. What happens at runtime is that a workflow engine starts executing <code class="language-plaintext highlighter-rouge">OrderWorkflow</code>. When it gets to the first <code class="language-plaintext highlighter-rouge">ExecuteActivity</code> call (and the blocking <code class="language-plaintext highlighter-rouge">Get</code> to get its result), it <em>pauses</em> the execution of the workflow and instead of calling the activity code directly, records an <code class="language-plaintext highlighter-rouge">ActivityScheduled</code> event in the workflow event history. So once we reach that point of the workflow the history will look like this:</p>
+
+<table class="smaller stretch-table">
+  <thead>
+    <tr>
+      <th style="text-align: left">#</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Attributes</th>
+      <th style="text-align: center">Executed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">WorkflowExecutionStarted</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">OrderWorkflow</code></td>
+      <td style="text-align: center">x</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ActivityScheduled</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">Process</code></td>
+      <td style="text-align: center">x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now the framework will execute the <code class="language-plaintext highlighter-rouge">Process</code> activity somewhere. It might run in the same process as the workflow, or it might be on another machine. In any case, assuming it succeeds its result is also written to the event history:</p>
+
+<table class="smaller stretch-table">
+  <thead>
+    <tr>
+      <th style="text-align: left">#</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Attributes</th>
+      <th style="text-align: center">Executed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">WorkflowExecutionStarted</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">OrderWorkflow</code></td>
+      <td style="text-align: center">x</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ActivityScheduled</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">Process</code></td>
+      <td style="text-align: center">x</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ActivityCompleted</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">some-output</code></td>
+      <td style="text-align: center"> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now the workflow execution can be continued. If it’s still in memory we can just execute the <code class="language-plaintext highlighter-rouge">ActivityCompleted</code> event, which will unblock the</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">Process</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="no">nil</span><span class="p">)</span>
+																							  <span class="err">👆🏻</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">.Get</code> call and make the activity result available to the workflow code. In our example we are not interested in the result of the activity, so we just continue to the next. Again we schedule an activity, block the workflow, and wait for the activity result.</p>
+
+<table class="smaller stretch-table">
+  <thead>
+    <tr>
+      <th style="text-align: left">#</th>
+      <th style="text-align: left">Name</th>
+      <th style="text-align: left">Attributes</th>
+      <th style="text-align: center">Executed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">WorkflowExecutionStarted</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">OrderWorkflow</code></td>
+      <td style="text-align: center">x</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ActivityScheduled</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">Process</code></td>
+      <td style="text-align: center">x</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ActivityCompleted</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">some-output</code></td>
+      <td style="text-align: center">x</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ActivityScheduled</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">SendConfirmation</code></td>
+      <td style="text-align: center"> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Eventually we complete the workflow and can record its result. I’ll go over a more detailed example later.</p>
+
+<h2 id="durable-task-framework-dtfx">Durable Task Framework (DTFx)</h2>
+
+<p>Azure’s Durable Task Framework makes use of .NET C#’s <code class="language-plaintext highlighter-rouge">async</code>/<code class="language-plaintext highlighter-rouge">await</code> support to allow developers to write persistent workflows, which it calls <em>orchestrations</em> in C#.</p>
+
+<p>It’s consumed as a library, with various options for the backend implemented in what it calls <em>providers</em>. The original provider uses Azure’s Service Bus, but recent ones are available utilizing Azure Storage, Azure ServiceFabric, or Microsoft’s SQL Server either hosted as Azure SQL, or the on-premise product.</p>
+
+<p>When looking at DTFx I’ve focused on the usage with a database, i.e. the SQL Server provider. In that case it’s a two-tier architecture. <em>Clients</em> and <em>workers</em> - which could also be in the same process - both talk directly to the same database.</p>
+
+<p><img src="/assets/posts/2022-02-go-workflows-pt1/dtfx.drawio.svg" alt="" /></p>
+
+<h2 id="temporal">Temporal</h2>
+<p>Temporal is a fork of Uber’s <em>Cadence</em>, and has some great documentation at https://temporal.io. It uses some of the same concepts as DTFx and was written by some of the engineers who were involved in DTFx as well.</p>
+
+<p>It comes with a server with various roles that you interact with, see the <a href="https://docs.temporal.io/docs/temporal-explained/introduction">documentation</a> for a detailed introduction.</p>
+
+<h1 id="go-workflows">go-workflows</h1>
+
+<p><code class="language-plaintext highlighter-rouge">go-workflows</code> is written from scratch, but borrows concepts very liberally from both DTFx and Temporal. While both DTFx and Temporal are quite similar due to their shared heritage, go-workflows’s internals for persistence align more with DTFx due to the provider concepts, while the user visible interface is more similar to Temporal’s, to work around Go’s indeterministic <code class="language-plaintext highlighter-rouge">select</code> statement behavior, for example.</p>
+
+<p>Its overall architecture is the same as DTFx that there are clients and workers, and both interface via a pluggable implementation to a backend. What DTFx calls <em>providers</em> I called <em>backends</em> . So far I’ve written a Sqlite and a MySQL implementation, which also makes go-workflows programs two tier architectures.</p>
+
+<p>When writing workflows in C#, you have to avoid certain library, but in general you can use all language features. <code class="language-plaintext highlighter-rouge">async</code>/<code class="language-plaintext highlighter-rouge">await</code> and exception handling are even central to writing workflows.</p>
+
+<p>For Golang this is slightly different. There are a number of language features which at not deterministic by design. For example, iterating over a <code class="language-plaintext highlighter-rouge">map</code> with <code class="language-plaintext highlighter-rouge">range</code> yields a pseudo-random iteration order. Also a <code class="language-plaintext highlighter-rouge">select</code> statement with multiple <code class="language-plaintext highlighter-rouge">case</code>s that are ready will pick one at random. This prevents us from using native channels at all.</p>
+
+<h2 id="example-workflow">Example workflow</h2>
+
+<p>To give an impression of how authoring workflows looks like, let’s go over a small example:</p>
+
+<h3 id="workflow">Workflow</h3>
+
+<p>Workflows are written in Go code. The only exception is they must not use any of Go’s non-deterministic features (<code class="language-plaintext highlighter-rouge">select</code>, iteration over a <code class="language-plaintext highlighter-rouge">map</code>, etc.). Inputs and outputs for workflows and activities have to be serializable:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">Workflow1</span><span class="p">(</span><span class="n">ctx</span> <span class="n">workflow</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">input</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="k">var</span> <span class="n">r1</span><span class="p">,</span> <span class="n">r2</span> <span class="kt">int</span>
+
+	<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">workflow</span><span class="o">.</span><span class="n">DefaultActivityOptions</span><span class="p">,</span> <span class="n">Activity1</span><span class="p">,</span> <span class="m">35</span><span class="p">,</span> <span class="m">12</span><span class="p">)</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">r1</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="s">"error getting activity 1 result"</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"A1 result:"</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>
+
+	<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">ExecuteActivity</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">workflow</span><span class="o">.</span><span class="n">DefaultActivityOptions</span><span class="p">,</span> <span class="n">Activity2</span><span class="p">)</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">r2</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="s">"error getting activity 1 result"</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="n">log</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"A2 result:"</span><span class="p">,</span> <span class="n">r2</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="no">nil</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="activities">Activities</h3>
+
+<p>Activities can have side-effects and don’t have to be deterministic. They will be executed only once and the result is persisted:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">Activity1</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="no">nil</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">Activity2</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="m">12</span><span class="p">,</span> <span class="no">nil</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h3 id="worker">Worker</h3>
+
+<p>The worker is responsible for executing <code class="language-plaintext highlighter-rouge">Workflows</code> and <code class="language-plaintext highlighter-rouge">Activities</code>, both need to be registered with it.</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">runWorker</span><span class="p">(</span><span class="n">ctx</span> <span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="n">mb</span> <span class="n">backend</span><span class="o">.</span><span class="n">Backend</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">w</span> <span class="o">:=</span> <span class="n">worker</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">mb</span><span class="p">,</span> <span class="no">nil</span><span class="p">)</span>
+
+	<span class="n">r</span><span class="o">.</span><span class="n">RegisterWorkflow</span><span class="p">(</span><span class="n">Workflow1</span><span class="p">)</span>
+
+	<span class="n">w</span><span class="o">.</span><span class="n">RegisterActivity</span><span class="p">(</span><span class="n">Activity1</span><span class="p">)</span>
+	<span class="n">w</span><span class="o">.</span><span class="n">RegisterActivity</span><span class="p">(</span><span class="n">Activity2</span><span class="p">)</span>
+
+	<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">w</span><span class="o">.</span><span class="n">Start</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="s">"could not start worker"</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="backend">Backend</h3>
+
+<p>The backend is responsible for persisting the workflow events. Currently there is an in-memory backend implementation for testing, one using <a href="http://sqlite.org">SQLite</a>, and one for MySql.</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">b</span> <span class="o">:=</span> <span class="n">sqlite</span><span class="o">.</span><span class="n">NewSqliteBackend</span><span class="p">(</span><span class="s">"simple.sqlite"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="putting-it-all-together">Putting it all together</h3>
+
+<p>We can start workflows from the same process the worker runs in – or they can be separate. Here we use the SQLite backend, spawn a single worker (which then executes both <code class="language-plaintext highlighter-rouge">Workflows</code> and <code class="language-plaintext highlighter-rouge">Activities</code>), and then start a single instance of our workflow</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">ctx</span> <span class="o">:=</span> <span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span>
+
+	<span class="n">b</span> <span class="o">:=</span> <span class="n">sqlite</span><span class="o">.</span><span class="n">NewSqliteBackend</span><span class="p">(</span><span class="s">"simple.sqlite"</span><span class="p">)</span>
+
+	<span class="k">go</span> <span class="n">runWorker</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+	<span class="n">c</span> <span class="o">:=</span> <span class="n">client</span><span class="o">.</span><span class="n">NewClient</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+	<span class="n">wf</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">c</span><span class="o">.</span><span class="n">CreateWorkflowInstance</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">client</span><span class="o">.</span><span class="n">WorkflowInstanceOptions</span><span class="p">{</span>
+		<span class="n">InstanceID</span><span class="o">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">NewString</span><span class="p">(),</span>
+	<span class="p">},</span> <span class="n">Workflow1</span><span class="p">,</span> <span class="s">"input-for-workflow"</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="nb">panic</span><span class="p">(</span><span class="s">"could not start workflow"</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="n">c2</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="n">os</span><span class="o">.</span><span class="n">Signal</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+<span class="n">signal</span><span class="o">.</span><span class="n">Notify</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">Interrupt</span><span class="p">)</span>
+	<span class="n">signal</span><span class="o">.</span><span class="n">Notify</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">Interrupt</span><span class="p">)</span>
+	<span class="o">&lt;-</span><span class="n">c2</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>That’s it for Part 1.</p>
+
+<ul>
+  <li><a href="/blog/2022-02-13-go-workflows-part1">Part 1 - Durable workflows and event sourcing</a></li>
+  <li><a href="/blog/2022-05-02-go-workflows-part2">Part 2 - Cooperative scheduler and events in-depth</a></li>
+  <li>Part 3 - Architecture &amp; Backends</li>
+</ul>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><summary type="html"><![CDATA[Lately I’ve been getting interested in “durable workflows” as implemented by Azure’s Durable Task Framework (DTFx), the basis for Azure Durable Functions and Temporal. To really understand how a library or a framework works, what problems it solves, and why certain decisions were made the way they were made, I often tend to try to re-implement my own version, even if only with minimal functionality.]]></summary></entry><entry><title type="html">GitHub Actions for VS Code extension</title><link href="https://cschleiden.dev/blog/2020-02-23-github-actions-for-vs-code-extension/" rel="alternate" type="text/html" title="GitHub Actions for VS Code extension" /><published>2020-02-23T21:19:06+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/blog/github-actions-for-vs-code-extension</id><content type="html" xml:base="https://cschleiden.dev/blog/2020-02-23-github-actions-for-vs-code-extension/"><![CDATA[<p>I’ve always been a fan of VS Code’s extensibility model. There a great docs and examples, and overall the development experience is very nice. So when the new GitHub <a href="https://github.blog/changelog/2020-01-27-github-actions-api-beta/">Actions API</a> came out, I started building an extension utilizing that to show GitHub Actions workflows and runs for your current repository in VS Code.</p>
+
+<p>The extension checks the current workspace for git repositories with an <code class="language-plaintext highlighter-rouge">origin</code> of  <code class="language-plaintext highlighter-rouge">github.com</code>. If it finds that, it uses the API to retrieve workflows and their runs.</p>
+
+<p>You can then see whether a run failed or succeeded, for what commit it was run, what event triggered it, and re-run or cancel if it failed or is in-progress.</p>
+
+<p>The most recent addition is a way to check the logs for any runs directly from the editor:</p>
+
+<p><img src="/assets/uploads/logs.gif" alt="" /></p>
+
+<p>I have a few more things in mind to add in the future, but for now you can install the extension from the marketplace:</p>
+
+<p><a href="https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions">https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions</a></p>
+
+<p>and the code is available at</p>
+
+<p><a href="https://github.com/cschleiden/vscode-github-actions">https://github.com/cschleiden/vscode-github-actions</a>.</p>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><summary type="html"><![CDATA[I’ve always been a fan of VS Code’s extensibility model. There a great docs and examples, and overall the development experience is very nice. So when the new GitHub Actions API came out, I started building an extension utilizing that to show GitHub Actions workflows and runs for your current repository in VS Code.]]></summary></entry><entry><title type="html">Darken your screen</title><link href="https://cschleiden.dev/darken-your-screen/" rel="alternate" type="text/html" title="Darken your screen" /><published>2019-08-12T00:00:00+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/spf</id><content type="html" xml:base="https://cschleiden.dev/darken-your-screen/"><![CDATA[<p>Often when presenting screen designs in meetings the projector blows out highlights and small details, making it very hard to critique the overall design. If you are using a Mac you can use the awesome <a href="https://github.com/tannerc/spf">SPF</a> to add a semi-transparent dark overlay over your screen. If you are on a Windows machine - or you don’t want to install an app for this, and you are presenting your designs using Figma in the browser anyway - use the following bookmarklets:</p>
+
+<iframe src="https://codesandbox.io/embed/x76lx3w1ko?fontsize=14" title="In-browser SPF" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
+<p>Just drag them to your bookmarks bar and click to use:</p>
+
+<p><img src="/assets/posts/2019-08-12-spf/spf10.gif" alt="Darken your screen" /></p>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><category term="Experiments" /><summary type="html"><![CDATA[Often when presenting screen designs in meetings the projector blows out highlights and small details, making it very hard to critique the overall design. If you are using a Mac you can use the awesome SPF to add a semi-transparent dark overlay over your screen. If you are on a Windows machine - or you don’t want to install an app for this, and you are presenting your designs using Figma in the browser anyway - use the following bookmarklets:]]></summary></entry><entry><title type="html">Climbing Mount Rainier via the Emmons Glacier route</title><link href="https://cschleiden.dev/mount-rainier-emmons-2019/" rel="alternate" type="text/html" title="Climbing Mount Rainier via the Emmons Glacier route" /><published>2019-07-27T00:00:00+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/mt-rainier</id><content type="html" xml:base="https://cschleiden.dev/mount-rainier-emmons-2019/"><![CDATA[<p>Last weekend we finally managed to summit Mount Rainier!</p>
+
+<p>After taking the <a href="https://www.mountaineers.org/">Mountaineers</a>’ glacier travel course last year and a first attempt later that year where we had to turn around we finally managed to stand on the summit!</p>
+
+<p>We had had some reserverations for the Disappointment Cleaver route earlier this year but at the time the forecast did not look great and since our group had decided to follow the Rainier <a href="http://www.concurrentaffair.org/2017/07/06/mount-rainier-gono-go-decision-matrix/">go/no-go matrix</a> published by the NPS we decided to not attempt it then.</p>
+
+<p>Luckily the forecast for last weekend looked great and everyone in our group of four had a free weekend. One member of the group volunteered to go to the ranger station on the Thursday before to get a permit. Originally we were planning to camp at Camp Muir and summit via the DC route, but even though he arrived early at 6:30, he was already 7th in line and once it was his turn the only permit get could get was for Camp Schurman and the Emmons Glacier route. Well, it’s less traveled but still considered one of the easier options to climb Rainier so we all agreed to give it a shot and to put that glacier travel training to use.</p>
+
+<p>We started early on Saturday morning from a fully packed White River Campground parking lot, hiked into Glacier Basin</p>
+
+<p class="figure"><img src="/assets/posts/2019-07-27-mt-rainier/start.jpg" alt="Glacier Basin" />
+Glacier Basin</p>
+
+<p>and then ascended a couple thousand feet via the Inter Glacier to Camp Schurman.</p>
+
+<p class="figure"><img src="/assets/posts/2019-07-27-mt-rainier/camp.jpg" alt="Camp Schurmann" />
+Camp Schurmann with our Big Agnes tent in the middle</p>
+
+<p>We got lucky and there was running water at the edge of the glacier so we were able to save some time by not having to melt snow.</p>
+
+<p>After going to bed at 7 pm and a good night’s sleep the alarm woke us up at 11:30 pm. As always, it took us a bit longer to get ready than anticipated, but we roped up and started walking at 12:45 am. It was quite icy but we were not the only group on the mountain (by far) so we could follow a relatively good boot track.</p>
+
+<p>There were a few sections with harder ice and some exposure when walking directly above larger crevasses, so we concentrated on not dying and did not really have time to take pictures or to just enjoy the scenery. Even the sunrise a few hours later we only saw out of the corner of the eye, focusing on the next step ahead careful to not make a mistake. This was our first “big mountain” and I would hope that the next time we go up we take in a bit more of the surroundings and not just focus on the climbing/staying hydrated/eating enough part.</p>
+
+<p class="figure"><img src="/assets/posts/2019-07-27-mt-rainier/going-up.jpg" alt="Going up" />
+On our way up</p>
+
+<p>In time, we made it to the summit. Everyone in the group was going strong, no one had any serious altitude related issues besides slowing down and losing some appetite. For me personally, I need to pack different food, I am not a really big fan of bars anymore even at lower altitude, but near the summit I really had to force myself to eat, the Clif bars tasted like paper at that point.</p>
+
+<p>The wind at the summit was a bit stronger than expected and it was quite cold, I was certainly happy having carried my belay parka up the mountain.</p>
+
+<p>Due to exhaustion and the wind we did not stay too long at the summit, but took a quick break, registered ourselves in the summit register, and got to enjoy the views for a bit.</p>
+
+<p class="figure"><img src="/assets/posts/2019-07-27-mt-rainier/summit.jpg" alt="Us at the summit" />
+<a href="https://10hourflight.wordpress.com/">Miriam</a> and me at the summit (freezing)</p>
+
+<p class="figure"><img src="/assets/posts/2019-07-27-mt-rainier/miriam-summit.jpg" alt="Miriam at the summit" />
+<a href="https://10hourflight.wordpress.com/">Miriam</a> on Columbia Crest</p>
+
+<p><img src="/assets/posts/2019-07-27-mt-rainier/panorama.jpg" alt="Panorama" class="lead" data-width="6803" /></p>
+
+<p>The way down went better than expected. There were some tricky sections where we had to improvise some sitting belays to downclimb, and at one point a team arrest but everyone made it down safely and in time.</p>
+
+<p>After a way too short break at camp, we packed up and hiked out. Glissading 2000 vertical feet on the Inter Glacier we made it back to the cars at around 9 pm and were all back to work the next morning!</p>
+
+<p class="figure"><img src="/assets/posts/2019-07-27-mt-rainier/last-look.jpg" alt="Last look" />
+One last look on the way out</p>
+
+<p>Overall it was an awesome experience and when we saw the mountain from Seattle yesterday, it still had not fully sunken in that we had been at the top. If the weather holds up, we are planning to summit once more this season via the DC route.</p>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><category term="Climbing" /><summary type="html"><![CDATA[Last weekend we finally managed to summit Mount Rainier!]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://cschleiden.dev/assets/posts/2019-07-27-mt-rainier/summit.jpg" /><media:content medium="image" url="https://cschleiden.dev/assets/posts/2019-07-27-mt-rainier/summit.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Next.JS + Typescript</title><link href="https://cschleiden.dev/next-js-typescript/" rel="alternate" type="text/html" title="Next.JS + Typescript" /><published>2019-06-11T23:00:32+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/next-js-typescript</id><content type="html" xml:base="https://cschleiden.dev/next-js-typescript/"><![CDATA[<p><strong>Update 7/8/2019</strong>: 
+Next.js has just released “Zero Config TypeScript Support”, so if you use the latest version, this repo is not required anymore:
+https://nextjs.org/blog/next-9#built-in-zero-config-typescript-support</p>
+
+<hr />
+
+<p>I’ve created a small template repository to start a project with Next.Js and TypeScript setup: <a href="https://github.com/cschleiden/nextjs-typescript">https://github.com/cschleiden/nextjs-typescript</a></p>
+
+<ol>
+  <li>Just hit “Use this template”<br />
+<img scale="0" class="wp-image-920" style="width: 150px;" src="/assets/wp-content/uploads/2019/06/image.png" alt="" srcset="/assets/wp-content/uploads/2019/06/image.png 346w, /assets/wp-content/uploads/2019/06/image-300x104.png 300w" sizes="(max-width: 346px) 100vw, 346px" /></li>
+  <li>Create a new repository</li>
+  <li>Clone</li>
+  <li><code class="language-plaintext highlighter-rouge">npm i</code></li>
+  <li><code class="language-plaintext highlighter-rouge">npm run dev</code><br />
+<img scale="0" class="wp-image-922" style="width: 400px;" src="/assets/wp-content/uploads/2019/06/image-2.png" alt="" srcset="/assets/wp-content/uploads/2019/06/image-2.png 1300w, /assets/wp-content/uploads/2019/06/image-2-300x200.png 300w, /assets/wp-content/uploads/2019/06/image-2-768x513.png 768w, /assets/wp-content/uploads/2019/06/image-2-1024x684.png 1024w, /assets/wp-content/uploads/2019/06/image-2-700x467.png 700w" sizes="(max-width: 1300px) 100vw, 1300px" /></li>
+  <li>Open localhost:3000</li>
+</ol>
+
+<div class="wp-block-image">
+  <figure class="aligncenter is-resized"><img src="/assets/wp-content/uploads/2019/06/image-3.png" alt="" class="wp-image-923" width="396" height="156" srcset="/assets/wp-content/uploads/2019/06/image-3.png 678w, /assets/wp-content/uploads/2019/06/image-3-300x119.png 300w" sizes="(max-width: 396px) 100vw, 396px" /></figure>
+</div>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><summary type="html"><![CDATA[Update 7/8/2019: Next.js has just released “Zero Config TypeScript Support”, so if you use the latest version, this repo is not required anymore: https://nextjs.org/blog/next-9#built-in-zero-config-typescript-support]]></summary></entry><entry><title type="html">Emacs Code Navigation in Visual Studio Code</title><link href="https://cschleiden.dev/emacs-code-navigation-in-visual-studio-code/" rel="alternate" type="text/html" title="Emacs Code Navigation in Visual Studio Code" /><published>2019-06-06T02:18:35+00:00</published><updated>2023-01-16T02:35:41+00:00</updated><id>https://cschleiden.dev/emacs-code-navigation-in-visual-studio-code</id><content type="html" xml:base="https://cschleiden.dev/emacs-code-navigation-in-visual-studio-code/"><![CDATA[<p>I’ll admit it, in the eternal fight between vim and Emacs I’m firmly on the Emacs side. Now, I haven’t used actual Emacs in a while, but I’m so used to the navigation shortcuts that on every machine I use, I:</p>
+
+<ol>
+  <li>Map <code class="language-plaintext highlighter-rouge">CapsLock</code> to be another <code class="language-plaintext highlighter-rouge">Ctrl</code> key, for Windows I keep the .reg file below in my OneDrive and import it on every new machine.</li>
+  <li>Update my VS Code keybindings to enable the common Emacs keyboard navigation shortcuts like <code class="language-plaintext highlighter-rouge">Ctrl+n</code>, <code class="language-plaintext highlighter-rouge">Ctrl+p</code>, etc. My settings sync <del>via the excellent <a href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync">Settings Sync</a> plugin</del> via the integrated sync, but I also keep them up-to-date in the linked gist below. Unfortunately, Ctrl+n/p does not work in all popups and view, so sometimes it’s still required to use the cursor keys, but for most code operations my fingers don’t have to leave the home row.</li>
+</ol>
+
+<p><a href="https://gist.github.com/cschleiden/83951ef763581478e81a44566111c779">Gist</a></p>
+
+<p>Copy:</p>
+
+<div class="language-jsonc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Place your key bindings in this file to overwrite the defaults</span><span class="w">
+</span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+k ctrl+s"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"saveAll"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+p"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorUp"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+n"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorDown"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+f"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorRight"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+b"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorLeft"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alt+f"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorWordRight"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alt+b"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorWordLeft"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alt+backspace"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deleteWordLeft"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+a"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorHome"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+e"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorEnd"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+d"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deleteRight"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alt+d"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deleteWordRight"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+i"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"actions.find"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+shift+t"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workbench.action.tasks.runTask"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+,"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workbench.action.quickOpen"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+alt+a"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editor.action.selectAll"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="c1">// Navigation in code</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+alt+p"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorPageUp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="c1">// note: work around mac issue with alt+n</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+alt+n"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorPageDown"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="c1">// Navigation in dialogs</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+p"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"showPrevParameterHint"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus &amp;&amp; parameterHintsMultipleSignatures &amp;&amp; parameterHintsVisible"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+p"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"selectPrevSuggestion"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus &amp;&amp; suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+n"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"showNextParameterHint"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus &amp;&amp; parameterHintsMultipleSignatures &amp;&amp; parameterHintsVisible"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+n"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"selectNextSuggestion"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus &amp;&amp; suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="c1">// Selection</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+shift+n"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorDownSelect"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+shift+p"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorUpSelect"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+shift+f"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorRightSelect"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+shift+b"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorLeftSelect"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+shift+e"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorEndSelect"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+shift+a"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorHomeSelect"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shift+alt+f"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorWordRightSelect"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shift+alt+b"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursorWordLeftSelect"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="c1">// Search</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+alt+f"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workbench.action.findInFiles"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctrl+k"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-deleteAllRight"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"textInputFocus &amp;&amp; !editorReadonly"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="c1">// Mouse navigation</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cmd+]"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workbench.action.navigateForward"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cmd+["</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workbench.action.navigateBack"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorTextFocus"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="c1">// go</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shift+cmd+t"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"go.toggle.test.file"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"when"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editorLangId == 'go'"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="c1">// Terminal</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cmd+ctrl+t"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"workbench.panel.terminal.focus"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>]]></content><author><name>Christopher Schleiden</name><email>cschleiden@live.de</email></author><category term="blog" /><summary type="html"><![CDATA[I’ll admit it, in the eternal fight between vim and Emacs I’m firmly on the Emacs side. Now, I haven’t used actual Emacs in a while, but I’m so used to the navigation shortcuts that on every machine I use, I:]]></summary></entry></feed>
