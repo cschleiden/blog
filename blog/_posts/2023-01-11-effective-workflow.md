@@ -61,7 +61,7 @@ One way to figure out is to use the [REST API](https://api.github.com/repos/csch
   ],
 ```
 
-Since getting the full picture from the API takes some manual work, I put together a quick [GitHub CLI](http://github.com/cli/cli) extension to show the _effective workflow_, that is the calling workflow and every workflow in the reusable workflow callchain: https://github.com/cschleiden/gh-effective-workflow
+Since getting the full picture from the API takes some manual work, I put together a quick [GitHub CLI](http://github.com/cli/cli) extension to show the _effective workflow_, that is the calling workflow and every workflow in the reusable workflow callchain: [https://github.com/cschleiden/gh-effective-workflow](https://github.com/cschleiden/gh-effective-workflow)
 
 It's easy to install, once you have the GitHub CLI installed, just run:
 
