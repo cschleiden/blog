@@ -6,7 +6,7 @@ import remarkFootnotes from 'remark-footnotes'
 import remarkGfm from 'remark-gfm'
 import remarkCodeTitles from './lib/remark-code-title'
 import remarkExtractFrontmatter from './lib/remark-extract-frontmatter'
-import remarkImgToJsx from './lib/remark-img-to-jsx'
+import { remarkImgToJsx } from './lib/remark-img-to-jsx'
 import { extractTocHeadings } from './lib/remark-toc-headings'
 // Rehype packages
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
