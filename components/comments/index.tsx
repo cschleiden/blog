@@ -1,11 +1,5 @@
 import siteMetadata from '@/data/siteMetadata'
-import { CoreContent } from '@/lib/utils/contentlayer'
-import type { Blog } from 'contentlayer/generated'
 import dynamic from 'next/dynamic'
-
-interface Props {
-  frontMatter: CoreContent<Blog>
-}
 
 const GiscusComponent = dynamic(
   () => {
@@ -14,7 +8,7 @@ const GiscusComponent = dynamic(
   { ssr: false }
 )
 
-const Comments = ({ frontMatter }: Props) => {
+const Comments = () => {
   const comment = siteMetadata?.comment
   if (!comment || Object.keys(comment).length === 0) return <></>
   return (
