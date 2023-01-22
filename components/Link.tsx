@@ -10,11 +10,10 @@ const CustomLink = ({
   const isAnchorLink = href && href.startsWith('#')
 
   if (isInternalLink) {
-    return (
-      <Link href={href}>
-        <a {...rest} />
-      </Link>
-    )
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { ref, ...restWithoutRef } = rest
+
+    return <Link href={href} {...restWithoutRef} />
   }
 
   if (isAnchorLink) {

@@ -1,15 +1,15 @@
+import Comments from '@/components/comments'
+import Image from '@/components/Image'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
+import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import SectionContainer from '@/components/SectionContainer'
 import { BlogSEO } from '@/components/SEO'
-import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import Comments from '@/components/comments'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import { CoreContent } from '@/lib/utils/contentlayer'
+import type { Authors, Blog } from 'contentlayer/generated'
 import { ReactNode } from 'react'
-import type { Blog, Authors } from 'contentlayer/generated'
 
 const editUrl = (slug) => `${siteMetadata.siteRepo}/blob/master/data/blog/${slug}`
 const discussUrl = (slug) =>
@@ -75,8 +75,8 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                       {author.avatar && (
                         <Image
                           src={author.avatar}
-                          width="38px"
-                          height="38px"
+                          width={38}
+                          height={38}
                           alt="avatar"
                           className="h-10 w-10 rounded-full"
                         />

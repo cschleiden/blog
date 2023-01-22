@@ -1,16 +1,16 @@
-import { Parent, Node, Literal } from 'unist'
-import { visit } from 'unist-util-visit'
-import sizeOf from 'image-size'
 import fs from 'fs'
+import sizeOf from 'image-size'
+import { Literal, Node, Parent } from 'unist'
+import { visit } from 'unist-util-visit'
 
-type ImageNode = Parent & {
+export type ImageNode = Parent & {
   url: string
   alt: string
   name: string
   attributes: (Literal & { name: string })[]
 }
 
-export default function remarkImgToJsx() {
+export function remarkImgToJsx() {
   return (tree: Node) => {
     visit(
       tree,
