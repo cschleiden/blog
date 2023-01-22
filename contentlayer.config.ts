@@ -15,6 +15,11 @@ import rehypePresetMinify from 'rehype-preset-minify'
 import rehypePrismPlus from 'rehype-prism-plus'
 import rehypeSlug from 'rehype-slug'
 
+import { remarkCodeHike } from '@code-hike/mdx'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const theme = require('shiki/themes/nord.json')
+
 const root = process.cwd()
 
 const computedFields: ComputedFields = {
@@ -75,6 +80,13 @@ export default makeSource({
       remarkCodeTitles,
       [remarkFootnotes, { inlineNotes: true }],
       remarkImgToJsx,
+      [
+        remarkCodeHike,
+        {
+          theme,
+          showCopyButton: true,
+        },
+      ],
     ],
     rehypePlugins: [
       rehypeSlug,

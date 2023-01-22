@@ -1,5 +1,8 @@
+import '@/css/custom.css'
 import '@/css/prism.css'
 import '@/css/tailwind.css'
+
+import '@code-hike/mdx/dist/index.css'
 
 import '@fontsource/inter/variable-full.css'
 

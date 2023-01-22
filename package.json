@@ -16,6 +16,7 @@
     "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts"
   },
   "dependencies": {
+    "@code-hike/mdx": "^0.8.0",
     "@fontsource/inter": "4.5.2",
     "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "^10.4.0",

@@ -47,7 +47,7 @@ export default function Blog({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
-      {'draft' in post && post.draft === true ? (
+      {process.env.NODE_ENV === 'production' && 'draft' in post && post.draft === true ? (
         <div className="mt-24 text-center">
           <PageTitle>
             Under Construction{' '}

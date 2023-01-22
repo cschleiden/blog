@@ -1,0 +1,117 @@
+---
+title: 'Interactive go-workflows demo'
+date: 2023-01-23
+tags: ['GitHub', 'GitHub Actions']
+draft: true
+summary: 'Quickly see the effective workflow for a GitHub Actions workflow run.'
+layout: 'PostSimple'
+---
+
+This is a follow-up to my two earlier `go-workflows` posts last year. I wanted to go over a more detailed example of how the execution works. First, in the context of a workflow being executed, then how the framework is implemented.
+
+### Core Concepts
+
+As a reminder here are the core concepts:
+
+- workflows
+- activities
+
+_Workflows_ are long-running, durable, and their main task is to orchestrate activities. While workflows mostly look like ordinary, sequential code, there are some differences and rules you have to follow, more on that later.
+
+_Activities_ are plain code, they can have side-effects, can use any language or library features.
+
+### Inversion of execution
+
+How do these frameworks execute workflows in a durable way? They use event sourcing for recording an event history of everything that can happen in a workflow. This allows them to replay these events to get back to a previous state in case of a crash, or if a worker is re-balanced.
+
+Looking at a very simple example workflow:
+
+<CH.Scrollycoding lineNumbers={true}>
+
+| #   | Name                       | Attributes      | Executed |
+| :-- | :------------------------- | :-------------- | :------: |
+| 1   | `WorkflowExecutionStarted` | `OrderWorkflow` |    x     |
+| 2   | `ActivityScheduled`        | `Process`       |    x     |
+
+```go workflow.go focus=2
+// from ./data/blog/2023-01-21-go-workflows-detailed/example1.go
+```
+
+---
+
+Now the activity worker will pick up the activity from
+
+```go activities.go focus=1:4
+// from ./data/blog/2023-01-21-go-workflows-detailed/activities.go
+```
+
+---
+
+Now the framework will execute the `Process` activity somewhere. It might run in the same process as the workflow, or it might be on another machine. In any case, assuming it succeeds its result is also written to the event history:
+
+| #   | Name                       | Attributes      | Executed |
+| :-- | :------------------------- | :-------------- | :------: |
+| 1   | `WorkflowExecutionStarted` | `OrderWorkflow` |    x     |
+| 2   | `ActivityScheduled`        | `Process`       |    x     |
+| 3   | `ActivityCompleted`        | `some-output`   |
+
+```go workflow.go focus=2
+```
+
+---
+
+Now the workflow execution can be continued. If it's still in memory we can just execute the `ActivityCompleted` event, which will unblock the `Get` call and make the activity result available to the workflow code. In our example we are not interested in the result of the activity, so we just continue to the next. Again we schedule an activity, block the workflow, and wait for the activity result.
+
+| #   | Name                       | Attributes         | Executed |
+| :-- | :------------------------- | :----------------- | :------: |
+| 1   | `WorkflowExecutionStarted` | `OrderWorkflow`    |    x     |
+| 2   | `ActivityScheduled`        | `Process`          |    x     |
+| 3   | `ActivityCompleted`        | `some-output`      |    x     |
+| 4   | `ActivityScheduled`        | `SendConfirmation` |
+
+```go workflow.go focus=4
+```
+
+---
+Now the activity worker will pick up the activity from
+
+```go activities.go focus=6:9
+// from ./data/blog/2023-01-21-go-workflows-detailed/activities.go
+```
+
+---
+
+| #   | Name                       | Attributes         | Executed |
+| :-- | :------------------------- | :----------------- | :------: |
+| 1   | `WorkflowExecutionStarted` | `OrderWorkflow`    |    x     |
+| 2   | `ActivityScheduled`        | `Process`          |    x     |
+| 3   | `ActivityCompleted`        | `some-output`      |    x     |
+| 4   | `ActivityScheduled`        | `SendConfirmation` |    x     |
+| 5   | `ActivityCompleted`        | `some-output`      |    x     |
+
+```go workflow.go focus=6
+```
+
+---
+
+Workflow execution is now finished.
+
+| #   | Name                         | Attributes         | Executed |
+| :-- | :--------------------------- | :----------------- | :------: |
+| 1   | `WorkflowExecutionStarted`   | `OrderWorkflow`    |    x     |
+| 2   | `ActivityScheduled`          | `Process`          |    x     |
+| 3   | `ActivityCompleted`          | `some-output`      |    x     |
+| 4   | `ActivityScheduled`          | `SendConfirmation` |    x     |
+| 5   | `ActivityCompleted`          | `some-output`      |    x     |
+| 6   | `WorkflowExecutionCompleted` | `OrderWorkflow`    |    x     |
+
+```go workflow.go
+```
+
+</CH.Scrollycoding>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
+
+Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
