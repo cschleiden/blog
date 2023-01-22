@@ -1,0 +1,297 @@
+---
+title: 'go-workflows: Experiments with Go Generics'
+date: 2022-03-06T18:30:00.000Z
+tags: ['go']
+summary: 'Experiments with Go Generics in the context of go-workflows.'
+---
+
+This is not the promised part 2 of the [go-workflows: Durable Workflows in Go](./2022-02-13-go-workflows-part1.md) series but a summary of some experiments I did with the Go Generics support in the context of go-workflows.
+
+With Go 1.18 (finally) including support for Generics, I wanted to see how I could improve the API of go-workflows by taking advantage of Generics. Specificially calls like this which occur in a few different scenarios:
+
+```go
+// An activity
+func SomeSideEffect(ctx context.Context, count int, msg string) (bool, error) {
+  // ...
+}
+
+// A workflow scheduling/executing an activity
+func Workflow(ctx workflow.Context) {
+  f := workflow.ExecuteActivity(ctx, SomeSideEffect, 42, "Hello")
+
+  var result bool
+  if err := f.Get(ctx, &result); err != nil {
+    // handle error
+  }
+
+  // Check `result`
+}
+```
+
+As mentioned in the last [post](./2022-02-13-go-workflows-part1.md), every side effect has to be executed as an _Activity_, which is a function that's executed only once and its result is recorded in the event sourced history of the workflow.
+
+In the example above, `SomeSideEffect` takes two inputs: `count` and `msg` and returns a boolean result and an optional error. When the activity is executed from the workflow, the scheduler returns a Future `f` from where we can get the `bool` result. This works, but there are a couple things I don't like about this:
+
+I cannot define a type for an activity that `ExecuteActivity` accepts. Activities can have zero or more parameters, and can return zero or more results plus the error. Therefore `ExcuteActivity`'s signature currently has to look like this:
+
+```go
+func ExecuteActivity(/*...*/, activity interface{}, args ...interface{}) Future
+```
+
+I can check that the number of passed arguments matches the activity signature, but that has to happen at runtime via reflection. That means if it's a long running workflow, you get feedback about problems only once the activity is scheduled.
+
+The other problem I have with the current approach is that `ExecuteActivity` has to return a generic `Future` that could represent any result. When waiting for its result, you have to know what the return type of the scheduled activity is, declare a variable of that type and then call `Get` with a pointer to that variable:
+
+```go
+var result bool
+if err := f.Get(ctx, &result); err != nil {
+```
+
+Here again, you only get feedback about any potential mismatch at runtime, when trying to get the result of the future. If `SomeSideEffect`'s return type changes in the future, the compiler cannot provide any help about now mismatched `Get` calls.
+
+I've always been a fan of statically typed languages and relying on the compiler to provide as much help as possible. Dynamic typing is great and flexible when writing, but often require a pretty detailed mental model of how the code works when reading it later.
+
+## Generics to improve type-safety
+
+### Primitives
+
+With Go's [Type Parameters Proposal](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md) aka Generics landing in the 1.18 betas and (as of now) the RC1, we can try to improve this.
+
+The first change was straight-forward: make the `Future` type generic, with the signature changing to:
+
+```go
+type Future[T any] interface {
+	Get(ctx Context) (T, error)
+}
+```
+
+With that, the requirement to pass a pointer to `Get` is gone and instead you can use it like:
+
+```
+result, err := f.Get(ctx)
+```
+
+which feels a lot more natural, especially comparing it to future/promise usage in other languages.
+
+I've also updated all the other primitives required for the deterministic execution like `Channel`, the custom `Selector` etc.
+
+### Wanted behavior for `ExecuteActivity`
+
+The next step was to improve the API of `ExecuteActivity` (and `ExecuteSubWorkflow` etc.) to make it more type-safe. Specifically I wanted to:
+
+- automatically infer the result of an activity to create the correct `Future[T]` type automatically
+- validate that the types of any passed arguments match the activity signature
+
+I have written a lot of TypeScript and there I could write the functions like this ([Playground](https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgGIFczqhAPAFQD5kBvAKGWQHEIwAKASgC5l8BuMgXzLNElkQoAggjDAAbsDABPAgEkQAB0zIIAD0ggAJgGdkcENIDaAXQA0rAEoQd6ADZhi5SnQB07uFADmOlvgXKYMxWNvZgHNxkMOggosAA9iDIAKJqEAiYECJikjLySirqmrr6hqYW+Na2DoR0iDlS0izZEo35gRVVYYQW7q6ePn4BmMEYWDgEXTWkFMg440kknPp6Y9h4laE1ETwA9Ps80bFiicgAyvEAthBnwFoQyTAw6fQI8TFgLCDolwBG0BZLjovCwdGAoKAvMEjL94vE7BADBYwRCQF4TDNKPNsEkjOD0BALAAiIkmHZRGJxU4AdXiUAA1jA7PEAO6MTHIN4gMHIGDIAC8KTSGUgLVy0joF2ut3uj2eogsABYAEzEgAWEDszKJDA4lC5PKMOGqYAs0CgdIxgpgrho9F1s32lGdlAAeshYfCLMh3SjIcguGQgA)):
+
+```typescript
+interface Future<T> {
+  Get(): T;
+}
+
+interface Activity<TInput extends any[], TResult> {
+  (...args: TInput): TResult;
+}
+
+function ExecuteActivity<TInput extends any[], TResult>(activity: Activity<TInput, TResult>, ...args: TInput): Future<TResult> {
+  return {} as Future<TResult>;
+}
+
+///
+
+function SomeSideEffect(count: number, msg: string): { result: boolean; error: string } {
+  return { result: true, error: "" };
+}
+
+function Workflow() {
+  const f = ExecuteActivity(SomeSideEffect, 42, "hello");
+  const { result, error } = f.Get();
+  //       ^ bool,  ^ string
+}
+
+```
+_TypeScript (or JavaScript for that matter) does not natively support multiple return types, so for this example I've used another tuple type to mimic the Go signature and keep it concise._
+
+This uses TypeScript's support for variadic generic tuples. It allows us to infer the types of the arguments the activity expects, and then check that the arguments passed to `ExecuteActivity` match those.
+
+
+
+If you look at the help provided by the language server for the invocation of `ExecuteActivity` you can see that it's infered the following arguments:
+
+```typescript
+function ExecuteActivity<[number, string], [boolean, string]>(activity: Activity<[number, string], [boolean, string]>, args_0: number, args_1: string): Future<[boolean, string]>
+```
+
+So it knows the return type and therefore what `Future` the function returns, and also the number of arguments and the types of the `args_x` parameters.
+
+
+Next I tried to bring this behavior to the Go API. Unfortunately, Go does not support variadic generic arguments (yet). There are some issues discussing the missing support, but given how long it took to get to this first version of Generics - and how contentious it was - it makes sense to start simpler, and then see if the support needs to be added later. Unfortunately, that means I cannot provide the same API with type-checked arguments as I did in the TypeScript sample.
+
+### Go Generics - Approach 1: infer result
+
+I knew that Go's generic support isn't as expressive as TypeScript's yet, so I wanted to start simple. Could I keep the current runtime argument checking and just infer the result type?
+
+To again start with a TypeScript example ([Playground](https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgGIFczqhAPAFQD5kBvAKGWQHEIwAKASgC5l8BuMgXzLNElkQoAggjDAAbsDABPAgCUIAZ3QAbMMXKU6AOl1woAc0Us4Iac1YLlajtzIx0IUcAD2IZAFEAHhASYIImKSMvJKqup0iEFS0iyBEjGh1uoANMi62vpGJmYA2gC6FhhYOEnhGhTIOCXuJJzIcIpomNh4+FbltjwA9L08Dk5ibsgAyi4AthAjwAAmEB4wML70CC6OYCwg6OMARtBp44oGLIpgUKAGFrk7Li4qEKZpp+cgBvmkldXY7rln6BBpABEgPyXXsjmcwwA6i4oABrGAqFwAd0YH0oqxAp2QMGQAF5PD4-JB4sFpHQxpNpnMFktRGkACwAJiBAAsICokYCGGxkL0GoZthBwE0QC4wMgEOyEHCZhR+ZjsTAmfjCb5-KSYhSJlNZvNFstGSzkID2ZyXICgYodWBWRdkBzFBBubz+WLJRMAA7Ae5QB1QKCwyqKiW5HDJNLQQNQd4EmDaGj0HmVfmUNPIAB6yBudzSmeQz3tXDIQA)):
+
+```typescript
+interface Activity<TResult> {
+  (...args: any): TResult;
+}
+
+function ExecuteActivity<TResult>(activity: Activity<TResult>, ...args: any[]): Future<TResult> {
+  return {} as Future<TResult>;
+}
+
+///
+
+function SomeSideEffect(count: number, msg: string): [boolean, string] {
+  return [true, ""];
+}
+
+function Workflow() {
+  const f = ExecuteActivity(SomeSideEffect, 42, "hello"); // arguments not checkd
+ // const f2 = ExecuteActivity(SomeSideEffect, 42, "hello", "something else"); // no compiler error
+  const [result, error] = f.Get();
+  //       ^ bool,  ^ string
+}
+```
+
+`ExecuteActivity` and the accepts the arguments as `any[]` which means no type-checking is done. The `Activity` type only accepts a `TResult` parameter and also accepts any arguments via `...args: any`.
+
+Getting this behavior is not possible in Go. At runtime defining the arguments for a function type as `...interface{}` kind of behaves like `...any[]` in TypeScript, but not at compile time. So something like this:
+
+```go
+type Activity[TResult any] func(...interface{}) TResult
+
+func SomeSideEffect(a int, f string) int {
+	return a
+}
+
+func ExecuteActivity[TResult any](a Activity[TResult]) {
+}
+
+func main() {
+	ExecuteActivity(SomeSideEffect)
+	// type func(a int, f string) int of SomeSideEffect does not match Activity[TResult] (cannot infer TResult)
+
+	var a Activity[int] = SomeSideEffect
+	// cannot use SomeSideEffect (value of type func(a int, f string) int) as type Activity[int] in variable declaration
+}
+```
+
+will result in compiler errors. Basically there is no way of saying: ignore the arguments/parameters of the function, I'm only interested in the return type.
+
+### Go Generics - Approach 2: restrict activity functions
+
+Another attempt was to restrict Activities to have at most one input parameter and one result.  That works, but requires defining a lot of custom types for activities that accept more than one input. It's similar to what DurableTask does in C# (at least for some overloads), but I wanted to preserve the notion that activites are (mostly) just plain Go functions.
+
+
+```go
+type Act[TInput, TResult any] func(context.Context, TInput) TResult
+
+func ExecuteActivity[TInput, TResult any](act Act[TInput, TResult], a1 TInput) Future[TResult] {
+	var r TResult
+	return &future[TResult]{r}
+}
+
+func SomeSideEffect(ctx context.Context, a string) int {
+	return 42
+}
+
+func main() {
+	r := ExecuteActivity(SomeSideEffect, "hello") // r is future[int]
+	fmt.Printf("%T", r)
+	r := ExecuteActivity(SomeSideEffect, 23)
+	// cannot use 23 (untyped int constant) as string value in argument to ExecuteActivity
+}
+```
+
+### Go Generics - Approach 3: manually specify the result type:
+
+This would allow to at least have a type-safe result, but at those cost of requiring the user to specify the result type. Argument type checking
+
+```go
+func ExecuteActivity[T any](act interface{}, args ...interface{}) Future[T] {
+	var r T
+	return &future[T]{r}
+}
+
+func SomeSideEffect(ctx context.Context, a string) int {
+	return 42
+}
+
+func main() {
+	r := ExecuteActivity[int](SomeSideEffect, "hello") // r is future[int]
+	fmt.Printf("%T", r)
+}
+```
+
+### Go Generics - Approach 4: result and type-safe arguments
+
+The generics proposal kind of mentions scenarios that require variadic generic paremeters in the [Metrics](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#metrics) example. As a work-around the proposal recommends multiple "overloads". Since Go doesn't support overloading, you need differently named functions, for example `ExecuteActivity1`, `ExecuteActivity2`, `ExecuteActivityN`, with `N` indicating the number of arguments the activity acepts.
+
+It's not a great API to write, but some of it could be code generated. Example implementation for up to `N=3` ([Gotip playground](https://gotipplay.golang.org/p/hTY9OcVBciU)):
+
+```go
+package main
+
+import "fmt"
+
+type Future[T any] interface {
+	Get() T
+}
+
+type future[T any] struct {
+	v T
+}
+
+func (f *future[T]) Get() T {
+	return f.v
+}
+
+type Act1[P1, T any] func(P1) T
+type Act2[P1, P2, T any] func(P1, P2) T
+type Act3[P1, P2, P3, T any] func(P1, P2, P3) T
+
+func ExecuteActivity[P1, T any](act Act1[P1, T], a1 P1) Future[T] {
+	return executeActivity[T](act, a1)
+}
+
+func ExecuteActivity2[P1, P2, T any](act Act2[P1, P2, T], a1 P1, a2 P2) Future[T] {
+	return executeActivity[T](act, a1, a2)
+}
+
+func ExecuteActivity3[P1, P2, P3, T any](act Act3[P1, P2, P3, T], a1 P1, a2 P2, a3 P3) Future[T] {
+	return executeActivity[T](act, a1, a2, a3)
+}
+
+func executeActivity[T any](f activity[T], args ...interface{}) Future[T] {
+	var r T
+	return &future[T]{r}
+}
+
+type activity[T any] interface{}
+
+func SomeSideEffect(a int, f string) int {
+	return a
+}
+
+func main() {
+	r := ExecuteActivity2(SomeSideEffect, 42, "hello") // r is future[int]
+	fmt.Printf("%T", r)
+
+	// compiler error: cannot use 23 (untyped int constant) as string value in argument to ExecuteActivity2
+	//	r := ExecuteActivity2(SomeSideEffect, 42, 23)
+}
+```
+
+As you can see, the return type is correctly inferred, the count of the arguments passed is evaluated, and the types are checked. A user of the API has to call the right "overload" meaning the version of `ExecuteActivityN` that matches the number of arguments the activity expects. And there also has to exist a matching `N` in the first place.
+
+I'm not super happy with this yet, but it at least reduces the cognitive burden when working with the API. You don't have to remember the number of arguments, their types, and the type of the result, you only have to make sure you pick the right overload.
+
+The internal implementation can continue to use the current `args ...interface{}` behavior for the most part.
+
+
+### Summary
+
+Overall I'm pretty excited about Generics. Support for more complex scenarios is not yet there, but in my opinion, the fewer `interface{}` runtime conversions we need, the better. For my project being able to have the custom primitives (`Future`, `Channel`, etc.) become type-safe is a big improvement and brings them closer to the developer experience of the native types.

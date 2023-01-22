@@ -1,0 +1,252 @@
+---
+title: VSTS Tags MRU extension – Part 2
+date: 2016-02-28T22:46:11-07:00
+tags: [Azure DevOps]
+---
+In the [last post](https://cschleiden.dev/vsts-tags-mru-extension-part-1) we ended up with a list of tags a user added last to a work item. The next step is now to keep an MRU list with tags from earlier sessions and update it when new tags are added.
+
+Every time the user adds tags to a work item we want to merge these new tags with the (persisted) list of tags. We will keep a maximum of N tags and need to either only add tags to the list (`if |tags| < N`), or and and remove (`if |tags| > N`), or just reorder the tags in the list, so that the most recently used tags appear first in the final dropdown menu.
+
+## Keeping MRU list of tags
+
+We want to store at maximum 5 tags for now, so we add a constant to our app.ts:
+
+```ts
+/** Maximum size of MRU */
+const MAX_TAGS = 5;
+```
+
+And as before, we implement our business logic as a simple singleton:
+
+```ts
+class Tags {
+  /** Key used for document service */
+  private static KEY: string = "tags";
+  private static instance: Tags = null;
+
+  /** Get or create singleton instance */
+  public static getInstance(): Tags {
+    if (!Tags.instance) {
+      Tags.instance = new Tags(MAX_TAGS);
+    }
+
+    return Tags.instance;
+  }
+
+  constructor(private maxCount: number) {
+  }
+}
+```
+
+This class needs to keep track of
+
+* what tags are currently in the MRU list
+* the order of tags
+
+While we could maintain a dictionary depicting whether a tag is in the list and a queue with the MRU order, for only 5 tags a simple array is probably be enough.
+
+```ts
+private queue: string[] = [];
+```
+
+Now, when we add tag, and it is not in the queue yet, we just add it in front of the queue, or we delete it from its current position in the queue and **then** add it in front of the queue.
+
+In order to maintain our maximum of 5 tags, we add another method *prune*, that removes tags from the end of the queue if the overall count is more than the configured max and call it
+
+```ts
+public addTag(tag: string) {
+  // Remove tag from current position\
+  var idx = this.dict[tag];
+  if (idx !== -1) {
+    this.queue.splice(idx, 1);
+  }
+
+  // Add tag in first position and record position\
+  this.queue.unshift(tag);
+
+  this.prune();
+}
+
+/** Ensure only maximum number of tags configured is stored */
+private prune() {
+  if (this.queue.length < this.maxCount) {
+    for (var i = 0; i < this.queue.length &#8211; MAX_TAGS; ++i) {
+      this.queue.pop();
+    }
+  }
+}
+```
+
+For later displaying tags in the context menu, we can just return the current queue which contains our tags in the correct order
+
+```javascript
+public getTags(): string[] {
+  return this.queue;
+}
+```
+
+## Persisting Data from an extension
+
+The VSTS framework provides the *[ExtensionDataService](https://www.visualstudio.com/en-us/integrate/extensions/develop/data-storage)* which allows us to store key/value pairs or collections of JSON documents on the VSTS servers. Usage is quite simple, to store a value we just need to get an instance of the service, and call *setValue* with a key and a value. The value can be as simple as a string, or an JS object that&#8217;s transparently serialized to JSON. We can also pass a scope, that limits values either to an *&#8220;account&#8221;* or a *&#8220;user&#8221;* scope:
+
+```ts
+VSS.getService(VSS.ServiceIds.ExtensionData).then((dataService) => {
+dataService.setValue("key", "value", { scopeType: "User" });
+});
+```
+For the tags extension we want a *user* scope and our value to store will be an array of strings containing our tags.
+
+## Persisting Tags
+
+First step is again to add another import to our *app.ts* file:
+
+```ts
+import VSS_Extension_Service = require("VSS/SDK/Services/ExtensionData");
+```
+
+To keep it simple, loading tags is something we'd like to do only once at the beginning of a session, and then save every time tags are added. This way, we might run into conflicts if the user is working with different browser tabs/windows at the same time, but for this sample that last-write-wins concurrency is enough.
+
+Using the `ExtensionDataService` we can modify the `getInstance` call to retrieve the list of tags from the data service using `getValue` and add every one using the `addTag` method we implemented above. Since service calls use Promises, we change `getInstance` to return a promise instead of a value. If the instance has already been created, we use `Q(<value>)` to return an immediately resolved promise, otherwise we retrieve tags and then create the instance:
+
+```ts
+/** Get or create singleton instance */
+public static getInstance(): IPromise<Tags> {
+  if (Tags.instance) {
+    return Q(Tags.instance);
+  } else {
+    return VSS.getService(VSS.ServiceIds.ExtensionData).then(
+      (dataService: VSS_Extension_Service.ExtensionDataService) => {
+        return dataService.getValue(Tags.KEY, {
+          defaultValue: [],
+          scopeType: "User"
+        }).then((savedTags: string\[]) => {
+          Tags.instance = new Tags(MAX_TAGS);
+          if (savedTags) {
+            savedTags.forEach(t => Tags.instance.addTag(t));
+          }
+
+          return Tags.instance;
+        });
+    });
+  }
+}
+```
+
+Persisting tags will be done in another method, again getting a service instance (we could cache the instance), and calling then calling *setValue*. A promise is returned to allow callers to wait for the end of the call:
+
+```ts
+public persist(): IPromise<any> {
+  return VSS.getService(VSS.ServiceIds.ExtensionData).then(
+    (dataService: VSS_Extension_Service.ExtensionDataService) => {
+      dataService.setValue(Tags.KEY, this.queue, {
+        scopeType: "User"
+      });
+    });
+}
+```
+
+Since we do want to show the tag context menu as fast as possible, we will proactively initialized that tag service as soon as the extension file is loaded:
+
+```ts
+// Proactively initialize instance and load tags
+Tags.getInstance();
+```
+
+## Showing Tags in work item context menu
+
+We are nearly done,
+
+```ts
+// Register context menu action\
+VSS.register("tags-mru-work-item-menu", {
+  getMenuItems: (context) => {
+    return Tags.getInstance().then(tags => {
+      var childItems: IContributedMenuItem\[] = \[];
+      tags.getTags().forEach(tag => {
+        childItems.push(<IContributedMenuItem>{
+          text: tag,
+          title: `Add tag: ${tag}`,
+          action: () => {});
+        });
+      });
+
+      if (childItems.length === 0) {
+        childItems.push(<IContributedMenuItem>{
+          title: "No tag added",
+          disabled: true
+        });
+      }
+
+      return [<IContributedMenuItem>{
+        title: "Recent Tags",
+        childItems: childItems
+      }]
+  });
+```
+
+## Updating work items
+
+Final step is to add an action to the child menu items to actually add the tag to all selected work items. First we need to determine the selected work items. Unfortunately, the different VSTS views are not consistent in exposing the ids of selected work items right now. We need to look for different properties in the passed *context* depending on the view we are in. The logic is:
+
+* **Backlog** &#8211; array of numbers called *workItemIds*
+* **Boards (Kanban/Iteration)** &#8211; single number called *id*
+* **Query results** &#8211; array of numbers called *ids*
+
+To unify in an array called *ids* we need to add the following code to the beginning of the *getMenuItems* method:
+
+```ts
+// Not all areas use the same format for passing work item ids.
+// "ids" for Queries, "workItemIds" for backlogs, "id" for boards
+var ids = context.ids || context.workItemIds;
+if (!ids || context.id) {
+// Boards only support a single work item
+ids = \[context.id];
+}
+```
+
+Then, in the *action* handler of our child menu items, we need to:
+
+1. Get the work items
+2. For each work item
+
+   1. Get the existing value for the *System.Tags* field
+   2. Concatenate with the tag to add using &#8220;;&#8221; as separator
+   3. Update work item
+
+Since we are changing work items not opened in any form right now, we need to use the REST API for the update operations. Some additional imports are required:
+
+```ts
+import TFS_Wit_Contracts = require("TFS/WorkItemTracking/Contracts");
+import TFS_Wit_Client = require("TFS/WorkItemTracking/RestClient");
+import TFS_Wit_Services = require("TFS/WorkItemTracking/Services");
+```
+
+Then we just get an http client and start iterating over the work items:
+
+```ts
+// Get work items, add the new tag to the list of existing tags, then update
+var client = TFS_Wit_Client.getClient();
+client.getWorkItems(ids).then((workItems) => {
+  for (var workItem of workItems) {
+    client.updateWorkItem([{
+      "op": "add",
+      "path": "/fields/System.Tags",
+      "value": (workItem.fields\["System.Tags"] || "") + ";" + tag
+      }], workItem.id);
+  }
+});
+```
+
+(Potential optimization would be to use the batch API for the work item updates instead of making a single call per work item)
+
+## All done
+
+That's it. The extension is done, can be published, and should mostly work as designed. I say mostly, because, if you remember, I mentioned earlier that there is one drawback, for which no workaround exists yet: When we add a tag, we need to use the REST API to update the work items. When we do this, the current VSTS view does not know that a work item has been updated, and does not refresh automatically.
+
+Ideally, there would be a way to tell VSTS from an extension that a work item has been changed, but no such service is exposed at the moment. This means, users have to manually refresh the view or a specific work item after using the extension to add a new tag. For example like in this short gif (click to view full screen):
+
+<a href="https://cschleiden.files.wordpress.com/2016/02/add-tag.gif" target="_blank"><img className="aligncenter  wp-image-751" src="https://cschleiden.files.wordpress.com/2016/02/add-tag.gif?w=1024" alt="add-tag" width="494" height="331" /></a>
+
+I do think, however, that the extension still provides value, and will publish it in the marketplace soon. Let me me know in the comments if anything is unclear or doesn&#8217;t work.
+
+Again, the code is available at  https://github.com/cschleiden/vsts-extension-tags-mru. Small details might vary, but I mostly tried to keep these posts and the code in sync.

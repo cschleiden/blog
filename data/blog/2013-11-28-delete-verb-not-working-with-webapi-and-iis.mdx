@@ -1,0 +1,19 @@
+---
+title: DELETE Verb not working with WebApi and IIS
+date: 2013-11-28T20:23:30-07:00
+tags: [Microsoft]
+---
+Recently I've had a problem where a deployed WebApi service did not accept the `DELETE` verb (locally, using IISExpress it worked). The <a href="http://forums.iis.net/t/1166025.aspx" target="_blank">solution</a> was to remove the WebDAV module and handler for the specific site. So extend the web.config of the WebApi project with:
+
+```xml
+<system.webServer>
+  <modules>
+    <remove name="WebDAVModule" />
+  </modules>
+  <handlers>
+    <remove name="WebDAV" />
+  </handlers>
+</system.webServer>
+```
+
+Then it worked just fine.
