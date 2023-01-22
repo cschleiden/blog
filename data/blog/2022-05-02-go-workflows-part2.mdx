@@ -139,7 +139,7 @@ type workflowState struct {
 
 For executing an activity (or a subworkflow or ...) we perform these steps:
 
-```golang
+```go
 func ExecuteActivity[T any](ctx workflow.Context, activity interface{}) Future[T] {
 	// 1. Create a new future
 	f := NewFuture[T]
@@ -188,7 +188,7 @@ type WorkflowState struct {
 
 Commands are actions to be performed by the workflow executor after the current workflow execution is finished. In the current example, `ExecuteActivity` creates and tracks the `Future` as shown above, but it also adds a pending `ScheduleActivityTaskCommand` to the workflow state:
 
-```golang
+```go
 func ExecuteActivity[T any](ctx workflow.Context, activity interface{}) Future[T] {
 	// 1. Create a new future
 	f := NewFuture[T]

@@ -9,7 +9,7 @@ tags:
 </p>
 
 <p align="justify">
-  <a href="/assets/wp-content/uploads/2016/02/image2.png"><img style="background-image:none;float:none;margin-left:auto;display:block;margin-right:auto;" title="image" src="/assets/wp-content/uploads/2016/02/image_thumb2.png" alt="image" width="376" height="203" border="0" /></a>
+  <a href="/assets/wp-content/uploads/2016/02/image2.png"><img /></a>
 </p>
 
 <p align="justify">
@@ -17,7 +17,7 @@ tags:
 </p>
 
 <p align="justify">
-  <a href="/assets/wp-content/uploads/2016/02/image.png"><img style="background-image:none;float:none;margin-left:auto;display:block;margin-right:auto;" title="image" src="/assets/wp-content/uploads/2016/02/image_thumb.png" alt="image" width="518" height="130" border="0" /></a>
+  <a href="/assets/wp-content/uploads/2016/02/image.png"><img /></a>
 </p>
 
 <p align="justify">
@@ -25,22 +25,22 @@ tags:
 </p>
 
 <p align="center">
-  <a href="/assets/wp-content/uploads/2016/02/image3.png"><img className=" aligncenter" style="background-image:none;display:inline;" title="image" src="/assets/wp-content/uploads/2016/02/image_thumb3.png" alt="image" width="407" height="199" border="0" /></a><a href="/assets/wp-content/uploads/2016/02/image1.png"><img className=" aligncenter" style="background-image:none;display:inline;" title="image" src="/assets/wp-content/uploads/2016/02/image_thumb1.png" alt="image" width="514" height="184" border="0" /></a>
+  <a href="/assets/wp-content/uploads/2016/02/image3.png"><img className=" aligncenter" /></a>
 </p>
 
-<p style="text-align:left;" align="center">
+<p>
   While I could now open the user story and add the tag, what I'd like to have is something like this:
 </p>
 
 <p align="justify">
-  <a href="/assets/wp-content/uploads/2016/02/image4.png"><img style="background-image:none;float:none;margin-left:auto;display:block;margin-right:auto;" title="image" src="/assets/wp-content/uploads/2016/02/image_thumb4.png" alt="image" width="421" height="390" border="0" /></a>
+  <a href="/assets/wp-content/uploads/2016/02/image4.png"><img /></a>
 </p>
 
-<p style="text-align:justify;" align="justify">
+<p>
   Open the context menu for a work item anywhere in the product, have a list of the tags I added last to any work item, and allowing me to easily add one of them with a single click.
 </p>
 
-<p style="text-align:justify;" align="justify">
+<p>
   Fortunately, we can build this with just a few lines of code using the VSTS extensions API. There is one little drawback &#8211; more on that later &#8211; but we can get quite close to what I just described. I will be using the seed project I mentioned <a href="https://cschleiden.wordpress.com/2016/02/24/extending-vsts-setup">earlier</a>, you can just clone the repo or download it as a zip if you want to follow along: <a title="https://github.com/cschleiden/vsts-extension-ts-seed-simple" href="https://github.com/cschleiden/vsts-extension-ts-seed-simple">https://github.com/cschleiden/vsts-extension-ts-seed-simple</a>.
 </p>
 
@@ -100,13 +100,13 @@ console.log("Work item refreshed");
 ```
 When we publish this extension to our account, create a new work item, add a couple tags, and then save the work item, we will see messages like these in the console:
 
-[<img style="background-image:none;padding-top:0;padding-left:0;display:inline;padding-right:0;border:0;" title="image" src="/assets/wp-content/uploads/2016/02/image_thumb22.png" alt="image" width="965" height="256" border="0" />](/assets/wp-content/uploads/2016/02/image22.png)
+[<img />](/assets/wp-content/uploads/2016/02/image22.png)
 
-<p style="text-align:justify;">
+<p>
   As you can see, all tags are reported as a <b>single</b> field separated by semicolons. That means, that we need a way to identify when a tag is added. An easy way to accomplish this, is to get the list of tags when a work item is opened, and then when it&#8217;s saved to diff the original and current tags.
 </p>
 
-<p style="text-align:justify;">
+<p>
   To get the tags when the work item is opened, we can utilize the <em><a href="https://www.visualstudio.com/en-us/integrate/extensions/develop/add-workitem-extension">WorkItemFormService</a></em>. We need to import the framework module providing it:
 </p>
 
@@ -128,7 +128,7 @@ TFS\_Wit\_Services.WorkItemFormService.getService().then(wi => {
 }
 ```
 
-<p style="text-align:justify;">
+<p>
   Since it&#8217;s possible to open multiple work items in VSTS at the same time, we cannot simply store original and updated tags in two variables, but need both current and updated tags keyed to a work item, identified by its id. A simple singleton solution could be the following:
 </p>
 

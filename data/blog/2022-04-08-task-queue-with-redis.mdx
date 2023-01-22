@@ -34,7 +34,7 @@ When starting up, we create a stream `task-queue`, and a single consumer group f
 
 To add new tasks to the queue, we `XADD` a new message:
 
-```redis
+```
 XADD task-queue * id <id of task>
 ```
 
@@ -42,7 +42,7 @@ XADD task-queue * id <id of task>
 
 Then each worker executes `XREADGROUP` for reading new messages as part of the consumer group. The consumer group behavior for Redis Streams is similar to the one of Kafka, where only one consumer in the group receives the message:
 
-```redis
+```
 XREADGROUP <group> <consumer> COUNT 1 BLOCK <timeout in ms> STREAMS task-queue
 ```
 
@@ -59,7 +59,7 @@ By _not_ specifying the `NOACK` parameter for the `XREADGROUP` command, Redis re
 
  To recover abandoned tasks, we can use the `XAUTOCLAIM` command. With
 
- ```redis
+ ```
  XAUTOCLAIM task-queue task-workers <consumer> <min-idle-time> 0 COUNT 1
  ```
 
@@ -71,7 +71,7 @@ By _not_ specifying the `NOACK` parameter for the `XREADGROUP` command, Redis re
 
  To prevent long running tasks from being acquired by another worker, workers periodically execute `XCLAIM` on their already claimed message. This resets the _idle time_ and serves as a heartbeat for the task.
 
- ```redis
+ ```
  XCLAIM task-queue task-workers <consumer> 0 <message id task>
  ```
 
