@@ -1,5 +1,5 @@
 ---
-title: 'VS2013 Update 2 RC &#8211; Error APPX3210'
+title: 'VS2013 Update 2 RC — Error APPX3210'
 date: 2014-04-14T10:42:34-07:00
 tags:
   - Visual Studio
@@ -7,7 +7,9 @@ tags:
 ---
 If you stumble across the following error message with Visual Studio 2013 Update 2 RC:
 
+```
 1>[…]\Package.appxmanifest(19,64): error APPX3210: App manifest references the image &#8216;Assets/Icon150.png&#8217; which does not have a candidate in main app package.
+```
 
 have a look a at the manifest file. In my case I had been using forward slashes in some of the asset paths. While this used to work before update 2 it now leads to an error. So to fix this I had to replace this:
 

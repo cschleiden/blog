@@ -17,9 +17,16 @@ tags:
 
   1. First you need a VSTS account, it's free, just <a href="https://www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx">register</a> with your Microsoft account.
 
-  2. Create a publisher: With your Microsoft account, sign in at the <a href="https://marketplace.visualstudio.com/manage">marketplace</a> and pick an ID and a display name:<br /> <a href="/assets/wp-content/uploads/2016/02/image6.png"><img /></a>
+  2. Create a publisher: With your Microsoft account, sign in at the <a href="https://marketplace.visualstudio.com/manage">marketplace</a> and pick an ID and a display name:
+  ![](/assets/wp-content/uploads/2016/02/image6.png)
 
-  3. Generate a personal access token: Login to VSTS, go to <em>My Security</em>:<br /> <a href="/assets/wp-content/uploads/2016/02/image7.png"><br /> <img className=" size-full wp-image-770 aligncenter" src="/assets/wp-content/uploads/2016/02/security.png" alt="security" width="308" height="126" /></a><br /> then to the <em>Personal access tokens</em> section:<br /> <a href="/assets/wp-content/uploads/2016/02/image8.png"></a>
+  3. Generate a personal access token: Login to VSTS, go to <em>My Security</em>:
+
+  ![](/assets/wp-content/uploads/2016/06/security.png)
+
+  then to the <em>Personal access tokens</em> section:
+
+  ![](/assets/wp-content/uploads/2016/02/image8.png)
 
   4. Clone (or download as zip and extract) the seed project from:<br /> <a title="https://github.com/cschleiden/vsts-extension-ts-seed-simple" href="https://github.com/cschleiden/vsts-extension-ts-seed-simple">https://github.com/cschleiden/vsts-extension-ts-seed-simple</a>
 
@@ -33,7 +40,7 @@ tags:
 
   8. Open the extension manifest, vss-extension.json
 
-  9. Change `<your-publisher>` to the publisher ID you created in step 2:<br /> <a href="/assets/wp-content/uploads/2016/02/image11.png"><br /> <img /></a>
+  9. Change `<your-publisher>` to the publisher ID you created in step 2: ![](/assets/wp-content/uploads/2016/02/image11.png)
 
  10. As part of step 5, the <a href="https://github.com/Microsoft/tfs-cli" target="_blank">TFS Cross Platform Command Line Interface</a> was installed. This will be used to package and publish the extension. Login to your account by executing
     ```
@@ -43,11 +50,22 @@ tfx login --service-url https://marketplace.visualstudio.com
     when prompted for the token, use the one generated in step 3. This will save the login information for subsequent operations:
     ![](/assets/wp-content/uploads/2016/02/image12.png) (**Update:** the uri has changed, please use https://marketplace.visualstudio.com)
 
-      *     Finally, execute
+      * Finally, execute
+
 ```
 grunt publish-dev
 ```
-            to build, package, and publish the extension using the development configuration. If everything works the output should be similar to this:<br /> <a href="/assets/wp-content/uploads/2016/02/image13.png"><br /> <img /><br /> </a>
-      *     Share with your account: The extension has now been published as a private extension, no one else can see it yet. To test it, we need to share it with our account. There are two ways, one is using the tfx command line, the other is using again the <a href="https://app.market.visualstudio.com/manage" target="_blank">Marketplace</a>. When you login again you should now see the extension and a <em>Share</em> button:<br /> <a href="/assets/wp-content/uploads/2016/02/image14.png"><br /> <img /><br /> </a>
-      *     <strong>Install:</strong> After sharing the extension, it should show up in the <em>Manage extensions</em> page of your VSTS account:<br /> <a href="/assets/wp-content/uploads/2016/02/image16.png"><br /> <img /><br /> </a>
-      *     <strong>Test</strong>: If you now navigate to a query result (create a query and some work items if you haven't) and open the context menu for any work item, you should see the menu action contributed by the extension:<br /> <a href="/assets/wp-content/uploads/2016/02/image20.png"><br /> <img className="" /></a>
+
+      to build, package, and publish the extension using the development configuration. If everything works the output should be similar to this:
+
+      ![](/assets/wp-content/uploads/2016/02/image13.png)
+
+      * Share with your account: The extension has now been published as a private extension, no one else can see it yet. To test it, we need to share it with our account. There are two ways, one is using the tfx command line, the other is using again the <a href="https://app.market.visualstudio.com/manage" target="_blank">Marketplace</a>. When you login again you should now see the extension and a <em>Share</em> button:
+
+      ![](/assets/wp-content/uploads/2016/02/image14.png)
+      * <strong>Install:</strong> After sharing the extension, it should show up in the <em>Manage extensions</em> page of your VSTS account:
+
+      ![](/assets/wp-content/uploads/2016/02/image16.png)
+      * <strong>Test</strong>: If you now navigate to a query result (create a query and some work items if you haven't) and open the context menu for any work item, you should see the menu action contributed by the extension:
+
+      ![](/assets/wp-content/uploads/2016/02/image20.png)

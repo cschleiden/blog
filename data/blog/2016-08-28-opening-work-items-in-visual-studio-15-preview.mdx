@@ -15,31 +15,31 @@ You can follow along by downloading [Visual Studio 2017](https://www.visualstudi
 
 There is still the full work item query tree available in Visual Studio, including favorites:
 
-[<img className="size-full wp-image-807 aligncenter" src="/assets/wp-content/uploads/2016/08/team-explorer-1.png" alt="team-explorer" width="325" height="584" srcSet="/assets/wp-content/uploads/2016/08/team-explorer-1.png 325w, /assets/wp-content/uploads/2016/08/team-explorer-1-167x300.png 167w" sizes="(max-width: 325px) 100vw, 325px" />](/assets/wp-content/uploads/2016/08/team-explorer-1.png)
+![](/assets/wp-content/uploads/2016/08/team-explorer-1.png)
 
 You can also still create and run new or existing queries and look at the results:
 
-[<img className="size-full wp-image-813 aligncenter" src="/assets/wp-content/uploads/2016/08/query-1.png" alt="query-1" width="620" height="402" srcSet="/assets/wp-content/uploads/2016/08/query-1.png 1067w, /assets/wp-content/uploads/2016/08/query-1-300x195.png 300w, /assets/wp-content/uploads/2016/08/query-1-768x498.png 768w, /assets/wp-content/uploads/2016/08/query-1-1024x664.png 1024w" sizes="(max-width: 620px) 100vw, 620px" />](/assets/wp-content/uploads/2016/08/query-1.png)
+![](/assets/wp-content/uploads/2016/08/query-1.png)
 
 If you look at the screenshot above, you can see that I have run the &#8220;My Bugs&#8221; query and that I have selected the second work item from the result, with id 62. When I open this work item now, it will launch in my browser and display the now familiar modern work item form:
 
-[<img className="size-full wp-image-814 aligncenter" src="/assets/wp-content/uploads/2016/08/query-2.png" alt="Opened Work Item" width="620" height="458" srcSet="/assets/wp-content/uploads/2016/08/query-2.png 935w, /assets/wp-content/uploads/2016/08/query-2-300x222.png 300w, /assets/wp-content/uploads/2016/08/query-2-768x568.png 768w" sizes="(max-width: 620px) 100vw, 620px" />](/assets/wp-content/uploads/2016/08/query-2.png)
+![](/assets/wp-content/uploads/2016/08/query-2.png)
 
 And if you look closely, you can see that in the upper right hand corner of the work item form it displays &#8220;2 of 4&#8221; and some buttons:
 
-[<img className="size-full wp-image-815 aligncenter" src="/assets/wp-content/uploads/2016/08/query-3.png" alt="query-3" width="244" height="40" />](/assets/wp-content/uploads/2016/08/query-3.png)
+![](/assets/wp-content/uploads/2016/08/query-3.png)
 
 When you open a work item from a query result in Visual Studio, we don&#8217;t want you lose the query context you were in. So, when opening the work item we pass some context information along, in this case this included the name of the query that you ran and the position of the work item inside of that query result. Then, in the web we can restore this context, show you the work item, and also give you the option to easily switch to the next/previous work item in the &#8220;My Bugs&#8221; query:
 
-[<img className="size-full wp-image-816 aligncenter" src="/assets/wp-content/uploads/2016/08/query-4.png" alt="query-4" width="311" height="82" srcSet="/assets/wp-content/uploads/2016/08/query-4.png 311w, /assets/wp-content/uploads/2016/08/query-4-300x79.png 300w" sizes="(max-width: 311px) 100vw, 311px" />](/assets/wp-content/uploads/2016/08/query-4.png)
+![](/assets/wp-content/uploads/2016/08/query-4.png)
 
 You can also just return to the full query result in the web:
 
-[<img className="size-full wp-image-817 aligncenter" src="/assets/wp-content/uploads/2016/08/query-5.png" alt="query-5" width="620" height="458" srcSet="/assets/wp-content/uploads/2016/08/query-5.png 935w, /assets/wp-content/uploads/2016/08/query-5-300x222.png 300w, /assets/wp-content/uploads/2016/08/query-5-768x568.png 768w" sizes="(max-width: 620px) 100vw, 620px" />](/assets/wp-content/uploads/2016/08/query-5.png)
+![](/assets/wp-content/uploads/2016/08/query-5.png)
 
 Preserving the context this way works with all queries in Visual Studio, even new and unsaved ones. <figure id="attachment_818" aria-describedby="caption-attachment-818" />
 
-[<img className="wp-image-818 size-full" src="/assets/wp-content/uploads/2016/08/new-query-1.png" alt="New, unsaved query in Visual Studio" width="713" height="350" srcSet="/assets/wp-content/uploads/2016/08/new-query-1.png 713w, /assets/wp-content/uploads/2016/08/new-query-1-300x147.png 300w" sizes="(max-width: 713px) 100vw, 713px" />](/assets/wp-content/uploads/2016/08/new-query-1.png)
+![](/assets/wp-content/uploads/2016/08/new-query-1.png)
 
 # Linking Work Items to Code Changes
 

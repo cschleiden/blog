@@ -13,7 +13,7 @@ const ContentSecurityPolicy = `
   media-src 'none';
   connect-src *;
   font-src 'self';
-  frame-src giscus.app
+  frame-src giscus.app www.slideshare.net www.youtube.com codesandbox.io;
 `
 
 const securityHeaders = [
