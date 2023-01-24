@@ -10,7 +10,6 @@ import { InferGetStaticPropsType } from 'next'
 const MAX_DISPLAY = 5
 
 export const getStaticProps = async () => {
-  // TODO: move computation to get only the essential frontmatter to contentlayer.config
   const sortedPosts = sortedBlogPost(allBlogs)
   const posts = allCoreContent(sortedPosts)
 
