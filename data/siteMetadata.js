@@ -13,7 +13,7 @@ const siteMetadata = {
   email: 'cschleiden@live.de',
   github: 'https://github.com/cschleiden',
   twitter: 'https://twitter.com/cschleiden/',
-  linkedin: 'https://www.linkedin.com/u/cschleiden',
+  linkedin: 'https://www.linkedin.com/in/cschleiden',
   locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
