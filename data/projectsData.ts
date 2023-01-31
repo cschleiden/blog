@@ -36,6 +36,11 @@ const projectsData = [
     href: 'https://github.com/cschleiden/gh-actionlint',
   },
   {
+    title: 'Jest GitHub Actions reporter',
+    description: `Custom Jest reporter to display tests failures as annotations in GitHub Actions runs.`,
+    href: 'https://github.com/cschleiden/jest-github-actions-reporter',
+  },
+  {
     title: 'GitHub Actions: replace tokens',
     description: `GitHub Action to replace tokens in files with values from environment variables.`,
     imgSrc: '',
