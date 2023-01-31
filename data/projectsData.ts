@@ -1,11 +1,5 @@
 const projectsData = [
   {
-    title: 'Impera',
-    description: `Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.`,
-    imgSrc: '/projects/impera.png',
-    href: 'https://www.imperaonline.de',
-  },
-  {
     title: 'go-workflows',
     description: `Durable workflows for Go similar to DTFx/Cadence/Temporal. Supports different backends (MySql, SQLite, Redis).`,
     imgSrc: '',
@@ -14,8 +8,14 @@ const projectsData = [
   {
     title: 'GitHub Actions for VS Code',
     description: `VS Code extension for GitHub Actions workflows and runs.`,
-    imgSrc: '/projects/vscode.png',
+    imgSrc: '',
     href: 'https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions',
+  },
+  {
+    title: 'Impera',
+    description: `Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.`,
+    imgSrc: '/projects/impera.png',
+    href: 'https://www.imperaonline.de',
   },
   {
     title: 'GitHub Actions Hero',
