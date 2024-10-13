@@ -53,13 +53,13 @@ const projectsData = [
     href: 'https://github.com/cschleiden/webdeploy-action',
   },
   {
-    title: 'Azure DevOps - Estimate (archived)',
+    title: 'Azure Boards - Estimate (archived)',
     description: `Planning poker extension for Azure Boards. Estimate user stories and tasks with multiplayer planning poker.`,
     imgSrc: '',
     href: 'https://github.com/cschleiden/azure-boards-estimate',
   },
   {
-    title: 'Azure DevOps - Decompose (archived)',
+    title: 'Azure Boards - Decompose (archived)',
     description: `Quickly break down Azure Boards work items. Features to user stories to tasks.`,
     imgSrc: '',
     href: 'https://github.com/cschleiden/azure-boards-decompose',
@@ -71,7 +71,7 @@ const projectsData = [
     href: 'https://github.com/cschleiden/azure-boards-markdown',
   },
   {
-    title: 'Experiment: jetzt',
+    title: 'Experiment: jetzt (archived)',
     description: `Early experiment to deploy nextjs web apps to Azure Functions.`,
     imgSrc: '',
     href: 'https://github.com/cschleiden/jetzt',
