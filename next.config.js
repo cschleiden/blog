@@ -1,3 +1,5 @@
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
+
 const { withContentlayer } = require('next-contentlayer')
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -57,29 +59,35 @@ const securityHeaders = [
 /**
  * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
-module.exports = withContentlayer(
-  withBundleAnalyzer({
-    productionBrowserSourceMaps: true,
-    reactStrictMode: true,
-    pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-    eslint: {
-      dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
-    },
-    async headers() {
-      return [
-        {
-          source: '/(.*)',
-          headers: securityHeaders,
-        },
-      ]
-    },
-    webpack: (config, { dev, isServer }) => {
-      config.module.rules.push({
-        test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      })
+module.exports = (phase) => {
+  return withContentlayer(
+    withBundleAnalyzer({
+      productionBrowserSourceMaps: true,
+      reactStrictMode: true,
+      pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+      eslint: {
+        dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
+      },
+      async headers() {
+        if (PHASE_DEVELOPMENT_SERVER == phase) {
+          return []
+        }
 
-      return config
-    },
-  })
-)
+        return [
+          {
+            source: '/(.*)',
+            headers: securityHeaders,
+          },
+        ]
+      },
+      webpack: (config, { dev, isServer }) => {
+        config.module.rules.push({
+          test: /\.svg$/,
+          use: ['@svgr/webpack'],
+        })
+
+        return config
+      },
+    })
+  )
+}
