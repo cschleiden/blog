@@ -1,0 +1,96 @@
+---
+title: Improved tracing for go-workflows
+date: '2024-11-09'
+tags: ['go-workflows','open-source']
+summary:
+layout: PostLayout
+authors: ['default']
+---
+
+Back in 2022, I spent quite a bit of time experimenting with different ways of visualizing long-running workflows in Go. The idea was to use distributed tracing to get a clear picture of what's happening in these workflows, from start to finish. Unfortunately, due to some limitations in the OpenTelemetry SDK at the time, I wasn't able to really show a good picture of the long running workflows and their logical execution. The first version focused more on the actual, underlying execution and included the explicit `WorkflowTask` and `ActivityTask` execution.
+
+Later that year, Chris Gillum [shared](https://x.com/cgillum/status/1598859933600317443) that they had worked around the SDK limitations and built an implementation for [durabletask-go](https://github.com/microsoft/durabletask-go#distributed-tracing-support) that _does_ show the logical execution. That approach looked promising and I created an issue to go and rework go-workflow's tracing implementation.
+
+Then as life goes, I found myself quite busy. Specifically, I was in the middle of a pretty major life event: having a child! So here we are, two years later and I finally found some time to dive back into this idea. With go-workflows approaching its 1.0 release, I wanted to make sure better tracing support was done before releasing that version.
+
+The changes have now been merged and tracing looks much better, here is an example of the tracing sample workflow:
+
+![](/assets/posts/2024-11-03-improved-tracing/tracing.png)
+
+Specifically we see:
+- Overall workflow execution of `Workflow1` is shown as one continuous span
+- Custom spans, here `Workflow1 custom span` are supported in workflows and also represented using a single span even though this covers multiple workflow task executions
+- Subworkflows, spawned from a workflow are shown correctly with the right parent spans
+- Activities and retries are automatically traced and shown in the context of the workflow execution
+
+The problem that both durabletask-go and go-workflows had to overcome is that there is no built-in way to support long
+
+The general approach is:
+
+- Generate a span, capture its spanID in the workflow history
+- Every time a task for a workflow instance is executed, create a span using that workflow's spanID and set it as the active span in the context
+	- That way, any child span is recorded using the correct parent
+- Only when the workflow execution is done, create another span, again using that workflow's spanID and this time end it so it gets sent to the configured trace exporters
+
+Custom workflow spans work in a similar way:
+
+```go
+tracer := workflow.Tracer(ctx)
+ctx, span := tracer.Start(ctx, "Workflow1 custom span")
+// ... do something
+defer span.End()
+```
+
+Calling `tracer.Start` here now creates an event in the workflow history. Its purpose is to record the spanID so if we have to do any replays, we can create a span with the exact same spanID so any spans that were created in the `// ... do something` block, are associated with the right parent.
+
+
+Overall not too complicated, but took some experimentation to make it all work across the various features. The main issues is that there are no APIs, so some code like the following is required:
+
+```go
+func SetSpanID(span trace.Span, sid trace.SpanID) {
+	sc := span.SpanContext()
+	sc = sc.WithSpanID(sid)
+	setSpanContext(span, sc)
+}
+
+func setSpanContext(span trace.Span, sc trace.SpanContext) {
+	spanP := reflect.ValueOf(span)
+	spanV := reflect.Indirect(spanP)
+	field := spanV.FieldByName("spanContext")
+
+	// noop or nonrecording spans store their spanContext in `sc`, but we ignore
+	// those for our purposes here.
+	if !field.IsValid() || field.IsZero() {
+		return
+	}
+
+	setUnexportedField(field, sc)
+}
+
+func setUnexportedField(field reflect.Value, value interface{}) {
+	reflect.NewAt(field.Type(), unsafe.Pointer(field.UnsafeAddr())).
+		Elem().
+		Set(reflect.ValueOf(value))
+}
+```
+
+Generating a spanID is also a bit hacky. OpenTelemetry has the concept of an `IDGenerator`, but the configured instance is not exposed so generating a spanID is
+- Start a new span
+- Capture its ID
+- Mark the span as a non-recording span via another hacky workaround
+- End the span to free any resources. Since it's now non-recording, or a non-sampled one it's not actually exported
+
+```go
+func cancelSpan(span trace.Span) {
+	sc := span.SpanContext()
+	if sc.IsSampled() {
+		sc = sc.WithTraceFlags(trace.TraceFlags(0)) // Remove the sampled flag
+		setSpanContext(span, sc)
+	}
+}
+```
+
+
+One of the drawbacks of this - apart from modifying private fields - is that you'll only see complete workflow spans once the workflow instance is finished. This can be a problem if workflows run for a really long time and you want to investigate some problem while they're still running. There are a number of ongoing [discussions](https://github.com/open-telemetry/opentelemetry-specification/issues/373) on how to improve that, so hopefully this will get better with time.
+
+I'm quite happy with the result and that brings us really close to 1.0 🎉
