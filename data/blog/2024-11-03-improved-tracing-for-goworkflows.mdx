@@ -13,7 +13,7 @@ Later that year, Chris Gillum [shared](https://x.com/cgillum/status/159885993360
 
 Then as life goes, I found myself quite busy. Specifically, I was in the middle of a pretty major life event: having a child! So here we are, two years later and I finally found some time to dive back into this idea. With go-workflows approaching its 1.0 release, I wanted to make sure better tracing support was done before releasing that version.
 
-The changes have now been merged and tracing looks much better, here is an example of the tracing sample workflow:
+The changes have now been merged and tracing looks much better, here is an example of the [tracing sample workflow](https://github.com/cschleiden/go-workflows/blob/main/samples/tracing/workflow.go):
 
 ![](/assets/posts/2024-11-03-improved-tracing/tracing.png)
 
@@ -93,4 +93,4 @@ func cancelSpan(span trace.Span) {
 
 One of the drawbacks of this - apart from modifying private fields - is that you'll only see complete workflow spans once the workflow instance is finished. This can be a problem if workflows run for a really long time and you want to investigate some problem while they're still running. There are a number of ongoing [discussions](https://github.com/open-telemetry/opentelemetry-specification/issues/373) on how to improve that, so hopefully this will get better with time.
 
-I'm quite happy with the result and that brings us really close to 1.0 🎉
+I'm quite happy with the result and that brings us really close to [1.0](https://github.com/cschleiden/go-workflows/issues/247) 🎉
