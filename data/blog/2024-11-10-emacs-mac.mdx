@@ -1,0 +1,25 @@
+---
+title: Emacs keybindings on macOS
+date: '2024-11-10'
+tags: ['TIL']
+layout: PostLayout
+authors: ['default']
+---
+
+Recently set up a new Mac. Probably knew this when I got my previous one but forgot about it, so TIL again.
+
+I like using simple Emacs keybindings for navigation. And while MacOS has great support out of the box, like `Ctrl-A` goes to the beginning of a line, `Ctrl-E` goes to the end, `Option-F` or `Option-B` does not navigate to the next or previous word but prints `Ƒ` or `∫` instead. Thanks a [stackoverflow](https://stackoverflow.com/questions/20146972/is-there-a-way-to-make-alt-f-and-alt-b-jump-word-forward-and-backward-instead-of) answer, the solution is quite simple:
+
+
+Edit `~/Library/Keybindings/DefaultKeyBinding.dict` and add:
+
+```
+{
+    "~d" = "deleteWordForward:";
+    "^w" = "deleteWordBackward:";
+    "~f" = "moveWordForward:";
+    "~b" = "moveWordBackward:";
+}
+```
+
+Then restart all open apps.
