@@ -1,0 +1,34 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>cschleiden</title>
+      <link>https://cschleiden.dev/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>cschleiden@live.de (Christopher Schleiden)</managingEditor>
+      <webMaster>cschleiden@live.de (Christopher Schleiden)</webMaster>
+      <lastBuildDate>Mon, 28 Sep 2009 23:35:12 GMT</lastBuildDate>
+      <atom:link href="https://cschleiden.dev/tags/excel/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-09-28-howto-export-excel-charts-as-pdf-to-include-in-latex-document</guid>
+    <title>HowTo: Export Excel Charts as PDF to include in LaTeX document</title>
+    <link>https://cschleiden.dev/blog/2009-09-28-howto-export-excel-charts-as-pdf-to-include-in-latex-document</link>
+    undefined
+    <pubDate>Mon, 28 Sep 2009 23:35:12 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Excel</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-08-19-export-multiple-charts-from-excel-office-to-pdf-for-latex-inclusion-at-once</guid>
+    <title>Export Multiple Charts from Excel (Office) To PDF For LaTeX Inclusion At Once</title>
+    <link>https://cschleiden.dev/blog/2011-08-19-export-multiple-charts-from-excel-office-to-pdf-for-latex-inclusion-at-once</link>
+    undefined
+    <pubDate>Fri, 19 Aug 2011 21:16:52 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Excel</category><category>LaTeX</category>
+  </item>
+
+    </channel>
+  </rss>

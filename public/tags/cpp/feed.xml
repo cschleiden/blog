@@ -1,0 +1,44 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>cschleiden</title>
+      <link>https://cschleiden.dev/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>cschleiden@live.de (Christopher Schleiden)</managingEditor>
+      <webMaster>cschleiden@live.de (Christopher Schleiden)</webMaster>
+      <lastBuildDate>Wed, 22 Jul 2009 18:44:45 GMT</lastBuildDate>
+      <atom:link href="https://cschleiden.dev/tags/cpp/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-07-22-concepts-wont-be-in-c0x</guid>
+    <title>Concepts won&#39;t be in C++0x</title>
+    <link>https://cschleiden.dev/blog/2009-07-22-concepts-wont-be-in-c0x</link>
+    undefined
+    <pubDate>Wed, 22 Jul 2009 18:44:45 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>CPP</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-01-13-required-reading-what-should-we-teach-new-software-developers</guid>
+    <title>Required Reading: What Should We Teach New Software Developers</title>
+    <link>https://cschleiden.dev/blog/2010-01-13-required-reading-what-should-we-teach-new-software-developers</link>
+    undefined
+    <pubDate>Thu, 14 Jan 2010 02:14:29 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>CPP</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-09-08-c-and-beyond-2011-herb-sutter-why-c</guid>
+    <title>C++ and Beyond 2011: Herb Sutter — Why C++?</title>
+    <link>https://cschleiden.dev/blog/2011-09-08-c-and-beyond-2011-herb-sutter-why-c</link>
+    undefined
+    <pubDate>Thu, 08 Sep 2011 07:16:45 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>CPP</category>
+  </item>
+
+    </channel>
+  </rss>

@@ -1,6 +1,9 @@
-// import NextImage, { ImageProps } from 'next/image'
+import NextImage, { ImageProps } from 'next/image'
 
-// eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-const Image = ({ ...rest }) => <img {...rest} />
+const basePath = process.env.BASE_PATH
+
+const Image = ({ src, ...rest }: ImageProps) => (
+  <NextImage src={`${basePath || ''}${src}`} {...rest} />
+)
 
 export default Image

@@ -1,0 +1,664 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>cschleiden</title>
+      <link>https://cschleiden.dev/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>cschleiden@live.de (Christopher Schleiden)</managingEditor>
+      <webMaster>cschleiden@live.de (Christopher Schleiden)</webMaster>
+      <lastBuildDate>Sun, 10 Nov 2024 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://cschleiden.dev/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://cschleiden.dev/blog/2024-11-10-emacs-mac</guid>
+    <title>Emacs keybindings on macOS</title>
+    <link>https://cschleiden.dev/blog/2024-11-10-emacs-mac</link>
+    undefined
+    <pubDate>Sun, 10 Nov 2024 00:00:00 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>TIL</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2024-11-03-improved-tracing-for-goworkflows</guid>
+    <title>Improved tracing for go-workflows</title>
+    <link>https://cschleiden.dev/blog/2024-11-03-improved-tracing-for-goworkflows</link>
+    null
+    <pubDate>Sat, 09 Nov 2024 00:00:00 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>go-workflows</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2023-01-11-effective-workflow</guid>
+    <title>Effective Workflow GitHub CLI extension</title>
+    <link>https://cschleiden.dev/blog/2023-01-11-effective-workflow</link>
+    <description>Quickly see the effective workflow for a GitHub Actions workflow run.</description>
+    <pubDate>Wed, 11 Jan 2023 20:49:06 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>GitHub</category><category>GitHub Actions</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2022-05-02-go-workflows-part2</guid>
+    <title>go-workflows: Durable Workflows in Go /2</title>
+    <link>https://cschleiden.dev/blog/2022-05-02-go-workflows-part2</link>
+    undefined
+    <pubDate>Mon, 02 May 2022 20:19:06 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>go</category><category>workflows</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2022-04-08-task-queue-with-redis</guid>
+    <title>Simple task queue with Redis Streams</title>
+    <link>https://cschleiden.dev/blog/2022-04-08-task-queue-with-redis</link>
+    <description>Simple task queue using Redis Streams with support for worker heartbeats and recovery of abandoned tasks.</description>
+    <pubDate>Fri, 08 Apr 2022 16:30:00 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>go</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2022-03-06-go-workflows-generics</guid>
+    <title>go-workflows: Experiments with Go Generics</title>
+    <link>https://cschleiden.dev/blog/2022-03-06-go-workflows-generics</link>
+    <description>Experiments with Go Generics in the context of go-workflows.</description>
+    <pubDate>Sun, 06 Mar 2022 18:30:00 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>go</category><category>workflows</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2022-02-13-go-workflows-part1</guid>
+    <title>go-workflows: Durable Workflows in Go</title>
+    <link>https://cschleiden.dev/blog/2022-02-13-go-workflows-part1</link>
+    <description>Go library implementing durable execution of workflows with different backends.</description>
+    <pubDate>Sun, 13 Feb 2022 21:19:06 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>go</category><category>workflows</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2020-02-23-github-actions-for-vs-code-extension</guid>
+    <title>GitHub Actions for VS Code extension</title>
+    <link>https://cschleiden.dev/blog/2020-02-23-github-actions-for-vs-code-extension</link>
+    undefined
+    <pubDate>Sun, 23 Feb 2020 21:19:06 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>GitHub</category><category>GitHub Actions</category><category>VSCode</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2019-07-27-mt-rainier</guid>
+    <title>Climbing Mount Rainier via the Emmons Glacier route</title>
+    <link>https://cschleiden.dev/blog/2019-07-27-mt-rainier</link>
+    undefined
+    <pubDate>Sat, 27 Jul 2019 00:00:00 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Climbing</category><category>Personal</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2019-08-12-spf</guid>
+    <title>Darken your screen</title>
+    <link>https://cschleiden.dev/blog/2019-08-12-spf</link>
+    undefined
+    <pubDate>Sat, 27 Jul 2019 00:00:00 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Tools</category><category>Experiments</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2019-06-11-next-js-typescript</guid>
+    <title>Next.JS + Typescript</title>
+    <link>https://cschleiden.dev/blog/2019-06-11-next-js-typescript</link>
+    undefined
+    <pubDate>Tue, 11 Jun 2019 23:00:32 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>TypeScript</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2019-06-05-emacs-code-navigation-in-visual-studio-code</guid>
+    <title>Emacs Code Navigation in Visual Studio Code</title>
+    <link>https://cschleiden.dev/blog/2019-06-05-emacs-code-navigation-in-visual-studio-code</link>
+    undefined
+    <pubDate>Thu, 06 Jun 2019 02:18:35 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Tools</category><category>VSCode</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2019-05-21-duplicate-sdk-copy-in-an-azure-devops-extension</guid>
+    <title>Duplicate SDK copy in an Azure DevOps extension</title>
+    <link>https://cschleiden.dev/blog/2019-05-21-duplicate-sdk-copy-in-an-azure-devops-extension</link>
+    undefined
+    <pubDate>Tue, 21 May 2019 15:28:52 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Azure DevOps</category><category>Azure DevOps Extensibility</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2016-08-28-opening-work-items-in-visual-studio-15-preview</guid>
+    <title>Opening Work items in Visual Studio 2017</title>
+    <link>https://cschleiden.dev/blog/2016-08-28-opening-work-items-in-visual-studio-15-preview</link>
+    undefined
+    <pubDate>Sun, 28 Aug 2016 21:34:11 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>TFS</category><category>visualstudio</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2016-06-26-sommerurlaub-auf-kauai-in-hawaii-10hourflight</guid>
+    <title>Sommerurlaub auf Kauai in Hawaii — 10hourflight</title>
+    <link>https://cschleiden.dev/blog/2016-06-26-sommerurlaub-auf-kauai-in-hawaii-10hourflight</link>
+    undefined
+    <pubDate>Mon, 27 Jun 2016 04:09:21 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Personal</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2016-02-28-vsts-tags-mru-extension-part-2</guid>
+    <title>VSTS Tags MRU extension – Part 2</title>
+    <link>https://cschleiden.dev/blog/2016-02-28-vsts-tags-mru-extension-part-2</link>
+    undefined
+    <pubDate>Mon, 29 Feb 2016 05:46:11 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Azure DevOps</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2016-02-24-vsts-tags-mru-extension-part-1</guid>
+    <title>VSTS Tags MRU extension – Part 1</title>
+    <link>https://cschleiden.dev/blog/2016-02-24-vsts-tags-mru-extension-part-1</link>
+    undefined
+    <pubDate>Thu, 25 Feb 2016 06:49:38 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Azure DevOps</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2016-02-24-extending-vsts-setup</guid>
+    <title>Extending VSTS - Setup</title>
+    <link>https://cschleiden.dev/blog/2016-02-24-extending-vsts-setup</link>
+    undefined
+    <pubDate>Thu, 25 Feb 2016 06:49:18 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Azure DevOps</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2014-06-13-leaving-germany</guid>
+    <title>Leaving Germany</title>
+    <link>https://cschleiden.dev/blog/2014-06-13-leaving-germany</link>
+    undefined
+    <pubDate>Fri, 13 Jun 2014 13:31:50 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Personal</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2014-04-14-vs2013-update-2-rc-error-appx3210</guid>
+    <title>VS2013 Update 2 RC — Error APPX3210</title>
+    <link>https://cschleiden.dev/blog/2014-04-14-vs2013-update-2-rc-error-appx3210</link>
+    undefined
+    <pubDate>Mon, 14 Apr 2014 17:42:34 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Visual Studio</category><category>Microsoft</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2014-01-10-windows-8-1-search-indexing</guid>
+    <title>Windows 8.1 Search Indexing</title>
+    <link>https://cschleiden.dev/blog/2014-01-10-windows-8-1-search-indexing</link>
+    undefined
+    <pubDate>Sat, 11 Jan 2014 03:42:18 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Windows</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2013-11-28-delete-verb-not-working-with-webapi-and-iis</guid>
+    <title>DELETE Verb not working with WebApi and IIS</title>
+    <link>https://cschleiden.dev/blog/2013-11-28-delete-verb-not-working-with-webapi-and-iis</link>
+    undefined
+    <pubDate>Fri, 29 Nov 2013 03:23:30 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2013-10-23-vs2013-build-fails-without-errors</guid>
+    <title>VS2013 build fails without errors</title>
+    <link>https://cschleiden.dev/blog/2013-10-23-vs2013-build-fails-without-errors</link>
+    undefined
+    <pubDate>Wed, 23 Oct 2013 16:21:14 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Visual Studio</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2012-08-19-windows-8-apps-event-logs</guid>
+    <title>Windows 8 apps event logs</title>
+    <link>https://cschleiden.dev/blog/2012-08-19-windows-8-apps-event-logs</link>
+    undefined
+    <pubDate>Mon, 20 Aug 2012 02:09:07 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category><category>Windows</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2012-02-25-resharper-and-windows-8-metro-windows-ui-namespaces</guid>
+    <title>ReSharper and Windows 8 Metro Windows.UI...  namespaces</title>
+    <link>https://cschleiden.dev/blog/2012-02-25-resharper-and-windows-8-metro-windows-ui-namespaces</link>
+    undefined
+    <pubDate>Sun, 26 Feb 2012 02:39:07 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category><category>Visual Studio</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2012-02-03-windows-phone-7-and-silverlight-slider-binding-bug</guid>
+    <title>Windows Phone 7 and Silverlight Slider Binding Bug</title>
+    <link>https://cschleiden.dev/blog/2012-02-03-windows-phone-7-and-silverlight-slider-binding-bug</link>
+    undefined
+    <pubDate>Fri, 03 Feb 2012 08:51:51 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category><category>Visual Studio</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2012-01-04-double-angle-brackets</guid>
+    <title>Double Angle Brackets</title>
+    <link>https://cschleiden.dev/blog/2012-01-04-double-angle-brackets</link>
+    undefined
+    <pubDate>Wed, 04 Jan 2012 18:47:02 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-11-10-spotify-app-auf-windows-phone-7-in-deutschland-spotify-on-windows-phone-7-from-germany</guid>
+    <title>Spotify App auf Windows Phone 7 in Deutschland / Spotify on Windows Phone 7 from Germany</title>
+    <link>https://cschleiden.dev/blog/2011-11-10-spotify-app-auf-windows-phone-7-in-deutschland-spotify-on-windows-phone-7-from-germany</link>
+    undefined
+    <pubDate>Thu, 10 Nov 2011 17:33:07 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Spotify</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-09-30-reasons-why-i-exit-vi</guid>
+    <title>Reasons why I exit vi</title>
+    <link>https://cschleiden.dev/blog/2011-09-30-reasons-why-i-exit-vi</link>
+    undefined
+    <pubDate>Fri, 30 Sep 2011 21:15:29 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Fun</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-09-28-windows-phone-7-5-mango-und-o2-visual-voice-mail</guid>
+    <title>Windows Phone 7.5 Mango und O2 Visual Voice Mail</title>
+    <link>https://cschleiden.dev/blog/2011-09-28-windows-phone-7-5-mango-und-o2-visual-voice-mail</link>
+    undefined
+    <pubDate>Thu, 29 Sep 2011 06:10:47 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Windows Phone</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-09-28-linker-trouble-on-bluegenep-system</guid>
+    <title>Linker trouble on BlueGene/P system</title>
+    <link>https://cschleiden.dev/blog/2011-09-28-linker-trouble-on-bluegenep-system</link>
+    undefined
+    <pubDate>Thu, 29 Sep 2011 06:06:48 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>HPC</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-09-09-sigprof-signal-handler-and-pthreads</guid>
+    <title>SIGPROF signal handler and pthreads</title>
+    <link>https://cschleiden.dev/blog/2011-09-09-sigprof-signal-handler-and-pthreads</link>
+    undefined
+    <pubDate>Fri, 09 Sep 2011 22:06:40 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Thesis</category><category>HPC</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-09-08-c-and-beyond-2011-herb-sutter-why-c</guid>
+    <title>C++ and Beyond 2011: Herb Sutter — Why C++?</title>
+    <link>https://cschleiden.dev/blog/2011-09-08-c-and-beyond-2011-herb-sutter-why-c</link>
+    undefined
+    <pubDate>Thu, 08 Sep 2011 07:16:45 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>CPP</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-08-19-export-multiple-charts-from-excel-office-to-pdf-for-latex-inclusion-at-once</guid>
+    <title>Export Multiple Charts from Excel (Office) To PDF For LaTeX Inclusion At Once</title>
+    <link>https://cschleiden.dev/blog/2011-08-19-export-multiple-charts-from-excel-office-to-pdf-for-latex-inclusion-at-once</link>
+    undefined
+    <pubDate>Fri, 19 Aug 2011 21:16:52 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Excel</category><category>LaTeX</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-06-27-azure-visio-stencils</guid>
+    <title>Azure Visio Stencils</title>
+    <link>https://cschleiden.dev/blog/2011-06-27-azure-visio-stencils</link>
+    undefined
+    <pubDate>Tue, 28 Jun 2011 01:29:10 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>HowTo</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-06-21-first-correct-output-of-monitoring-module</guid>
+    <title>First correct output of monitoring module</title>
+    <link>https://cschleiden.dev/blog/2011-06-21-first-correct-output-of-monitoring-module</link>
+    undefined
+    <pubDate>Wed, 22 Jun 2011 01:37:18 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Thesis</category><category>HPC</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2011-02-07-data-is-everything</guid>
+    <title>Data is everything!</title>
+    <link>https://cschleiden.dev/blog/2011-02-07-data-is-everything</link>
+    undefined
+    <pubDate>Mon, 07 Feb 2011 21:33:15 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>impera</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-11-07-new-in-game-interface-sneak-peak-1</guid>
+    <title>New In-Game Interface Sneak Peak 1</title>
+    <link>https://cschleiden.dev/blog/2010-11-07-new-in-game-interface-sneak-peak-1</link>
+    undefined
+    <pubDate>Mon, 08 Nov 2010 04:41:32 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Impera</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-10-24-office-2010-file-type-selection</guid>
+    <title>Office 2010 File Type Selection</title>
+    <link>https://cschleiden.dev/blog/2010-10-24-office-2010-file-type-selection</link>
+    undefined
+    <pubDate>Mon, 25 Oct 2010 05:47:28 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category><category>Office</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-10-23-weird-kindle-book-pricing</guid>
+    <title>Weird Kindle Book Pricing</title>
+    <link>https://cschleiden.dev/blog/2010-10-23-weird-kindle-book-pricing</link>
+    undefined
+    <pubDate>Sun, 24 Oct 2010 06:57:28 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Book</category><category>Kindle</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-10-19-bing-maps-in-how-i-met-your-mother</guid>
+    <title>Bing Maps in ‘How I Met Your Mother&#39;</title>
+    <link>https://cschleiden.dev/blog/2010-10-19-bing-maps-in-how-i-met-your-mother</link>
+    undefined
+    <pubDate>Wed, 20 Oct 2010 02:36:55 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-10-05-another-ie-9-bug-search-box</guid>
+    <title>Another IE 9 bug: Search box</title>
+    <link>https://cschleiden.dev/blog/2010-10-05-another-ie-9-bug-search-box</link>
+    undefined
+    <pubDate>Tue, 05 Oct 2010 19:37:48 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-09-20-internet-explorer-9-taskbar-pin-bug</guid>
+    <title>Internet Explorer 9 Taskbar Pin Bug</title>
+    <link>https://cschleiden.dev/blog/2010-09-20-internet-explorer-9-taskbar-pin-bug</link>
+    undefined
+    <pubDate>Mon, 20 Sep 2010 19:04:55 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-09-16-emacs-shortcuts-for-visual-studio-2010</guid>
+    <title>Emacs shortcuts for Visual Studio 2010</title>
+    <link>https://cschleiden.dev/blog/2010-09-16-emacs-shortcuts-for-visual-studio-2010</link>
+    undefined
+    <pubDate>Thu, 16 Sep 2010 19:02:05 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Emacs</category><category>Visual Studio</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-08-26-simple-dependency-injection</guid>
+    <title>Simple Dependency Injection</title>
+    <link>https://cschleiden.dev/blog/2010-08-26-simple-dependency-injection</link>
+    undefined
+    <pubDate>Thu, 26 Aug 2010 22:54:29 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>OO</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-08-24-actionlink-with-image-in-asp-net-mvc-2</guid>
+    <title>ActionLink with Image in ASP.NET MVC 2</title>
+    <link>https://cschleiden.dev/blog/2010-08-24-actionlink-with-image-in-asp-net-mvc-2</link>
+    undefined
+    <pubDate>Tue, 24 Aug 2010 19:10:03 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>ASP.NET MVC</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-07-10-java-update-process</guid>
+    <title>Java Update Process</title>
+    <link>https://cschleiden.dev/blog/2010-07-10-java-update-process</link>
+    undefined
+    <pubDate>Sun, 11 Jul 2010 00:29:45 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>UX</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-05-15-gemeinsam-genutztes-onenote-notebook-auf-skydrive</guid>
+    <title>Gemeinsam genutztes OneNote Notebook auf Skydrive</title>
+    <link>https://cschleiden.dev/blog/2010-05-15-gemeinsam-genutztes-onenote-notebook-auf-skydrive</link>
+    undefined
+    <pubDate>Sat, 15 May 2010 18:20:36 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Office</category><category>Productivity</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-05-03-portable-windows-hpc-r2-cluster</guid>
+    <title>Portable Windows HPC R2 “Cluster”</title>
+    <link>https://cschleiden.dev/blog/2010-05-03-portable-windows-hpc-r2-cluster</link>
+    undefined
+    <pubDate>Mon, 03 May 2010 23:08:15 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category><category>winhpc</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-04-18-h-e-l-d-on-windows-phone-7</guid>
+    <title>H.E.L.D. on Windows Phone 7</title>
+    <link>https://cschleiden.dev/blog/2010-04-18-h-e-l-d-on-windows-phone-7</link>
+    undefined
+    <pubDate>Mon, 19 Apr 2010 06:29:53 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>gamedev</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-04-09-project-springboard-2-0</guid>
+    <title>Project Springboard 2.0</title>
+    <link>https://cschleiden.dev/blog/2010-04-09-project-springboard-2-0</link>
+    undefined
+    <pubDate>Sat, 10 Apr 2010 00:45:36 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-01-24-xna-gaming-nights</guid>
+    <title>XNA Gaming Nights</title>
+    <link>https://cschleiden.dev/blog/2010-01-24-xna-gaming-nights</link>
+    undefined
+    <pubDate>Sun, 24 Jan 2010 07:31:59 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>gamedev</category><category>talk</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-01-13-required-reading-what-should-we-teach-new-software-developers</guid>
+    <title>Required Reading: What Should We Teach New Software Developers</title>
+    <link>https://cschleiden.dev/blog/2010-01-13-required-reading-what-should-we-teach-new-software-developers</link>
+    undefined
+    <pubDate>Thu, 14 Jan 2010 02:14:29 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>CPP</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-12-26-h-e-l-d-alpha-2</guid>
+    <title>H.E.L.D. Alpha 2</title>
+    <link>https://cschleiden.dev/blog/2009-12-26-h-e-l-d-alpha-2</link>
+    undefined
+    <pubDate>Sun, 27 Dec 2009 03:35:01 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>gamedev</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-11-25-die-verbotene-welt</guid>
+    <title>Die Verbotene Welt</title>
+    <link>https://cschleiden.dev/blog/2009-11-25-die-verbotene-welt</link>
+    undefined
+    <pubDate>Wed, 25 Nov 2009 22:55:25 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>gamedev</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-11-14-palm-pre-follow-up</guid>
+    <title>Palm Pre Follow up</title>
+    <link>https://cschleiden.dev/blog/2009-11-14-palm-pre-follow-up</link>
+    undefined
+    <pubDate>Sat, 14 Nov 2009 07:55:01 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Palm Pre</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-11-03-palm-pre</guid>
+    <title>Palm Pre</title>
+    <link>https://cschleiden.dev/blog/2009-11-03-palm-pre</link>
+    undefined
+    <pubDate>Wed, 04 Nov 2009 04:37:49 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Palm Pre</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-09-28-howto-export-excel-charts-as-pdf-to-include-in-latex-document</guid>
+    <title>HowTo: Export Excel Charts as PDF to include in LaTeX document</title>
+    <link>https://cschleiden.dev/blog/2009-09-28-howto-export-excel-charts-as-pdf-to-include-in-latex-document</link>
+    undefined
+    <pubDate>Mon, 28 Sep 2009 23:35:12 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Excel</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-09-16-bachelor-of-science</guid>
+    <title>Bachelor of Science</title>
+    <link>https://cschleiden.dev/blog/2009-09-16-bachelor-of-science</link>
+    undefined
+    <pubDate>Wed, 16 Sep 2009 23:31:12 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Personal</category><category>Thesis</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-08-12-howto-use-spotify-from-germany-spotify-in-deutschland</guid>
+    <title>HowTo: Use Spotify from Germany / Spotify in Deutschland</title>
+    <link>https://cschleiden.dev/blog/2009-08-12-howto-use-spotify-from-germany-spotify-in-deutschland</link>
+    undefined
+    <pubDate>Wed, 12 Aug 2009 15:37:06 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Spotify</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-08-11-newline-in-a-latex-subfigure-caption</guid>
+    <title>Newline in a LaTeX subfigure caption</title>
+    <link>https://cschleiden.dev/blog/2009-08-11-newline-in-a-latex-subfigure-caption</link>
+    undefined
+    <pubDate>Wed, 12 Aug 2009 00:40:14 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Thesis</category><category>LaTeX</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-07-22-concepts-wont-be-in-c0x</guid>
+    <title>Concepts won&#39;t be in C++0x</title>
+    <link>https://cschleiden.dev/blog/2009-07-22-concepts-wont-be-in-c0x</link>
+    undefined
+    <pubDate>Wed, 22 Jul 2009 18:44:45 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>CPP</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-06-23-microsoft-ts-70-536</guid>
+    <title>Microsoft TS 70-536</title>
+    <link>https://cschleiden.dev/blog/2009-06-23-microsoft-ts-70-536</link>
+    undefined
+    <pubDate>Wed, 24 Jun 2009 03:33:47 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-06-16-parallel-computing-talk</guid>
+    <title>Parallel Computing Talk</title>
+    <link>https://cschleiden.dev/blog/2009-06-16-parallel-computing-talk</link>
+    undefined
+    <pubDate>Tue, 16 Jun 2009 23:33:05 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Microsoft</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-04-02-new-blog</guid>
+    <title>new blog.</title>
+    <link>https://cschleiden.dev/blog/2009-04-02-new-blog</link>
+    undefined
+    <pubDate>Fri, 03 Apr 2009 05:41:27 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Personal</category>
+  </item>
+
+    </channel>
+  </rss>

@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>cschleiden</title>
+      <link>https://cschleiden.dev/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>cschleiden@live.de (Christopher Schleiden)</managingEditor>
+      <webMaster>cschleiden@live.de (Christopher Schleiden)</webMaster>
+      <lastBuildDate>Thu, 16 Sep 2010 19:02:05 GMT</lastBuildDate>
+      <atom:link href="https://cschleiden.dev/tags/emacs/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-09-16-emacs-shortcuts-for-visual-studio-2010</guid>
+    <title>Emacs shortcuts for Visual Studio 2010</title>
+    <link>https://cschleiden.dev/blog/2010-09-16-emacs-shortcuts-for-visual-studio-2010</link>
+    undefined
+    <pubDate>Thu, 16 Sep 2010 19:02:05 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Emacs</category><category>Visual Studio</category>
+  </item>
+
+    </channel>
+  </rss>
