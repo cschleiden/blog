@@ -1,0 +1,64 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>cschleiden</title>
+      <link>https://cschleiden.dev/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>cschleiden@live.de (Christopher Schleiden)</managingEditor>
+      <webMaster>cschleiden@live.de (Christopher Schleiden)</webMaster>
+      <lastBuildDate>Fri, 03 Apr 2009 05:41:27 GMT</lastBuildDate>
+      <atom:link href="https://cschleiden.dev/tags/personal/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-04-02-new-blog</guid>
+    <title>new blog.</title>
+    <link>https://cschleiden.dev/blog/2009-04-02-new-blog</link>
+    undefined
+    <pubDate>Fri, 03 Apr 2009 05:41:27 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Personal</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2009-09-16-bachelor-of-science</guid>
+    <title>Bachelor of Science</title>
+    <link>https://cschleiden.dev/blog/2009-09-16-bachelor-of-science</link>
+    undefined
+    <pubDate>Wed, 16 Sep 2009 23:31:12 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Personal</category><category>Thesis</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2014-06-13-leaving-germany</guid>
+    <title>Leaving Germany</title>
+    <link>https://cschleiden.dev/blog/2014-06-13-leaving-germany</link>
+    undefined
+    <pubDate>Fri, 13 Jun 2014 13:31:50 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Personal</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2016-06-26-sommerurlaub-auf-kauai-in-hawaii-10hourflight</guid>
+    <title>Sommerurlaub auf Kauai in Hawaii — 10hourflight</title>
+    <link>https://cschleiden.dev/blog/2016-06-26-sommerurlaub-auf-kauai-in-hawaii-10hourflight</link>
+    undefined
+    <pubDate>Mon, 27 Jun 2016 04:09:21 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Personal</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2019-07-27-mt-rainier</guid>
+    <title>Climbing Mount Rainier via the Emmons Glacier route</title>
+    <link>https://cschleiden.dev/blog/2019-07-27-mt-rainier</link>
+    undefined
+    <pubDate>Sat, 27 Jul 2019 00:00:00 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Climbing</category><category>Personal</category>
+  </item>
+
+    </channel>
+  </rss>

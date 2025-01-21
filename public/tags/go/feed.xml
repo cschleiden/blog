@@ -1,0 +1,54 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>cschleiden</title>
+      <link>https://cschleiden.dev/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>cschleiden@live.de (Christopher Schleiden)</managingEditor>
+      <webMaster>cschleiden@live.de (Christopher Schleiden)</webMaster>
+      <lastBuildDate>Sun, 13 Feb 2022 21:19:06 GMT</lastBuildDate>
+      <atom:link href="https://cschleiden.dev/tags/go/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://cschleiden.dev/blog/2022-02-13-go-workflows-part1</guid>
+    <title>go-workflows: Durable Workflows in Go</title>
+    <link>https://cschleiden.dev/blog/2022-02-13-go-workflows-part1</link>
+    <description>Go library implementing durable execution of workflows with different backends.</description>
+    <pubDate>Sun, 13 Feb 2022 21:19:06 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>go</category><category>workflows</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2022-03-06-go-workflows-generics</guid>
+    <title>go-workflows: Experiments with Go Generics</title>
+    <link>https://cschleiden.dev/blog/2022-03-06-go-workflows-generics</link>
+    <description>Experiments with Go Generics in the context of go-workflows.</description>
+    <pubDate>Sun, 06 Mar 2022 18:30:00 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>go</category><category>workflows</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2022-04-08-task-queue-with-redis</guid>
+    <title>Simple task queue with Redis Streams</title>
+    <link>https://cschleiden.dev/blog/2022-04-08-task-queue-with-redis</link>
+    <description>Simple task queue using Redis Streams with support for worker heartbeats and recovery of abandoned tasks.</description>
+    <pubDate>Fri, 08 Apr 2022 16:30:00 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>go</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2022-05-02-go-workflows-part2</guid>
+    <title>go-workflows: Durable Workflows in Go /2</title>
+    <link>https://cschleiden.dev/blog/2022-05-02-go-workflows-part2</link>
+    undefined
+    <pubDate>Mon, 02 May 2022 20:19:06 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>go</category><category>workflows</category>
+  </item>
+
+    </channel>
+  </rss>

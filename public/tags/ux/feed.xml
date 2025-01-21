@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>cschleiden</title>
+      <link>https://cschleiden.dev/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>cschleiden@live.de (Christopher Schleiden)</managingEditor>
+      <webMaster>cschleiden@live.de (Christopher Schleiden)</webMaster>
+      <lastBuildDate>Sun, 11 Jul 2010 00:29:45 GMT</lastBuildDate>
+      <atom:link href="https://cschleiden.dev/tags/ux/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://cschleiden.dev/blog/2010-07-10-java-update-process</guid>
+    <title>Java Update Process</title>
+    <link>https://cschleiden.dev/blog/2010-07-10-java-update-process</link>
+    undefined
+    <pubDate>Sun, 11 Jul 2010 00:29:45 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>UX</category>
+  </item>
+
+    </channel>
+  </rss>

@@ -1,0 +1,54 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>cschleiden</title>
+      <link>https://cschleiden.dev/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>cschleiden@live.de (Christopher Schleiden)</managingEditor>
+      <webMaster>cschleiden@live.de (Christopher Schleiden)</webMaster>
+      <lastBuildDate>Thu, 25 Feb 2016 06:49:18 GMT</lastBuildDate>
+      <atom:link href="https://cschleiden.dev/tags/azure-devops/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://cschleiden.dev/blog/2016-02-24-extending-vsts-setup</guid>
+    <title>Extending VSTS - Setup</title>
+    <link>https://cschleiden.dev/blog/2016-02-24-extending-vsts-setup</link>
+    undefined
+    <pubDate>Thu, 25 Feb 2016 06:49:18 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Azure DevOps</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2016-02-24-vsts-tags-mru-extension-part-1</guid>
+    <title>VSTS Tags MRU extension – Part 1</title>
+    <link>https://cschleiden.dev/blog/2016-02-24-vsts-tags-mru-extension-part-1</link>
+    undefined
+    <pubDate>Thu, 25 Feb 2016 06:49:38 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Azure DevOps</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2016-02-28-vsts-tags-mru-extension-part-2</guid>
+    <title>VSTS Tags MRU extension – Part 2</title>
+    <link>https://cschleiden.dev/blog/2016-02-28-vsts-tags-mru-extension-part-2</link>
+    undefined
+    <pubDate>Mon, 29 Feb 2016 05:46:11 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Azure DevOps</category>
+  </item>
+
+  <item>
+    <guid>https://cschleiden.dev/blog/2019-05-21-duplicate-sdk-copy-in-an-azure-devops-extension</guid>
+    <title>Duplicate SDK copy in an Azure DevOps extension</title>
+    <link>https://cschleiden.dev/blog/2019-05-21-duplicate-sdk-copy-in-an-azure-devops-extension</link>
+    undefined
+    <pubDate>Tue, 21 May 2019 15:28:52 GMT</pubDate>
+    <author>cschleiden@live.de (Christopher Schleiden)</author>
+    <category>Azure DevOps</category><category>Azure DevOps Extensibility</category>
+  </item>
+
+    </channel>
+  </rss>
