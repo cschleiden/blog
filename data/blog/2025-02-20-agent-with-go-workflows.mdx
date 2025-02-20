@@ -1,0 +1,16 @@
+---
+title: Emacs keybindings on macOS
+date: '2025-02-20'
+tags: ['go-workflows', 'AI']
+layout: PostLayout
+authors: ['default']
+---
+
+The future is agentic! Or so we read everywhere. I've wanted to play with building a simple agent using [go-workflows](https://github.com/cschleiden/go-workflows) for a while. Agents might run for a long time, we want to restart them when our processes crash, etc. All of that makes a durable orchestration framework like go-workflows a good fit for building agents.
+
+There are lots of special purpose agent frameworks already out there, but depending on your use case, going straight to a general purpose orchestration framework might be a better fit.
+
+## The example agent
+
+Our example agent is very simple. It's a multi-turn chat agent, that can answer questions about the weather and traffic in a given city.
+
