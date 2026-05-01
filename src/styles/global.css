@@ -152,7 +152,7 @@ nav .container {
 
 .nav-logo {
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.35rem;
   letter-spacing: -0.02em;
   transition: opacity 0.2s;
 }
@@ -458,6 +458,7 @@ html.light .icon-moon { display: block; }
 }
 
 .project-card {
+  display: block;
   padding: 28px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
@@ -468,6 +469,7 @@ html.light .icon-moon { display: block; }
   overflow: hidden;
   transform-style: preserve-3d;
   perspective: 800px;
+  color: inherit;
 }
 
 .project-card::before {
