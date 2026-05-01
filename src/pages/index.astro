@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 6);
+
+const projects = [
+  {
+    name: 'go-workflows',
+    desc: 'Embedded durable workflows for Go, similar to DTFx, Cadence, and Temporal.',
+    href: 'https://github.com/cschleiden/go-workflows',
+    stars: 466,
+    tech: ['Go', 'MySQL', 'Redis'],
+  },
+  {
+    name: 'VS Code GitHub Actions',
+    desc: 'Unofficial extension to view GitHub Actions workflows and runs in VS Code.',
+    href: 'https://github.com/cschleiden/vscode-github-actions',
+    stars: 301,
+    tech: ['TypeScript', 'VS Code'],
+  },
+  {
+    name: 'GitHub Actions Hero',
+    desc: 'Interactive tutorial and visualizer for GitHub Actions workflows.',
+    href: 'https://github-actions-hero.vercel.app',
+    stars: 117,
+    tech: ['TypeScript', 'React'],
+  },
+  {
+    name: 'Impera',
+    desc: 'Free browser game inspired by the "world domination" board game.',
+    href: 'https://www.imperaonline.de',
+    tech: ['C#', 'React'],
+  },
+];
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+}
+
+function getSlug(id: string) {
+  return id.replace(/\.mdx?$/, '');
+}
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-line"></div>
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Staff Software Engineer at GitHub
+      </div>
+      <h1>
+        <span class="hero-word-mask"><span class="hero-word">Christopher</span></span><br/>
+        <span class="hero-word-mask"><span class="hero-word">Schleiden</span></span>
+      </h1>
+      <p class="hero-description">
+        Building <span class="hero-keyword"><span class="hero-keyword-inner" id="heroKeyword">developer tools</span></span>
+        and infrastructure. German transplant in the Pacific Northwest — when not coding, probably on a mountain somewhere.
+      </p>
+      <div class="hero-links">
+        <a href="/blog" class="btn-primary">
+          Read the blog
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg>
+        </a>
+        <a href="https://github.com/cschleiden" class="btn-ghost" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Writing -->
+  <section class="section" id="writing">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">Writing</span>
+        <a href="/blog" class="section-link">All posts →</a>
+      </div>
+      <div class="post-list stagger">
+        {posts.map(post => (
+          <a href={`/blog/${getSlug(post.id)}`} class="post-item">
+            <span class="post-date">{formatDate(post.data.date)}</span>
+            <span class="post-title-text">{post.data.title}</span>
+            {post.data.tags[0] && <span class="post-tag">{post.data.tags[0]}</span>}
+            <span class="post-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- Projects -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">Projects</span>
+        <a href="/projects" class="section-link">View all →</a>
+      </div>
+      <div class="projects-grid stagger">
+        {projects.map(project => (
+          <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+            <div class="project-header">
+              <span class="project-name">{project.name}</span>
+              {project.stars && (
+                <span class="project-stars">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <span class="count-up" data-target={project.stars}>0</span>
+                </span>
+              )}
+            </div>
+            <p class="project-desc">{project.desc}</p>
+            <div class="project-tech">
+              {project.tech.map(t => <span class="tech-badge">{t}</span>)}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">About</span>
+      </div>
+      <div class="about-content">
+        <p class="about-intro fade-up">
+          I'm a <span class="highlight">Staff Software Engineer</span> at GitHub,
+          where I'm building <a href="https://github.com/marketplace/models">GitHub Models</a>. I care deeply about
+          developer experience, making complex infrastructure feel simple, and
+          building tools that get out of your way. Originally from
+          <span class="highlight">Cologne</span>, now somewhere in the PNW
+          chasing summit views.
+        </p>
+
+        <div class="journey stagger">
+          <div class="journey-item fade-up">
+            <div class="journey-dot"></div>
+            <div class="journey-period">2020 → now</div>
+            <div class="journey-role">Staff Software Engineer</div>
+            <div class="journey-place">GitHub · Models, Actions, Copilot</div>
+            <div class="journey-note">Currently building GitHub Models. Previously helped ship and scale GitHub Actions and contributed to Copilot.</div>
+          </div>
+          <div class="journey-item fade-up">
+            <div class="journey-dot"></div>
+            <div class="journey-period">2014 → 2020</div>
+            <div class="journey-role">Engineering Lead</div>
+            <div class="journey-place">Microsoft · Azure DevOps</div>
+            <div class="journey-note">Led engineering on planning, tracking, and developer collaboration experiences.</div>
+          </div>
+          <div class="journey-item fade-up">
+            <div class="journey-dot"></div>
+            <div class="journey-period">earlier</div>
+            <div class="journey-role">CS studies & early career</div>
+            <div class="journey-place">Cologne, Germany</div>
+          </div>
+        </div>
+
+        <div class="now-grid fade-up">
+          <div class="now-cell">
+            <div class="now-emoji">⌨️</div>
+            <div class="now-label">Building</div>
+            <div class="now-value">GitHub Models</div>
+          </div>
+          <div class="now-cell">
+            <div class="now-emoji">🔧</div>
+            <div class="now-label">Tinkering</div>
+            <div class="now-value">Dev tools & OSS</div>
+          </div>
+          <div class="now-cell">
+            <div class="now-emoji">🏔️</div>
+            <div class="now-label">Off-screen</div>
+            <div class="now-value">Climbing mountains</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Rotating keyword
+    (function() {
+      const words = ['developer tools', 'GitHub Models', 'durable workflows', 'open source'];
+      const el = document.getElementById('heroKeyword');
+      if (!el) return;
+      let idx = 0;
+      setInterval(() => {
+        el.classList.add('swap-out');
+        setTimeout(() => {
+          idx = (idx + 1) % words.length;
+          el.textContent = words[idx];
+          el.classList.remove('swap-out');
+          el.classList.add('swap-in');
+          requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('swap-in')));
+        }, 300);
+      }, 2800);
+    })();
+
+    // Counter animation
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const target = entry.target as HTMLElement;
+        if (entry.isIntersecting && !target.dataset.counted) {
+          target.dataset.counted = 'true';
+          const end = parseInt(target.dataset.target || '0', 10);
+          const duration = 1200;
+          const start = performance.now();
+          function tick(now: number) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            target.textContent = String(Math.floor(eased * end));
+            if (progress < 1) requestAnimationFrame(tick);
+            else target.textContent = String(end);
+          }
+          requestAnimationFrame(tick);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.count-up').forEach(el => counterObserver.observe(el));
+
+    // Project card tilt
+    document.querySelectorAll('.project-card').forEach(card => {
+      const el = card as HTMLElement;
+      el.addEventListener('mousemove', (e: MouseEvent) => {
+        const rect = el.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        el.style.transform = `translateY(-2px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = 'translateY(0) rotateY(0) rotateX(0)';
+        el.style.transition = 'transform 0.4s ease, border-color 0.25s, box-shadow 0.25s';
+      });
+      el.addEventListener('mouseenter', () => {
+        el.style.transition = 'border-color 0.25s, box-shadow 0.25s';
+      });
+    });
+  </script>
+</BaseLayout>

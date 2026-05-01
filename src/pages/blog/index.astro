@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+}
+
+function getSlug(id: string) {
+  return id.replace(/\.mdx?$/, '');
+}
+---
+
+<BaseLayout title="Writing — Christopher Schleiden" description="Blog posts about developer tools, Go, distributed systems, and more.">
+  <section class="section" style="padding-top: 140px;">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">All Posts</span>
+      </div>
+      <div class="post-list stagger">
+        {posts.map(post => (
+          <a href={`/blog/${getSlug(post.id)}`} class="post-item">
+            <span class="post-date">{formatDate(post.data.date)}</span>
+            <span class="post-title-text">{post.data.title}</span>
+            {post.data.tags[0] && <span class="post-tag">{post.data.tags[0]}</span>}
+            <span class="post-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

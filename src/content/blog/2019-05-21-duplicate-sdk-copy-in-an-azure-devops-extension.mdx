@@ -1,0 +1,39 @@
+---
+title: Duplicate SDK copy in an Azure DevOps extension
+date: 2019-05-21T08:28:52-07:00
+tags:
+  - Azure DevOps
+  - Azure DevOps Extensibility
+---
+The new extension model in Azure DevOps uses two separate npm packages: the client sdk &#8211; [azure-devops-extension-sdk](https://www.npmjs.com/package/azure-devops-extension-sdk) and the API &#8211; [azure-devops-extension-api](https://www.npmjs.com/package/azure-devops-extension-api).
+
+They are both versioned independently, but the API package relies on the client SDK to setup API clients.
+
+Now, the other day I upgraded both packages one after another, and while in the end both my extension and the API package depended on the same version of the SDK, my `package-lock.json` entry for the `azure-devops-extension-api` looked like this:
+
+```json
+"azure-devops-extension-api": {
+  "version": "1.149.2",
+  "resolved": "https://registry.npmjs.org/azure-devops-extension-api/-/azure-devops-extension-api-1.149.2.tgz",
+  "integrity": "sha512-kICntS0djW9ydCFjInXpxoTcWBz6FcbXN3J4pqBvyw7FFlYS7sR2nvFwBpOc+qPvPhJW8xbJ6NBQ3rwgs7gXTg==",
+  "requires": {
+    "azure-devops-extension-sdk": "~2.0.5",
+    "whatwg-fetch": "~3.0.0"
+  },
+  "dependencies": {
+    "azure-devops-extension-sdk": {
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/azure-devops-extension-sdk/-/azure-devops-extension-sdk-2.0.5.tgz",
+      "integrity": "sha512-f+bvIJLoidDtnHVQuZhozCIIdEhtg9jee03w3U49MrgnedV24hHsasbeB9cdxq5dOdr6RD3Zn/v3pqB98eBG/w==",
+      "requires": {
+        "es6-object-assign": "^1.1.0",
+        "es6-promise": "^4.2.5"
+      }
+    }
+  }
+}
+```
+
+Because of this, the bundle for my extension included **two separate copies** of the SDK. One was used by my extension, and was correctly initialized, while the other one was used by the API package and was **never initialized**. This meant that any framework service I requested was correctly returned, but any request for an API client was never resolved.
+
+Took me way too long to figure this out, and we'll make some changes to the code to detect this in the future, but putting this here in case anyone else hits this until then.

@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>go-workflows: Durable Workflows in Go — Christopher Schleiden</title><meta name="description" content="Go library implementing durable execution of workflows with different backends."><link rel="canonical" href="https://cschleiden.dev/blog/2022-02-13-go-workflows-part1/"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><!-- Favicons --><link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png"><link rel="manifest" href="/static/favicons/site.webmanifest"><!-- OpenGraph --><meta property="og:title" content="go-workflows: Durable Workflows in Go — Christopher Schleiden"><meta property="og:description" content="Go library implementing durable execution of workflows with different backends."><meta property="og:url" content="https://cschleiden.dev/blog/2022-02-13-go-workflows-part1/"><meta property="og:site_name" content="Christopher Schleiden"><meta property="og:image" content="/static/images/twitter-card.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="go-workflows: Durable Workflows in Go — Christopher Schleiden"><meta name="twitter:image" content="/static/images/twitter-card.png"><!-- RSS --><link rel="alternate" type="application/rss+xml" href="/rss.xml" title="Christopher Schleiden"><!-- Theme: inline script to avoid FOUC --><script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light') {
+        document.documentElement.classList.add('light');
+      } else if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        // system preference
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          document.documentElement.classList.add('light');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
+      }
+    })();
+  </script><link rel="stylesheet" href="/_astro/BaseLayout.efYSBMBu.css"></head> <body> <div class="glow" aria-hidden="true"></div> <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div> <!-- Nav --> <nav> <div class="container"> <a href="/" class="nav-logo">cs</a> <div class="nav-right"> <ul class="nav-links"> <li><a href="/blog">Writing</a></li> <li><a href="/projects">Projects</a></li> <li><a href="/about">About</a></li> </ul> <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"> <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line> </svg> <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> </svg> </button> </div> </div> </nav> <main>  <article style="padding-top: 140px; padding-bottom: 80px;"> <div class="container"> <header class="fade-up" style="margin-bottom: 48px;"> <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;"> <a href="/tags/go" class="post-tag">go</a><a href="/tags/workflows" class="post-tag">workflows</a> </div> <h1 style="font-size: clamp(2rem, 5vw, 2.75rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 16px;"> go-workflows: Durable Workflows in Go </h1> <time class="post-date" datetime="2022-02-13T21:19:06.690Z"> February 13, 2022 </time> </header> <div class="prose-blog fade-up"> <p>Lately I’ve been getting interested in “durable workflows” as implemented by Azure’s <a href="https://www.github.com/azure/durabletask">Durable Task Framework</a> (DTFx), the basis for <a href="https://docs.microsoft.com/en-us/azure/azure-functions/durable/durable-functions-overview?tabs=csharp">Azure Durable Functions</a> and <a href="http://temporal.io">Temporal</a>. To really understand how a library or a framework works, what problems it solves, and why certain decisions were made the way they were made, I often tend to try to re-implement my own version, even if only with minimal functionality.</p>
+<p>So for durable workflows I started to build <a href="https://www.github.com/cschleiden/go-workflows">go-workflows</a>, a not quite production-ready mix of Durable Tasks and Temporal written in Go. It started as a number of very small experiments over the holidays, but it kind of snowballed from there, and I’m approaching something that’s quite usable. For the next few posts I’ll try to explain what <code>go-workflows</code> is and how it works.</p>
+<p>The library is still a work in progress so some of the details and the example code might’ve changed by now although I’ll try to keep everything in sync. The general concepts should still be valid, though.</p>
+<h2 id="what-are-durable-workflows">What are durable workflows?</h2>
+<p>In modern software we often have to orchestrate calls to many different services to fulfill requests. If it’s all synchronous and the number of downstream services is small it might be possible to manage this manually. But when operations become more complex and it’s not enough to make a couple quick remote procedure calls to fulfill a task, it gets complicated. When you have to orchestrate long-running tasks across various services, maybe waiting a long time for results, soon keeping the code reliable becomes a burden. What happens if requests are interrupted in the middle? What happens if services crash during execution? What happens to in-flight orchestrations when a new version of the orchestrating service needs to get deployed quickly?</p>
+<p>You can deal with all of that by manually persisting and reading state, using queues, retries, etc. Unfortunately, all of this is complex, requires a lot of code, and soon it’s hard to follow the original business logic amid all the code to try to make this reliable.</p>
+<p>Both DTFx as well as Temporal are workflow engines that try to abstract this problem and allow you to write code that mostly looks like ordinary code that’s executed sequentially and focuses only on the business logic, while still dealing with crashing processes, dynamically scaling services, and so on. Their core premise is the same, but they have different approaches for solving this.</p>
+<h3 id="core-concepts">Core Concepts</h3>
+<p>Both frameworks differentiate between two kinds of code they can execute:</p>
+<ul>
+<li>workflows (Temporal) / orchestrations (DTFx)</li>
+<li>activities</li>
+</ul>
+<p><em>Workflows</em> are long-running, durable, and their main task is to orchestrate activities. While workflows mostly look like ordinary, sequential code, there are some differences and rules you have to follow, more on that later.</p>
+<p><em>Activities</em> are plain code, they can have side-effects, can use any language or library features.</p>
+<h3 id="inversion-of-execution">Inversion of execution</h3>
+<p>How do these frameworks execute workflows in a durable way? They use event sourcing for recording an event history of everything that can happen in a workflow. This allows them to replay these events to get back to a previous state in case of a crash, or if a worker is re-balanced.</p>
+<p>Looking at a very simple example workflow:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="go"><code><span class="line"><span style="color:#F97583">func</span><span style="color:#B392F0"> OrderWorkflow</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">ctx</span><span style="color:#B392F0"> workflow</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Context</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">item</span><span style="color:#F97583"> string</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">error</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">	workflow.</span><span style="color:#B392F0">ExecuteActivity</span><span style="color:#E1E4E8">(ctx, Process, item).</span><span style="color:#B392F0">Get</span><span style="color:#E1E4E8">(ctx, </span><span style="color:#79B8FF">nil</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	workflow.</span><span style="color:#B392F0">ExecuteActivity</span><span style="color:#E1E4E8">(ctx, SendConfirmation, item).</span><span style="color:#B392F0">Get</span><span style="color:#E1E4E8">(ctx, </span><span style="color:#79B8FF">nil</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">	return</span><span style="color:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">func</span><span style="color:#B392F0"> Process</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">ctx</span><span style="color:#B392F0"> context</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Context</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">item</span><span style="color:#F97583"> string</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">error</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">	// ...</span></span>
+<span class="line"><span style="color:#E1E4E8">	fmt.</span><span style="color:#B392F0">Println</span><span style="color:#E1E4E8">(item)</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">func</span><span style="color:#B392F0"> SendConfirmation</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">ctx</span><span style="color:#B392F0"> context</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Context</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">item</span><span style="color:#F97583"> string</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">error</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">	// ...</span></span>
+<span class="line"><span style="color:#E1E4E8">	fmt.</span><span style="color:#B392F0">Println</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Confirmation for:&quot;</span><span style="color:#E1E4E8">, item)</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>We receive an <code>item string</code> as an input, and then schedule two activities <code>Process</code>, and <code>SendConfirmation</code>, before we return and end the workflow.</p>
+<p>The key is that we call <code>Process</code> and <code>SendConfirmation</code> not directly, but we do it indirectly by passing them to: <code>workflow.ExecuteActivity</code>. What happens at runtime is that a workflow engine starts executing <code>OrderWorkflow</code>. When it gets to the first <code>ExecuteActivity</code> call (and the blocking <code>Get</code> to get its result), it <em>pauses</em> the execution of the workflow and instead of calling the activity code directly, records an <code>ActivityScheduled</code> event in the workflow event history. So once we reach that point of the workflow the history will look like this:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th style="text-align:left">#</th><th style="text-align:left">Name</th><th style="text-align:left">Attributes</th><th style="text-align:center">Executed</th></tr></thead><tbody><tr><td style="text-align:left">1</td><td style="text-align:left"><code>WorkflowExecutionStarted</code></td><td style="text-align:left"><code>OrderWorkflow</code></td><td style="text-align:center">x</td></tr><tr><td style="text-align:left">2</td><td style="text-align:left"><code>ActivityScheduled</code></td><td style="text-align:left"><code>Process</code></td><td style="text-align:center">x</td></tr></tbody></table>
+<p>Now the framework will execute the <code>Process</code> activity somewhere. It might run in the same process as the workflow, or it might be on another machine. In any case, assuming it succeeds its result is also written to the event history:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th style="text-align:left">#</th><th style="text-align:left">Name</th><th style="text-align:left">Attributes</th><th style="text-align:center">Executed</th></tr></thead><tbody><tr><td style="text-align:left">1</td><td style="text-align:left"><code>WorkflowExecutionStarted</code></td><td style="text-align:left"><code>OrderWorkflow</code></td><td style="text-align:center">x</td></tr><tr><td style="text-align:left">2</td><td style="text-align:left"><code>ActivityScheduled</code></td><td style="text-align:left"><code>Process</code></td><td style="text-align:center">x</td></tr><tr><td style="text-align:left">3</td><td style="text-align:left"><code>ActivityCompleted</code></td><td style="text-align:left"><code>some-output</code></td><td style="text-align:center"></td></tr></tbody></table>
+<p>Now the workflow execution can be continued. If it’s still in memory we can just execute the <code>ActivityCompleted</code> event, which will unblock the</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="go"><code><span class="line"><span style="color:#E1E4E8">workflow.</span><span style="color:#B392F0">ExecuteActivity</span><span style="color:#E1E4E8">(ctx, Process, item).</span><span style="color:#B392F0">Get</span><span style="color:#E1E4E8">(ctx, </span><span style="color:#79B8FF">nil</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">                                              👆🏻</span></span></code></pre>
+<p><code>.Get</code> call and make the activity result available to the workflow code. In our example we are not interested in the result of the activity, so we just continue to the next. Again we schedule an activity, block the workflow, and wait for the activity result.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th style="text-align:left">#</th><th style="text-align:left">Name</th><th style="text-align:left">Attributes</th><th style="text-align:center">Executed</th></tr></thead><tbody><tr><td style="text-align:left">1</td><td style="text-align:left"><code>WorkflowExecutionStarted</code></td><td style="text-align:left"><code>OrderWorkflow</code></td><td style="text-align:center">x</td></tr><tr><td style="text-align:left">2</td><td style="text-align:left"><code>ActivityScheduled</code></td><td style="text-align:left"><code>Process</code></td><td style="text-align:center">x</td></tr><tr><td style="text-align:left">3</td><td style="text-align:left"><code>ActivityCompleted</code></td><td style="text-align:left"><code>some-output</code></td><td style="text-align:center">x</td></tr><tr><td style="text-align:left">2</td><td style="text-align:left"><code>ActivityScheduled</code></td><td style="text-align:left"><code>SendConfirmation</code></td><td style="text-align:center"></td></tr></tbody></table>
+<p>Eventually we complete the workflow and can record its result. I’ll go over a more detailed example later.</p>
+<h2 id="durable-task-framework-dtfx">Durable Task Framework (DTFx)</h2>
+<p>Azure’s Durable Task Framework makes use of .NET C#‘s <code>async</code>/<code>await</code> support to allow developers to write persistent workflows, which it calls <em>orchestrations</em> in C#.</p>
+<p>It’s consumed as a library, with various options for the backend implemented in what it calls <em>providers</em>. The original provider uses Azure’s Service Bus, but recent ones are available utilizing Azure Storage, Azure ServiceFabric, or Microsoft’s SQL Server either hosted as Azure SQL, or the on-premise product.</p>
+<p>When looking at DTFx I’ve focused on the usage with a database, i.e. the SQL Server provider. In that case it’s a two-tier architecture. <em>Clients</em> and <em>workers</em> - which could also be in the same process - both talk directly to the same database.</p>
+<center><img src="/assets/posts/2022-02-go-workflows-pt1/dtfx.drawio.svg" width="500" height="400"/></center>
+<h2 id="temporal">Temporal</h2>
+<p>Temporal is a fork of Uber’s <em>Cadence</em>, and has some great documentation at <a href="https://temporal.io">https://temporal.io</a>. It uses some of the same concepts as DTFx and was written by some of the engineers who were involved in DTFx as well.</p>
+<p>It comes with a server with various roles that you interact with, see the <a href="https://docs.temporal.io/docs/temporal-explained/introduction">documentation</a> for a detailed introduction.</p>
+<h1 id="go-workflows">go-workflows</h1>
+<p><code>go-workflows</code> is written from scratch, but borrows concepts very liberally from both DTFx and Temporal. While both DTFx and Temporal are quite similar due to their shared heritage, go-workflows’s internals for persistence align more with DTFx due to the provider concepts, while the user visible interface is more similar to Temporal’s, to work around Go’s indeterministic <code>select</code> statement behavior, for example.</p>
+<p>Its overall architecture is the same as DTFx that there are clients and workers, and both interface via a pluggable implementation to a backend. What DTFx calls <em>providers</em> I called <em>backends</em> . So far I’ve written a Sqlite and a MySQL implementation, which also makes go-workflows programs two tier architectures.</p>
+<p>When writing workflows in C#, you have to avoid certain library, but in general you can use all language features. <code>async</code>/<code>await</code> and exception handling are even central to writing workflows.</p>
+<p>For Golang this is slightly different. There are a number of language features which at not deterministic by design. For example, iterating over a <code>map</code> with <code>range</code> yields a pseudo-random iteration order. Also a <code>select</code> statement with multiple <code>case</code>s that are ready will pick one at random. This prevents us from using native channels at all.</p>
+<h2 id="example-workflow">Example workflow</h2>
+<p>To give an impression of how authoring workflows looks like, let’s go over a small example:</p>
+<h3 id="workflow">Workflow</h3>
+<p>Workflows are written in Go code. The only exception is they must not use any of Go’s non-deterministic features (<code>select</code>, iteration over a <code>map</code>, etc.). Inputs and outputs for workflows and activities have to be serializable:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="go"><code><span class="line"><span style="color:#F97583">func</span><span style="color:#B392F0"> Workflow1</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">ctx</span><span style="color:#B392F0"> workflow</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Context</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">input</span><span style="color:#F97583"> string</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">error</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">	var</span><span style="color:#E1E4E8"> r1, r2 </span><span style="color:#F97583">int</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">	if</span><span style="color:#E1E4E8"> err </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> workflow.</span><span style="color:#B392F0">ExecuteActivity</span><span style="color:#E1E4E8">(ctx, workflow.DefaultActivityOptions, Activity1, </span><span style="color:#79B8FF">35</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">12</span><span style="color:#E1E4E8">).</span><span style="color:#B392F0">Get</span><span style="color:#E1E4E8">(ctx, </span><span style="color:#F97583">&amp;</span><span style="color:#E1E4E8">r1); err </span><span style="color:#F97583">!=</span><span style="color:#79B8FF"> nil</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">		panic</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;error getting activity 1 result&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">	}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	log.</span><span style="color:#B392F0">Println</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;A1 result:&quot;</span><span style="color:#E1E4E8">, r1)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">	if</span><span style="color:#E1E4E8"> err </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> workflow.</span><span style="color:#B392F0">ExecuteActivity</span><span style="color:#E1E4E8">(ctx, workflow.DefaultActivityOptions, Activity2).</span><span style="color:#B392F0">Get</span><span style="color:#E1E4E8">(ctx, </span><span style="color:#F97583">&amp;</span><span style="color:#E1E4E8">r2); err </span><span style="color:#F97583">!=</span><span style="color:#79B8FF"> nil</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">		panic</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;error getting activity 1 result&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">	}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	log.</span><span style="color:#B392F0">Println</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;A2 result:&quot;</span><span style="color:#E1E4E8">, r2)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">	return</span><span style="color:#79B8FF"> nil</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h3 id="activities">Activities</h3>
+<p>Activities can have side-effects and don’t have to be deterministic. They will be executed only once and the result is persisted:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="go"><code><span class="line"><span style="color:#F97583">func</span><span style="color:#B392F0"> Activity1</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">ctx</span><span style="color:#B392F0"> context</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Context</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">a</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">b</span><span style="color:#F97583"> int</span><span style="color:#E1E4E8">) (</span><span style="color:#F97583">int</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">error</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">	return</span><span style="color:#E1E4E8"> a </span><span style="color:#F97583">+</span><span style="color:#E1E4E8"> b, </span><span style="color:#79B8FF">nil</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">func</span><span style="color:#B392F0"> Activity2</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">ctx</span><span style="color:#B392F0"> context</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Context</span><span style="color:#E1E4E8">) (</span><span style="color:#F97583">int</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">error</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">	return</span><span style="color:#79B8FF"> 12</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">nil</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<h3 id="worker">Worker</h3>
+<p>The worker is responsible for executing <code>Workflows</code> and <code>Activities</code>, both need to be registered with it.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="go"><code><span class="line"><span style="color:#F97583">func</span><span style="color:#B392F0"> runWorker</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">ctx</span><span style="color:#B392F0"> context</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Context</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">mb</span><span style="color:#B392F0"> backend</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Backend</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#E1E4E8">	w </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> worker.</span><span style="color:#B392F0">New</span><span style="color:#E1E4E8">(mb, </span><span style="color:#79B8FF">nil</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	r.</span><span style="color:#B392F0">RegisterWorkflow</span><span style="color:#E1E4E8">(Workflow1)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	w.</span><span style="color:#B392F0">RegisterActivity</span><span style="color:#E1E4E8">(Activity1)</span></span>
+<span class="line"><span style="color:#E1E4E8">	w.</span><span style="color:#B392F0">RegisterActivity</span><span style="color:#E1E4E8">(Activity2)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">	if</span><span style="color:#E1E4E8"> err </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> w.</span><span style="color:#B392F0">Start</span><span style="color:#E1E4E8">(ctx); err </span><span style="color:#F97583">!=</span><span style="color:#79B8FF"> nil</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">		panic</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;could not start worker&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">	}</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h3 id="backend">Backend</h3>
+<p>The backend is responsible for persisting the workflow events. Currently there is an in-memory backend implementation for testing, one using <a href="http://sqlite.org">SQLite</a>, and one for MySql.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="go"><code><span class="line"><span style="color:#E1E4E8">b </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> sqlite.</span><span style="color:#B392F0">NewSqliteBackend</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;simple.sqlite&quot;</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<h3 id="putting-it-all-together">Putting it all together</h3>
+<p>We can start workflows from the same process the worker runs in — or they can be separate. Here we use the SQLite backend, spawn a single worker (which then executes both <code>Workflows</code> and <code>Activities</code>), and then start a single instance of our workflow</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="go"><code><span class="line"><span style="color:#F97583">func</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#E1E4E8">	ctx </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> context.</span><span style="color:#B392F0">Background</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	b </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> sqlite.</span><span style="color:#B392F0">NewSqliteBackend</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;simple.sqlite&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">	go</span><span style="color:#B392F0"> runWorker</span><span style="color:#E1E4E8">(ctx, b)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	c </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> client.</span><span style="color:#B392F0">NewClient</span><span style="color:#E1E4E8">(b)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	wf, err </span><span style="color:#F97583">:=</span><span style="color:#E1E4E8"> c.</span><span style="color:#B392F0">CreateWorkflowInstance</span><span style="color:#E1E4E8">(ctx, </span><span style="color:#B392F0">client</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">WorkflowInstanceOptions</span><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">		InstanceID: uuid.</span><span style="color:#B392F0">NewString</span><span style="color:#E1E4E8">(),</span></span>
+<span class="line"><span style="color:#E1E4E8">	}, Workflow1, </span><span style="color:#9ECBFF">&quot;input-for-workflow&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">	if</span><span style="color:#E1E4E8"> err </span><span style="color:#F97583">!=</span><span style="color:#79B8FF"> nil</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">		panic</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;could not start workflow&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">	}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">	c2 </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> make</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">chan</span><span style="color:#B392F0"> os</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Signal</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">signal.</span><span style="color:#B392F0">Notify</span><span style="color:#E1E4E8">(c2, os.Interrupt)</span></span>
+<span class="line"><span style="color:#E1E4E8">	signal.</span><span style="color:#B392F0">Notify</span><span style="color:#E1E4E8">(c2, os.Interrupt)</span></span>
+<span class="line"><span style="color:#F97583">	&lt;-</span><span style="color:#E1E4E8">c2</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>That’s it for Part 1.</p>
+<ul>
+<li><a href="/blog/2022-02-13-go-workflows-part1">Part 1 - Durable workflows and event sourcing</a></li>
+<li><a href="/blog/2022-05-02-go-workflows-part2">Part 2 - Cooperative scheduler and events in-depth</a></li>
+<li>Part 3 - Architecture &amp; Backends</li>
+</ul> </div> <div style="margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border);"> <a href="/blog" style="font-size: 0.875rem; color: var(--text-muted); transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">← Back to all posts</a> </div> </div> </article>  </main> <!-- Footer --> <footer> <div class="container"> <div class="footer-content"> <span class="footer-copy">&copy; 2026 Christopher Schleiden</span> <div class="footer-socials"> <a href="https://github.com/cschleiden" target="_blank" rel="noopener noreferrer" aria-label="GitHub"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg> </a> <a href="https://www.linkedin.com/in/cschleiden" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg> </a> <a href="https://twitter.com/cschleiden" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"> <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg> </a> <a href="mailto:cschleiden@live.de" aria-label="Email"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg> </a> </div> </div> </div> </footer> <script type="module">const s=document.getElementById("cursorGlow");s&&document.addEventListener("mousemove",e=>{s.style.left=e.clientX+"px",s.style.top=e.clientY+"px"});const o=document.getElementById("themeToggle");o&&o.addEventListener("click",()=>{const e=document.documentElement,t=e.classList.contains("light");e.classList.remove("light","dark"),e.classList.add(t?"dark":"light"),localStorage.setItem("theme",t?"dark":"light")});const l=new IntersectionObserver(e=>{e.forEach(t=>{t.isIntersecting&&t.target.classList.add("visible")})},{threshold:.1,rootMargin:"0px 0px -40px 0px"});document.querySelectorAll(".fade-up, .divider, .post-item").forEach(e=>l.observe(e));document.querySelectorAll(".post-item").forEach((e,t)=>{e.style.transitionDelay=`${t*70}ms`});</script> </body> </html>

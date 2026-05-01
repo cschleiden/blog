@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = [
+  { name: 'go-workflows', desc: 'Durable workflows for Go similar to DTFx/Cadence/Temporal. Supports different backends (MySQL, SQLite, Redis).', href: 'https://github.com/cschleiden/go-workflows', stars: 466, tech: ['Go', 'MySQL', 'Redis'] },
+  { name: 'GitHub Actions for VS Code', desc: 'VS Code extension for GitHub Actions workflows and runs.', href: 'https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions', stars: 301, tech: ['TypeScript', 'VS Code'] },
+  { name: 'Impera', desc: 'Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.', href: 'https://www.imperaonline.de', tech: ['C#', 'React'] },
+  { name: 'GitHub Actions Hero', desc: 'Interactive tutorial and visualizer for GitHub Actions workflows.', href: 'https://github-actions-hero.vercel.app', stars: 117, tech: ['TypeScript', 'React'] },
+  { name: 'Effective GitHub Actions workflow', desc: 'GitHub CLI extension to display the effective workflow for a given workflow run.', href: 'https://github.com/cschleiden/gh-effective-workflow', tech: ['Go'] },
+  { name: 'GitHub Actions CLI Lint', desc: 'GitHub CLI extension to lint GitHub Actions workflows using actionlint.', href: 'https://github.com/cschleiden/gh-actionlint', stars: 21, tech: ['Go'] },
+  { name: 'Jest GitHub Actions reporter', desc: 'Custom Jest reporter to display tests failures as annotations in GitHub Actions runs.', href: 'https://github.com/cschleiden/jest-github-actions-reporter', stars: 48, tech: ['TypeScript'] },
+  { name: 'Replace Tokens', desc: 'GitHub Action to replace tokens in files with values from environment variables.', href: 'https://github.com/cschleiden/replace-tokens', stars: 73, tech: ['TypeScript'] },
+];
+---
+
+<BaseLayout title="Projects — Christopher Schleiden" description="Side projects, experiments, and open source tools.">
+  <section class="section" style="padding-top: 140px;">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">Projects</span>
+      </div>
+      <p class="fade-up" style="color: var(--text-secondary); margin-bottom: 40px; margin-top: -20px;">
+        Some of my side-projects. Some are random experiments, others are "work-adjacent" explorations or extensions, and some are just for fun.
+      </p>
+      <div class="projects-grid stagger">
+        {projects.map(project => (
+          <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+            <div class="project-header">
+              <span class="project-name">{project.name}</span>
+              {project.stars && (
+                <span class="project-stars">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  {project.stars}
+                </span>
+              )}
+            </div>
+            <p class="project-desc">{project.desc}</p>
+            <div class="project-tech">
+              {project.tech.map(t => <span class="tech-badge">{t}</span>)}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

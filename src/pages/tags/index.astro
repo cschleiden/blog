@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+
+const tagMap = new Map<string, number>();
+allPosts.forEach(post => {
+  post.data.tags.forEach(tag => {
+    const key = tag.toLowerCase();
+    tagMap.set(key, (tagMap.get(key) || 0) + 1);
+  });
+});
+
+const tags = [...tagMap.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Tags — Christopher Schleiden">
+  <section class="section" style="padding-top: 140px;">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">Tags</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;" class="fade-up">
+        {tags.map(([tag, count]) => (
+          <a href={`/tags/${tag}`} class="post-tag" style="padding: 8px 16px; font-size: 0.8rem;">
+            {tag} <span style="color: var(--text-muted); margin-left: 4px;">({count})</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
