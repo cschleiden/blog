@@ -144,6 +144,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       });
     }
 
+    // Follow system theme changes when user hasn't set a preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const html = document.documentElement;
+        html.classList.remove('light', 'dark');
+        html.classList.add(e.matches ? 'dark' : 'light');
+      }
+    });
+
     // Intersection observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
