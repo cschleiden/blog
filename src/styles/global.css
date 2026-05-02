@@ -624,6 +624,37 @@ html.light .icon-moon { display: block; }
 .journey-place { font-size: 0.9rem; color: var(--text-secondary); }
 .journey-note { font-size: 0.825rem; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
 
+.journey-item.current .journey-role { font-size: 1.1rem; }
+.journey-item.current .journey-place { font-size: 0.95rem; }
+.journey-item.current .journey-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+
+.journey-subs {
+  margin-top: 12px;
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.journey-sub {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.8rem;
+}
+
+.journey-sub-period {
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+.journey-sub-text {
+  color: var(--text-secondary);
+}
+
 /* Now grid */
 .now-grid {
   display: grid;

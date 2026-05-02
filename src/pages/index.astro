@@ -56,8 +56,8 @@ function getSlug(id: string) {
         <span class="hero-word-mask"><span class="hero-word">Schleiden</span></span>
       </h1>
       <p class="hero-description">
-        Software engineer at GitHub, building <span class="hero-keyword"><span class="hero-keyword-inner" id="heroKeyword">developer tools</span></span>
-        and infrastructure. German transplant in the Pacific Northwest — when not coding, probably on a mountain somewhere.
+        Software engineer at GitHub, building <span class="hero-keyword"><span class="hero-keyword-inner" id="heroKeyword">AI developer tools</span></span>.
+        Originally from Cologne, now in the Pacific Northwest — when not coding, probably on a mountain somewhere.
       </p>
 
     </div>
@@ -92,6 +92,24 @@ function getSlug(id: string) {
         <span class="section-title">Projects</span>
         <a href="/projects" class="section-link">View all →</a>
       </div>
+
+      <h3 class="fade-up" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px;">Work</h3>
+      <div class="projects-grid stagger" style="margin-bottom: 40px;">
+        <a href="https://github.com/features/actions" class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+          <div class="project-header">
+            <span class="project-name">GitHub Actions</span>
+          </div>
+          <p class="project-desc">CI/CD and automation platform built into GitHub. Helped launch and scale from zero to millions of workflows per day.</p>
+        </a>
+        <a href="https://github.com/marketplace/models" class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+          <div class="project-header">
+            <span class="project-name">GitHub Models</span>
+          </div>
+          <p class="project-desc">Playground and API bringing industry-leading AI models to 100M+ developers on GitHub — experiment, compare, and deploy from playground to production.</p>
+        </a>
+      </div>
+
+      <h3 class="fade-up" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px;">Side projects</h3>
       <div class="projects-grid stagger">
         {projects.map(project => (
           <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
@@ -121,57 +139,40 @@ function getSlug(id: string) {
     <div class="container">
       <div class="section-header fade-up">
         <span class="section-title">About</span>
+        <a href="/about" class="section-link">More →</a>
       </div>
       <div class="about-content">
         <p class="about-intro fade-up">
           I'm a <span class="highlight">Staff Software Engineer</span> at GitHub,
-          where I'm building <a href="https://github.com/marketplace/models">GitHub Models</a>. I care deeply about
-          developer experience, making complex infrastructure feel simple, and
-          building tools that get out of your way. Originally from
-          <span class="highlight">Cologne</span>, now somewhere in the PNW
-          chasing summit views.
+          where I'm building AI developer tools. I care deeply about
+          developer experience and building tools that get out of your way.
+          Originally from <span class="highlight">Cologne</span>, now somewhere
+          in the PNW chasing summit views.
         </p>
 
         <div class="journey stagger">
-          <div class="journey-item fade-up">
+          <div class="journey-item current fade-up">
             <div class="journey-dot"></div>
-            <div class="journey-period">2020 → now</div>
+            <div class="journey-period">2019 → now</div>
             <div class="journey-role">Staff Software Engineer</div>
-            <div class="journey-place">GitHub · Models, Actions, Copilot</div>
-            <div class="journey-note">Currently building GitHub Models. Previously helped ship and scale GitHub Actions and contributed to Copilot.</div>
+            <div class="journey-place">GitHub · AI Developer Tools</div>
+            <div class="journey-note">Currently building AI developer tools. Helped launch and scale GitHub Actions, worked on GitHub Models, and contributed to Copilot.</div>
           </div>
           <div class="journey-item fade-up">
             <div class="journey-dot"></div>
-            <div class="journey-period">2014 → 2020</div>
-            <div class="journey-role">Engineering Lead</div>
-            <div class="journey-place">Microsoft · Azure DevOps</div>
-            <div class="journey-note">Led engineering on planning, tracking, and developer collaboration experiences.</div>
+            <div class="journey-period">2011 → 2019</div>
+            <div class="journey-role">Consultant → Principal Engineering Manager</div>
+            <div class="journey-place">Microsoft · Cologne, Germany → Redmond, US</div>
           </div>
           <div class="journey-item fade-up">
             <div class="journey-dot"></div>
-            <div class="journey-period">earlier</div>
-            <div class="journey-role">CS studies & early career</div>
-            <div class="journey-place">Cologne, Germany</div>
+            <div class="journey-period">2009 → 2011</div>
+            <div class="journey-role">Computer Science</div>
+            <div class="journey-place">RWTH Aachen University · Germany</div>
           </div>
         </div>
 
-        <div class="now-grid fade-up">
-          <div class="now-cell">
-            <div class="now-emoji">⌨️</div>
-            <div class="now-label">Building</div>
-            <div class="now-value">GitHub Models</div>
-          </div>
-          <div class="now-cell">
-            <div class="now-emoji">🔧</div>
-            <div class="now-label">Tinkering</div>
-            <div class="now-value">Dev tools & OSS</div>
-          </div>
-          <div class="now-cell">
-            <div class="now-emoji">🏔️</div>
-            <div class="now-label">Off-screen</div>
-            <div class="now-value">Climbing mountains</div>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
@@ -179,7 +180,7 @@ function getSlug(id: string) {
   <script>
     // Rotating keyword
     (function() {
-      const words = ['developer tools', 'GitHub Models', 'durable workflows', 'open source'];
+      const words = ['AI developer tools', 'GitHub Copilot', 'agentic coding', 'open source'];
       const el = document.getElementById('heroKeyword');
       if (!el) return;
       let idx = 0;

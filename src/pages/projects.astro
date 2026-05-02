@@ -1,7 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const projects = [
+const workProjects = [
+  { name: 'GitHub Actions', desc: 'CI/CD and automation platform built into GitHub. Helped launch and scale from zero to millions of workflows per day.', href: 'https://github.com/features/actions', tech: ['C#', 'TypeScript', 'Azure'] },
+  { name: 'GitHub Models', desc: 'Playground and API bringing industry-leading AI models to 100M+ developers on GitHub — experiment, compare, and deploy from playground to production.', href: 'https://github.com/marketplace/models', tech: ['Go', 'TypeScript', 'AI/ML'] },
+];
+
+const sideProjects = [
   { name: 'go-workflows', desc: 'Durable workflows for Go similar to DTFx/Cadence/Temporal. Supports different backends (MySQL, SQLite, Redis).', href: 'https://github.com/cschleiden/go-workflows', stars: 466, tech: ['Go', 'MySQL', 'Redis'] },
   { name: 'GitHub Actions for VS Code', desc: 'VS Code extension for GitHub Actions workflows and runs.', href: 'https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions', stars: 301, tech: ['TypeScript', 'VS Code'] },
   { name: 'Impera', desc: 'Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.', href: 'https://www.imperaonline.de', tech: ['C#', 'React'] },
@@ -13,17 +18,34 @@ const projects = [
 ];
 ---
 
-<BaseLayout title="Projects — Christopher Schleiden" description="Side projects, experiments, and open source tools.">
+<BaseLayout title="Projects — Christopher Schleiden" description="Work projects, side projects, experiments, and open source tools.">
   <section class="section" style="padding-top: 140px;">
     <div class="container">
       <div class="section-header fade-up">
         <span class="section-title">Projects</span>
       </div>
-      <p class="fade-up" style="color: var(--text-secondary); margin-bottom: 40px; margin-top: -20px;">
+
+      <h3 class="fade-up" style="color: var(--text-primary); margin-bottom: 16px; font-size: 1.1rem; font-weight: 600;">Work</h3>
+      <p class="fade-up" style="color: var(--text-secondary); margin-bottom: 32px;">
+        Products I've helped design, build, and ship at GitHub.
+      </p>
+      <div class="projects-grid stagger" style="margin-bottom: 60px;">
+        {workProjects.map(project => (
+          <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+            <div class="project-header">
+              <span class="project-name">{project.name}</span>
+            </div>
+            <p class="project-desc">{project.desc}</p>
+          </a>
+        ))}
+      </div>
+
+      <h3 class="fade-up" style="color: var(--text-primary); margin-bottom: 16px; font-size: 1.1rem; font-weight: 600;">Side projects</h3>
+      <p class="fade-up" style="color: var(--text-secondary); margin-bottom: 32px;">
         Some of my side-projects. Some are random experiments, others are "work-adjacent" explorations or extensions, and some are just for fun.
       </p>
       <div class="projects-grid stagger">
-        {projects.map(project => (
+        {sideProjects.map(project => (
           <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
             <div class="project-header">
               <span class="project-name">{project.name}</span>
