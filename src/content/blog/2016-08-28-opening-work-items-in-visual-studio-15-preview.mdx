@@ -1,0 +1,52 @@
+---
+title: Opening Work items in Visual Studio 2017
+date: 2016-08-28T14:34:11-07:00
+tags:
+  - TFS
+  - visualstudio
+---
+If you have used [Visual Studio 2017](https://www.visualstudio.com/en-us/downloads/visual-studio-next-downloads-vs.aspx) to connect to a [Team Services](https://www.visualstudio.com/products/visual-studio-team-services-vs) instance, or you follow the [Microsoft ALM blog](https://blogs.msdn.microsoft.com/visualstudioalm/) you will have noticed that with Visual Studio 2017: <a>Work items now open in the web from Visual Studio '15'</a>!
+
+While the official post shows why that change was made and what advantages the web form brings, I wanted to quickly point out some small things that were done to make this behavior more usable.
+
+You can follow along by downloading [Visual Studio 2017](https://www.visualstudio.com/en-us/downloads/visual-studio-next-downloads-vs.aspx) and connecting to your [Team Services](https://www.visualstudio.com/products/visual-studio-team-services-vs) or [Team Foundation Server 2017](https://www.visualstudio.com/en-us/news/releasenotes/tfs15-relnotes) instance.
+
+# Running Queries from Visual Studio
+
+There is still the full work item query tree available in Visual Studio, including favorites:
+
+![](/assets/wp-content/uploads/2016/08/team-explorer-1.png)
+
+You can also still create and run new or existing queries and look at the results:
+
+![](/assets/wp-content/uploads/2016/08/query-1.png)
+
+If you look at the screenshot above, you can see that I have run the &#8220;My Bugs&#8221; query and that I have selected the second work item from the result, with id 62. When I open this work item now, it will launch in my browser and display the now familiar modern work item form:
+
+![](/assets/wp-content/uploads/2016/08/query-2.png)
+
+And if you look closely, you can see that in the upper right hand corner of the work item form it displays &#8220;2 of 4&#8221; and some buttons:
+
+![](/assets/wp-content/uploads/2016/08/query-3.png)
+
+When you open a work item from a query result in Visual Studio, we don&#8217;t want you lose the query context you were in. So, when opening the work item we pass some context information along, in this case this included the name of the query that you ran and the position of the work item inside of that query result. Then, in the web we can restore this context, show you the work item, and also give you the option to easily switch to the next/previous work item in the &#8220;My Bugs&#8221; query:
+
+![](/assets/wp-content/uploads/2016/08/query-4.png)
+
+You can also just return to the full query result in the web:
+
+![](/assets/wp-content/uploads/2016/08/query-5.png)
+
+Preserving the context this way works with all queries in Visual Studio, even new and unsaved ones. <figure id="attachment_818" aria-describedby="caption-attachment-818" />
+
+![](/assets/wp-content/uploads/2016/08/new-query-1.png)
+
+# Linking Work Items to Code Changes
+
+With the [Development](https://www.visualstudio.com/docs/work/backlogs/add-work-items#link-items-to-support-traceability) section on the new work item form we have made it really easy to view code changes that contributed to work item, be it he implementation of a feature or a bugfix:
+
+<img className="size-full wp-image-793 aligncenter" src="/assets/wp-content/uploads/2016/08/commit-dnd-result.png" alt="commit-dnd-result.png" width="893" height="672" srcSet="/assets/wp-content/uploads/2016/08/commit-dnd-result.png 893w, /assets/wp-content/uploads/2016/08/commit-dnd-result-300x226.png 300w, /assets/wp-content/uploads/2016/08/commit-dnd-result-768x578.png 768w" sizes="(max-width: 893px) 100vw, 893px" />
+
+To associate your code changes with your work items you can create a link after the fact from the work item form, or in Visual Studio when you commit or check in your code. For both Git and TFVC you can still run work item queries from the _Changes_ or _Pending Changes_ view and even drag and drop work items from the query result to the _Related Work Items_ section. Adding a work item to a git commit:
+
+<img className="wp-image-792 size-full" src="/assets/wp-content/uploads/2016/08/commit-dnd.gif" alt="Adding a related work item to a git commit" width="1062" height="687" />

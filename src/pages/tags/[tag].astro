@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+
+  const tagSet = new Set<string>();
+  allPosts.forEach(post => post.data.tags.forEach(t => tagSet.add(t.toLowerCase())));
+
+  return [...tagSet].map(tag => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: allPosts
+        .filter(p => p.data.tags.some(t => t.toLowerCase() === tag))
+        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+}
+
+function getSlug(id: string) {
+  return id.replace(/\.mdx?$/, '');
+}
+---
+
+<BaseLayout title={`${tag} — Christopher Schleiden`}>
+  <section class="section" style="padding-top: 140px;">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">Tag: {tag}</span>
+        <a href="/tags" class="section-link">All tags →</a>
+      </div>
+      <div class="post-list stagger">
+        {posts.map(post => (
+          <a href={`/blog/${getSlug(post.id)}`} class="post-item">
+            <span class="post-date">{formatDate(post.data.date)}</span>
+            <span class="post-title-text">{post.data.title}</span>
+            <span class="post-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

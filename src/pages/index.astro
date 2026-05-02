@@ -1,0 +1,239 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 6);
+
+const projects = [
+  {
+    name: 'go-workflows',
+    desc: 'Embedded durable workflows for Go, similar to DTFx, Cadence, and Temporal.',
+    href: 'https://github.com/cschleiden/go-workflows',
+    stars: 466,
+    tech: ['Go', 'MySQL', 'Redis'],
+  },
+  {
+    name: 'VS Code GitHub Actions',
+    desc: 'Unofficial extension to view GitHub Actions workflows and runs in VS Code.',
+    href: 'https://github.com/cschleiden/vscode-github-actions',
+    stars: 301,
+    tech: ['TypeScript', 'VS Code'],
+  },
+  {
+    name: 'GitHub Actions Hero',
+    desc: 'Interactive tutorial and visualizer for GitHub Actions workflows.',
+    href: 'https://github-actions-hero.vercel.app',
+    stars: 117,
+    tech: ['TypeScript', 'React'],
+  },
+  {
+    name: 'Impera',
+    desc: 'Free browser game inspired by the "world domination" board game.',
+    href: 'https://www.imperaonline.de',
+    tech: ['C#', 'React'],
+  },
+];
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+}
+
+function getSlug(id: string) {
+  return id.replace(/\.mdx?$/, '');
+}
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-line"></div>
+      <h1>
+        <span class="hero-word-mask"><span class="hero-word">Christopher</span></span><br/>
+        <span class="hero-word-mask"><span class="hero-word">Schleiden</span></span>
+      </h1>
+      <p class="hero-description">
+        Software engineer at GitHub, building <span class="hero-keyword"><span class="hero-keyword-inner" id="heroKeyword">AI developer tools</span></span>.
+        Originally from Cologne, now in the Pacific Northwest — when not coding, probably on a mountain somewhere.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- Writing -->
+  <section class="section" id="writing">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">Writing</span>
+        <a href="/blog" class="section-link">All posts →</a>
+      </div>
+      <div class="post-list stagger">
+        {posts.map(post => (
+          <a href={`/blog/${getSlug(post.id)}`} class="post-item">
+            <span class="post-date">{formatDate(post.data.date)}</span>
+            <span class="post-title-text">{post.data.title}</span>
+            {post.data.tags[0] && <span class="post-tag">{post.data.tags[0]}</span>}
+            <span class="post-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- Projects -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">Projects</span>
+        <a href="/projects" class="section-link">View all →</a>
+      </div>
+
+      <h3 class="fade-up" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px;">Work</h3>
+      <div class="projects-grid stagger" style="margin-bottom: 40px;">
+        <a href="https://github.com/features/actions" class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+          <div class="project-header">
+            <span class="project-name">GitHub Actions</span>
+          </div>
+          <p class="project-desc">CI/CD and automation platform built into GitHub. Helped launch and scale from zero to millions of workflows per day.</p>
+        </a>
+        <a href="https://github.com/marketplace/models" class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+          <div class="project-header">
+            <span class="project-name">GitHub Models</span>
+          </div>
+          <p class="project-desc">Playground and API bringing industry-leading AI models to 100M+ developers on GitHub — experiment, compare, and deploy from playground to production.</p>
+        </a>
+      </div>
+
+      <h3 class="fade-up" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px;">Side projects</h3>
+      <div class="projects-grid stagger">
+        {projects.map(project => (
+          <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+            <div class="project-header">
+              <span class="project-name">{project.name}</span>
+              {project.stars && (
+                <span class="project-stars">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <span class="count-up" data-target={project.stars}>0</span>
+                </span>
+              )}
+            </div>
+            <p class="project-desc">{project.desc}</p>
+            <div class="project-tech">
+              {project.tech.map(t => <span class="tech-badge">{t}</span>)}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="divider"></div></div>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-title">About</span>
+        <a href="/about" class="section-link">More →</a>
+      </div>
+      <div class="about-content">
+        <p class="about-intro fade-up">
+          I'm a <span class="highlight">Staff Software Engineer</span> at GitHub,
+          where I'm building AI developer tools. I care deeply about
+          developer experience and building tools that get out of your way.
+          Originally from <span class="highlight">Cologne</span>, now somewhere
+          in the PNW chasing summit views.
+        </p>
+
+        <div class="journey stagger">
+          <div class="journey-item current fade-up">
+            <div class="journey-dot"></div>
+            <div class="journey-period">2019 → now</div>
+            <div class="journey-role">Staff Software Engineer</div>
+            <div class="journey-place">GitHub · AI Developer Tools</div>
+            <div class="journey-note">Currently building AI developer tools. Helped launch and scale GitHub Actions, worked on GitHub Models, and contributed to Copilot.</div>
+          </div>
+          <div class="journey-item fade-up">
+            <div class="journey-dot"></div>
+            <div class="journey-period">2011 → 2019</div>
+            <div class="journey-role">Consultant → Principal Engineering Manager</div>
+            <div class="journey-place">Microsoft · Cologne, Germany → Redmond, US</div>
+          </div>
+          <div class="journey-item fade-up">
+            <div class="journey-dot"></div>
+            <div class="journey-period">2009 → 2011</div>
+            <div class="journey-role">Computer Science</div>
+            <div class="journey-place">RWTH Aachen University · Germany</div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Rotating keyword
+    (function() {
+      const words = ['AI developer tools', 'GitHub Copilot', 'agentic coding', 'open source'];
+      const el = document.getElementById('heroKeyword');
+      if (!el) return;
+      let idx = 0;
+      setInterval(() => {
+        el.classList.add('swap-out');
+        setTimeout(() => {
+          idx = (idx + 1) % words.length;
+          el.textContent = words[idx];
+          el.classList.remove('swap-out');
+          el.classList.add('swap-in');
+          requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('swap-in')));
+        }, 300);
+      }, 2800);
+    })();
+
+    // Counter animation
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const target = entry.target as HTMLElement;
+        if (entry.isIntersecting && !target.dataset.counted) {
+          target.dataset.counted = 'true';
+          const end = parseInt(target.dataset.target || '0', 10);
+          const duration = 1200;
+          const start = performance.now();
+          function tick(now: number) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            target.textContent = String(Math.floor(eased * end));
+            if (progress < 1) requestAnimationFrame(tick);
+            else target.textContent = String(end);
+          }
+          requestAnimationFrame(tick);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.count-up').forEach(el => counterObserver.observe(el));
+
+    // Project card tilt
+    document.querySelectorAll('.project-card').forEach(card => {
+      const el = card as HTMLElement;
+      el.addEventListener('mousemove', (e: MouseEvent) => {
+        const rect = el.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        el.style.transform = `translateY(-2px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = 'translateY(0) rotateY(0) rotateX(0)';
+        el.style.transition = 'transform 0.4s ease, border-color 0.25s, box-shadow 0.25s';
+      });
+      el.addEventListener('mouseenter', () => {
+        el.style.transition = 'border-color 0.25s, box-shadow 0.25s';
+      });
+    });
+  </script>
+</BaseLayout>

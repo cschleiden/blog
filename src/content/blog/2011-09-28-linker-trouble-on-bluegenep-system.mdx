@@ -1,0 +1,6 @@
+---
+title: Linker trouble on BlueGene/P system
+date: 2011-09-28T23:06:48-07:00
+tags: [HPC]
+---
+Today I have learned that having a global variable in some C89 code which is not declared as static might be problematic if said code is later linked together with a Fortran program which includes a function with the exact same name es the mentioned variable. Somehow the program ended up at the location of the variable which of course ended in a crash with a signal four (illegal instruction). Took me about 12h to find and fix that bug&#8230; in my defense it was on a BlueGene system and I first thought the error had something to do with some front-/backend problems (you cross compile on the frontend and then execute the resulting binary using the LoadLeveler)&#8230; Anyway, now it works and I can finally take measurements for the thesis.
