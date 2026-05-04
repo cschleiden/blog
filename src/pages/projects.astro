@@ -9,7 +9,8 @@ const workProjects = [
 const sideProjects = [
   { name: 'go-workflows', desc: 'Durable workflows for Go similar to DTFx/Cadence/Temporal. Supports different backends (MySQL, SQLite, Redis).', href: 'https://github.com/cschleiden/go-workflows', stars: 466, tech: ['Go', 'MySQL', 'Redis'] },
   { name: 'GitHub Actions for VS Code', desc: 'VS Code extension for GitHub Actions workflows and runs.', href: 'https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions', stars: 301, tech: ['TypeScript', 'VS Code'] },
-  { name: 'Impera', desc: 'Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.', href: 'https://www.imperaonline.de', tech: ['C#', 'React'] },
+  { name: 'Impera', desc: 'Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.', href: 'https://www.imperaonline.de', tech: [], image: '/static/images/projects/impera-map.png' },
+  { name: 'Die verbotene Welt', desc: 'Award-winning freeware real-time strategy game for Windows, Linux, and macOS. Built with the sechsta sinn team as lead programmer; ~220k LOC C++ and 30k LOC Lua over a decade.', href: 'https://digitalbreed.com/project/die-verbotene-welt', tech: [], image: '/static/images/projects/dvw-1.jpg' },
   { name: 'GitHub Actions Hero', desc: 'Interactive tutorial and visualizer for GitHub Actions workflows.', href: 'https://github-actions-hero.vercel.app', stars: 117, tech: ['TypeScript', 'React'] },
   { name: 'Effective GitHub Actions workflow', desc: 'GitHub CLI extension to display the effective workflow for a given workflow run.', href: 'https://github.com/cschleiden/gh-effective-workflow', tech: ['Go'] },
   { name: 'GitHub Actions CLI Lint', desc: 'GitHub CLI extension to lint GitHub Actions workflows using actionlint.', href: 'https://github.com/cschleiden/gh-actionlint', stars: 21, tech: ['Go'] },
@@ -46,19 +47,28 @@ const sideProjects = [
       </p>
       <div class="projects-grid stagger">
         {sideProjects.map(project => (
-          <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
-            <div class="project-header">
-              <span class="project-name">{project.name}</span>
-              {project.stars && (
-                <span class="project-stars">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  {project.stars}
-                </span>
+          <a href={project.href} class:list={["project-card fade-up", { "has-image": project.image }]} target="_blank" rel="noopener noreferrer">
+            {project.image && (
+              <div class="project-image">
+                <img src={project.image} alt={project.name} loading="lazy" />
+              </div>
+            )}
+            <div class="project-body">
+              <div class="project-header">
+                <span class="project-name">{project.name}</span>
+                {project.stars && (
+                  <span class="project-stars">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    {project.stars}
+                  </span>
+                )}
+              </div>
+              <p class="project-desc">{project.desc}</p>
+              {project.tech.length > 0 && (
+                <div class="project-tech">
+                  {project.tech.map(t => <span class="tech-badge">{t}</span>)}
+                </div>
               )}
-            </div>
-            <p class="project-desc">{project.desc}</p>
-            <div class="project-tech">
-              {project.tech.map(t => <span class="tech-badge">{t}</span>)}
             </div>
           </a>
         ))}
