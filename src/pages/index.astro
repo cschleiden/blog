@@ -95,6 +95,13 @@ function getSlug(id: string) {
 
       <h3 class="fade-up" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px;">Work</h3>
       <div class="projects-grid stagger" style="margin-bottom: 40px;">
+        <a href="https://github.com/features/copilot/agents" class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+          <div class="project-header">
+            <span class="project-name">GitHub Copilot coding agent</span>
+            <span class="project-badge" title="Currently working on this"><span class="dot"></span></span>
+          </div>
+          <p class="project-desc">Autonomous coding agent that picks up issues, opens pull requests, and iterates on review feedback — with cloud-hosted execution and integrations across GitHub, Slack, and Teams.</p>
+        </a>
         <a href="https://github.com/features/actions" class="project-card fade-up" target="_blank" rel="noopener noreferrer">
           <div class="project-header">
             <span class="project-name">GitHub Actions</span>
@@ -180,7 +187,7 @@ function getSlug(id: string) {
   <script>
     // Rotating keyword
     (function() {
-      const words = ['AI developer tools', 'GitHub Copilot', 'agentic coding', 'open source'];
+      const words = ['AI developer tools', 'coding agents', 'agentic coding tools', 'CI/CD at scale', 'open source'];
       const el = document.getElementById('heroKeyword');
       if (!el) return;
       let idx = 0;

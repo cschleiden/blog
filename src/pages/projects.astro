@@ -2,8 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const workProjects = [
-  { name: 'GitHub Actions', desc: 'CI/CD and automation platform built into GitHub. Helped launch and scale from zero to millions of workflows per day.', href: 'https://github.com/features/actions', tech: ['C#', 'TypeScript', 'Azure'] },
+  { name: 'GitHub Copilot coding agent', desc: 'Autonomous coding agent that picks up issues, opens pull requests, and iterates on review feedback — with cloud-hosted execution and integrations across GitHub, Slack, and Teams.', href: 'https://github.com/features/copilot/agents', tech: ['Go', 'TypeScript', 'AI/ML'], current: true },
   { name: 'GitHub Models', desc: 'Playground and API bringing industry-leading AI models to 100M+ developers on GitHub — experiment, compare, and deploy from playground to production.', href: 'https://github.com/marketplace/models', tech: ['Go', 'TypeScript', 'AI/ML'] },
+  { name: 'GitHub Actions', desc: 'CI/CD and automation platform built into GitHub. Helped launch and scale from zero to millions of workflows per day.', href: 'https://github.com/features/actions', tech: ['C#', 'TypeScript', 'Azure'] },
 ];
 
 const sideProjects = [
@@ -28,13 +29,14 @@ const sideProjects = [
 
       <h3 class="fade-up" style="color: var(--text-primary); margin-bottom: 16px; font-size: 1.1rem; font-weight: 600;">Work</h3>
       <p class="fade-up" style="color: var(--text-secondary); margin-bottom: 32px;">
-        Products I've helped design, build, and ship at GitHub.
+        A few of the products I've helped build at GitHub.
       </p>
       <div class="projects-grid stagger" style="margin-bottom: 60px;">
         {workProjects.map(project => (
           <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
             <div class="project-header">
               <span class="project-name">{project.name}</span>
+              {project.current && <span class="project-badge" title="Currently working on this"><span class="dot"></span></span>}
             </div>
             <p class="project-desc">{project.desc}</p>
           </a>
