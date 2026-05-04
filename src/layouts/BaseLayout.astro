@@ -56,15 +56,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       const saved = localStorage.getItem('theme');
       if (saved === 'light') {
         document.documentElement.classList.add('light');
-      } else if (saved === 'dark') {
-        document.documentElement.classList.add('dark');
       } else {
-        // system preference
-        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-          document.documentElement.classList.add('light');
-        } else {
-          document.documentElement.classList.add('dark');
-        }
+        document.documentElement.classList.add('dark');
       }
     })();
   </script>
@@ -143,15 +136,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         localStorage.setItem('theme', isLight ? 'dark' : 'light');
       });
     }
-
-    // Follow system theme changes when user hasn't set a preference
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem('theme')) {
-        const html = document.documentElement;
-        html.classList.remove('light', 'dark');
-        html.classList.add(e.matches ? 'dark' : 'light');
-      }
-    });
 
     // Intersection observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
