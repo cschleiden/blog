@@ -140,7 +140,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     // Intersection observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
+        // Also mark visible if the element has already scrolled above the viewport
+        // (fast scrolling can cause elements to pass through without isIntersecting firing)
+        if (entry.isIntersecting || entry.boundingClientRect.top < 0) {
+          entry.target.classList.add('visible');
+        }
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
