@@ -490,6 +490,28 @@ html.light .icon-moon { display: block; }
 
 .project-card:hover::before { opacity: 1; }
 
+.project-card.has-image { padding: 0; }
+.project-card.has-image .project-body { padding: 24px 28px 28px; }
+
+.project-image {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--tech-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.project-card.has-image:hover .project-image img {
+  transform: scale(1.03);
+}
+
 .project-header {
   display: flex;
   align-items: center;
