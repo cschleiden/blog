@@ -150,9 +150,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     document.querySelectorAll('.fade-up, .divider, .post-item').forEach(el => observer.observe(el));
 
-    // Stagger post items
+    // Stagger post items — cap so long lists don't accumulate multi-second delays
     document.querySelectorAll('.post-item').forEach((el, i) => {
-      el.style.transitionDelay = `${i * 70}ms`;
+      el.style.transitionDelay = `${Math.min(i, 8) * 70}ms`;
     });
   </script>
 </body>
