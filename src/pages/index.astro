@@ -11,7 +11,7 @@ const projects = [
   {
     name: 'go-workflows',
     desc: 'Embedded durable workflows for Go, similar to DTFx, Cadence, and Temporal.',
-    href: 'https://github.com/cschleiden/go-workflows',
+    href: '/projects/go-workflows',
     stars: 466,
     tech: ['Go', 'MySQL', 'Redis'],
   },
@@ -118,8 +118,10 @@ function getSlug(id: string) {
 
       <h3 class="fade-up" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px;">Side projects</h3>
       <div class="projects-grid stagger">
-        {projects.map(project => (
-          <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
+        {projects.map(project => {
+          const isInternal = project.href.startsWith('/');
+          return (
+          <a href={project.href} class="project-card fade-up" target={isInternal ? undefined : '_blank'} rel={isInternal ? undefined : 'noopener noreferrer'}>
             <div class="project-header">
               <span class="project-name">{project.name}</span>
               {project.stars && (
@@ -134,7 +136,8 @@ function getSlug(id: string) {
               {project.tech.map(t => <span class="tech-badge">{t}</span>)}
             </div>
           </a>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>

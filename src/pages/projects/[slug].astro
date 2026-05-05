@@ -1,0 +1,275 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import projectDetails from '../../data/projectDetails';
+
+export async function getStaticPaths() {
+  return Object.values(projectDetails).map(p => ({
+    params: { slug: p.slug },
+    props: { project: p },
+  }));
+}
+
+const { project } = Astro.props;
+
+const posts = await getCollection('blog');
+const related = (project.relatedPosts ?? [])
+  .map(id => posts.find(p => p.id.replace(/\.mdx?$/, '') === id))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p))
+  .sort((a, b) => +a.data.date - +b.data.date);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+const linkIcon = (type?: string) => {
+  if (type === 'github') return 'github';
+  if (type === 'docs') return 'book';
+  if (type === 'package') return 'package';
+  return 'external';
+};
+---
+
+<BaseLayout title={`${project.title} — Christopher Schleiden`} description={project.tagline}>
+  <article style="padding-top: 140px; padding-bottom: 80px;">
+    <div class="container">
+      <a href="/projects" class="back-link fade-up">← All projects</a>
+
+      <header class="fade-up project-detail-header">
+        <h1 class="project-detail-title">{project.title}</h1>
+        <p class="project-detail-tagline">{project.tagline}</p>
+
+        <div class="project-detail-meta">
+          {project.status && (
+            <span class="project-status">
+              <span class="dot"></span>
+              {project.status}
+            </span>
+          )}
+          {project.tech.length > 0 && (
+            <div class="project-tech" style="margin-top: 0;">
+              {project.tech.map(t => <span class="tech-badge">{t}</span>)}
+            </div>
+          )}
+        </div>
+
+        <div class="project-detail-links">
+          {project.links.map(link => (
+            <a href={link.href} class="project-detail-link" target="_blank" rel="noopener noreferrer" data-icon={linkIcon(link.type)}>
+              {link.label}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+            </a>
+          ))}
+        </div>
+      </header>
+
+      <section class="fade-up project-detail-section">
+        <p class="project-detail-intro">{project.intro}</p>
+      </section>
+
+      {project.sections.map(s => (
+        <section class="fade-up project-detail-section">
+          <h2 class="project-detail-h2">{s.heading}</h2>
+          <p class="project-detail-body">{s.body}</p>
+        </section>
+      ))}
+
+      {project.features.length > 0 && (
+        <section class="fade-up project-detail-section">
+          <h2 class="project-detail-h2">Highlights</h2>
+          <ul class="project-features">
+            {project.features.map(f => (
+              <li class="project-feature">
+                <span class="project-feature-title">{f.title}</span>
+                <span class="project-feature-desc">{f.desc}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {related.length > 0 && (
+        <section class="fade-up project-detail-section">
+          <h2 class="project-detail-h2">Related writing</h2>
+          <ul class="project-related-posts">
+            {related.map(post => (
+              <li>
+                <a href={`/blog/${post.id.replace(/\.mdx?$/, '')}`} class="project-related-post">
+                  <span class="project-related-title">{post.data.title}</span>
+                  <time class="project-related-date" datetime={post.data.date.toISOString()}>
+                    {formatDate(post.data.date)}
+                  </time>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  .project-detail-header {
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+
+  .project-detail-title {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .project-detail-tagline {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .project-detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .project-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+  .project-status .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  .project-detail-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .project-detail-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-raised);
+    font-size: 0.85rem;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+  .project-detail-link:hover {
+    border-color: var(--text-muted);
+    transform: translateY(-1px);
+  }
+  .project-detail-link svg { color: var(--text-muted); }
+
+  .project-detail-section { margin-bottom: 36px; }
+
+  .project-detail-h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .project-detail-intro {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .project-detail-body {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .project-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .project-feature {
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .project-feature-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+  .project-feature-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  .project-related-posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .project-related-post {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    color: inherit;
+    transition: color 0.2s;
+  }
+  .project-related-post:hover { color: var(--accent); }
+  .project-related-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  .project-related-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--mono);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 720px) {
+    .project-features { grid-template-columns: 1fr; }
+  }
+</style>

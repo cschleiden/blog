@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import projectDetails from '../data/projectDetails';
 
 const workProjects = [
   { name: 'GitHub Copilot coding agent', desc: 'Autonomous coding agent that picks up issues, opens pull requests, and iterates on review feedback — with cloud-hosted execution and integrations across GitHub, Slack, and Teams.', href: 'https://github.com/features/copilot/agents', tech: ['Go', 'TypeScript', 'AI/ML'], current: true },
@@ -8,7 +9,7 @@ const workProjects = [
 ];
 
 const sideProjects = [
-  { name: 'go-workflows', desc: 'Durable workflows for Go similar to DTFx/Cadence/Temporal. Supports different backends (MySQL, SQLite, Redis).', href: 'https://github.com/cschleiden/go-workflows', stars: 466, tech: ['Go', 'MySQL', 'Redis'] },
+  { name: 'go-workflows', desc: 'Durable workflows for Go similar to DTFx/Cadence/Temporal. Supports different backends (MySQL, SQLite, Redis).', href: '/projects/go-workflows', stars: 466, tech: ['Go', 'MySQL', 'Redis'], slug: 'go-workflows' },
   { name: 'GitHub Actions for VS Code', desc: 'VS Code extension for GitHub Actions workflows and runs.', href: 'https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions', stars: 301, tech: ['TypeScript', 'VS Code'] },
   { name: 'Impera', desc: 'Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.', href: 'https://www.imperaonline.de', tech: [], image: '/static/images/projects/impera-map.png' },
   { name: 'Die verbotene Welt', desc: 'Award-winning freeware real-time strategy game for Windows, Linux, and macOS. Built with the sechsta sinn team as lead programmer; ~220k LOC C++ and 30k LOC Lua over a decade.', href: 'http://www.sechsta-sinn.de', tech: [], image: '/static/images/projects/dvw-1.jpg' },
@@ -48,8 +49,10 @@ const sideProjects = [
         Some of my side-projects. Some are random experiments, others are "work-adjacent" explorations or extensions, and some are just for fun.
       </p>
       <div class="projects-grid stagger">
-        {sideProjects.map(project => (
-          <a href={project.href} class:list={["project-card fade-up", { "has-image": project.image }]} target="_blank" rel="noopener noreferrer">
+        {sideProjects.map(project => {
+          const isInternal = project.href.startsWith('/');
+          return (
+          <a href={project.href} class:list={["project-card fade-up", { "has-image": project.image }]} target={isInternal ? undefined : '_blank'} rel={isInternal ? undefined : 'noopener noreferrer'}>
             {project.image && (
               <div class="project-image">
                 <img src={project.image} alt={project.name} loading="lazy" />
@@ -73,7 +76,8 @@ const sideProjects = [
               )}
             </div>
           </a>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>
