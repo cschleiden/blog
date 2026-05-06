@@ -113,7 +113,6 @@ html.dark body::before {
   pointer-events: none;
   z-index: 0;
   transform: translate(-50%, -50%);
-  transition: left 0.3s ease, top 0.3s ease;
   display: none;
 }
 
