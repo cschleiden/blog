@@ -152,7 +152,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     // Stagger post items — cap so long lists don't accumulate multi-second delays
     document.querySelectorAll('.post-item').forEach((el, i) => {
-      el.style.transitionDelay = `${Math.min(i, 8) * 70}ms`;
+      el.style.transitionDelay = `${Math.min(i, 8) * 35}ms`;
     });
   </script>
 </body>
