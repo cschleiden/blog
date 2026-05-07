@@ -55,7 +55,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <script is:inline>
     window.dataLayer = window.dataLayer || [];
     function gtag(...args) {
-      dataLayer.push(args);
+      dataLayer.push(...args);
     }
     gtag('js', new Date());
     gtag('config', 'G-PH1KDZ2P6Q');
