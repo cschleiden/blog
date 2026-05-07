@@ -50,6 +50,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" href="/rss.xml" title="Christopher Schleiden" />
 
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PH1KDZ2P6Q"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-PH1KDZ2P6Q');
+  </script>
+
   <!-- Theme: inline script to avoid FOUC -->
   <script is:inline>
     (function() {
