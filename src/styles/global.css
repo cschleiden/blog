@@ -728,21 +728,66 @@ footer {
 
 /* ── Prose (blog post content) ── */
 .prose-blog {
-  @apply prose prose-lg max-w-none;
-  --tw-prose-body: var(--text-secondary);
-  --tw-prose-headings: var(--text);
-  --tw-prose-links: var(--accent);
-  --tw-prose-bold: var(--text);
-  --tw-prose-code: var(--text);
-  --tw-prose-pre-bg: var(--bg-raised);
-  --tw-prose-pre-code: var(--text-secondary);
-  --tw-prose-quotes: var(--text-secondary);
-  --tw-prose-quote-borders: var(--accent);
-  --tw-prose-counters: var(--text-muted);
-  --tw-prose-bullets: var(--text-muted);
-  --tw-prose-hr: var(--border);
-  --tw-prose-th-borders: var(--border);
-  --tw-prose-td-borders: var(--border);
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.prose-blog > * + * {
+  margin-top: 1.5em;
+}
+
+.prose-blog p {
+  margin: 0 0 1.5em;
+}
+
+.prose-blog p:last-child {
+  margin-bottom: 0;
+}
+
+.prose-blog h1,
+.prose-blog h2,
+.prose-blog h3,
+.prose-blog h4 {
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-top: 2.25em;
+  margin-bottom: 0.75em;
+}
+
+.prose-blog h2 { font-size: 1.625rem; }
+.prose-blog h3 { font-size: 1.3125rem; }
+.prose-blog h4 { font-size: 1.125rem; }
+
+.prose-blog ul,
+.prose-blog ol {
+  margin: 0 0 1.5em;
+  padding-left: 1.5em;
+}
+
+.prose-blog li {
+  margin: 0.375em 0;
+}
+
+.prose-blog blockquote {
+  margin: 1.5em 0;
+  padding: 0.25em 1em;
+  border-left: 3px solid var(--accent);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.prose-blog hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.5em 0;
+}
+
+.prose-blog strong {
+  color: var(--text);
+  font-weight: 700;
 }
 
 .prose-blog pre {
