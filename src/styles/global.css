@@ -554,21 +554,6 @@ html.light .icon-moon { display: block; }
   line-height: 1.6;
 }
 
-.project-tech {
-  margin-top: 16px;
-  display: flex;
-  gap: 8px;
-}
-
-.tech-badge {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  padding: 3px 10px;
-  border-radius: 6px;
-  background: var(--tech-bg);
-}
-
 /* ── About ── */
 .about-content {
   display: flex;
