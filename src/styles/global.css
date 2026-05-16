@@ -870,6 +870,10 @@ footer {
   border-radius: var(--radius);
 }
 
+.prose-blog picture {
+  display: block;
+}
+
 .prose-blog img {
   display: block;
   margin-left: auto;
@@ -881,7 +885,8 @@ footer {
   border-radius: var(--radius);
 }
 
-.prose-blog p:has(> img) {
+.prose-blog p:has(> img),
+.prose-blog p:has(> picture) {
   text-align: center;
   font-size: 0.875rem;
   color: var(--text-muted);
@@ -891,7 +896,8 @@ footer {
   margin-bottom: 2.5rem;
 }
 
-.prose-blog p:has(> img) > img {
+.prose-blog p:has(> img) > img,
+.prose-blog p:has(> picture) > picture {
   margin-bottom: 0.75rem;
 }
 

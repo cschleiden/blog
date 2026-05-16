@@ -15,9 +15,9 @@ const preGitHubProjects = [
 const sideProjects = [
   { name: 'go-workflows', desc: 'Durable workflows for Go similar to DTFx/Cadence/Temporal. Supports different backends (MySQL, SQLite, Redis).', href: '/projects/go-workflows', stars: 466, tech: ['Go', 'MySQL', 'Redis'], slug: 'go-workflows' },
   { name: 'GitHub Actions for VS Code', desc: 'VS Code extension for GitHub Actions workflows and runs.', href: 'https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions', stars: 301, tech: ['TypeScript', 'VS Code'] },
-  { name: 'Impera', desc: 'Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.', href: 'https://www.imperaonline.de', tech: [], image: '/static/images/projects/impera-map.png' },
-  { name: 'Die verbotene Welt', desc: 'Award-winning freeware real-time strategy game for Windows, Linux, and macOS. Built with the sechsta sinn team as lead programmer; ~220k LOC C++ and 30k LOC Lua over a decade.', href: 'http://www.sechsta-sinn.de', tech: [], image: '/static/images/projects/dvw-1.jpg' },
-  { name: 'GitHub Actions Hero', desc: 'Interactive tutorial and visualizer for GitHub Actions workflows.', href: 'https://github-actions-hero.vercel.app', stars: 117, tech: ['TypeScript', 'React'], image: '/static/images/projects/github-actions-hero.png' },
+  { name: 'Impera', desc: 'Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.', href: 'https://www.imperaonline.de', tech: [], image: { src: '/static/images/projects/impera-map.png', width: 421, height: 280 } },
+  { name: 'Die verbotene Welt', desc: 'Award-winning freeware real-time strategy game for Windows, Linux, and macOS. Built with the sechsta sinn team as lead programmer; ~220k LOC C++ and 30k LOC Lua over a decade.', href: 'http://www.sechsta-sinn.de', tech: [], image: { src: '/static/images/projects/dvw-1.jpg', width: 799, height: 599 } },
+  { name: 'GitHub Actions Hero', desc: 'Interactive tutorial and visualizer for GitHub Actions workflows.', href: 'https://github-actions-hero.vercel.app', stars: 117, tech: ['TypeScript', 'React'], image: { src: '/static/images/projects/github-actions-hero.png', width: 1280, height: 720 } },
   { name: 'Effective GitHub Actions workflow', desc: 'GitHub CLI extension to display the effective workflow for a given workflow run.', href: 'https://github.com/cschleiden/gh-effective-workflow', tech: ['Go'] },
   { name: 'GitHub Actions CLI Lint', desc: 'GitHub CLI extension to lint GitHub Actions workflows using actionlint.', href: 'https://github.com/cschleiden/gh-actionlint', stars: 21, tech: ['Go'] },
   { name: 'Jest GitHub Actions reporter', desc: 'Custom Jest reporter to display tests failures as annotations in GitHub Actions runs.', href: 'https://github.com/cschleiden/jest-github-actions-reporter', stars: 48, tech: ['TypeScript'] },
@@ -71,7 +71,7 @@ const sideProjects = [
           <a href={project.href} class:list={["project-card fade-up", { "has-image": project.image }]} target={isInternal ? undefined : '_blank'} rel={isInternal ? undefined : 'noopener noreferrer'}>
             {project.image && (
               <div class="project-image">
-                <img src={project.image} alt={project.name} loading="lazy" />
+                <img src={project.image.src} width={project.image.width} height={project.image.height} alt={project.name} loading="lazy" decoding="async" />
               </div>
             )}
             <div class="project-body">
