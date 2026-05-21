@@ -142,6 +142,9 @@ nav {
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   background: var(--nav-bg);
   border-bottom: 1px solid var(--border);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 nav .container {
