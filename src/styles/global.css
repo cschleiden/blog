@@ -132,6 +132,21 @@ html.dark body::before {
 }
 
 /* ── Navigation ── */
+/* Solid mask covering the iOS safe-area strip (Dynamic Island / notch
+   row). Rendered as an independent fixed element above the nav so the
+   nav's translucent backdrop-filter doesn't let scrolled content bleed
+   through to either side of the Dynamic Island. */
+.safe-area-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top);
+  background: var(--bg);
+  z-index: 200;
+  pointer-events: none;
+}
+
 nav {
   position: sticky;
   top: 0;
@@ -145,20 +160,6 @@ nav {
   padding-top: env(safe-area-inset-top);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
-}
-
-/* Cover the safe-area (e.g. iPhone Dynamic Island) zone with a solid
-   color so content scrolling underneath doesn't bleed through the
-   translucent nav background in that region. */
-nav::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: env(safe-area-inset-top);
-  background: var(--bg);
-  pointer-events: none;
 }
 
 nav .container {
