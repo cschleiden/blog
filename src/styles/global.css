@@ -133,7 +133,7 @@ html.dark body::before {
 
 /* ── Navigation ── */
 nav {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -222,7 +222,7 @@ html.light .icon-moon { display: block; }
 
 /* ── Hero ── */
 .hero {
-  padding: 160px 0 100px;
+  padding: 96px 0 100px;
   position: relative;
 }
 
@@ -929,6 +929,6 @@ footer {
   .post-item { flex-direction: column; gap: 4px; padding: 14px 16px; }
   .post-date { min-width: auto; }
   .post-tag { display: none; }
-  .hero { padding: 130px 0 70px; }
+  .hero { padding: 66px 0 70px; }
   .footer-content { flex-direction: column; gap: 16px; }
 }
