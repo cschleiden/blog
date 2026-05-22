@@ -138,9 +138,7 @@ nav {
   left: 0;
   right: 0;
   z-index: 100;
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  background: var(--nav-bg);
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
   padding-top: env(safe-area-inset-top);
   padding-left: env(safe-area-inset-left);
