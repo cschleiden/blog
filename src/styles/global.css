@@ -147,6 +147,20 @@ nav {
   padding-right: env(safe-area-inset-right);
 }
 
+/* Cover the safe-area (e.g. iPhone Dynamic Island) zone with a solid
+   color so content scrolling underneath doesn't bleed through the
+   translucent nav background in that region. */
+nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top);
+  background: var(--bg);
+  pointer-events: none;
+}
+
 nav .container {
   display: flex;
   align-items: center;
