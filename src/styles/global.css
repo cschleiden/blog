@@ -260,6 +260,7 @@ html.light .icon-moon { display: block; }
   letter-spacing: -0.035em;
   line-height: 1.1;
   margin-bottom: 24px;
+  overflow-wrap: normal;
 }
 
 /* Hero cinematic entrance */
@@ -278,11 +279,13 @@ html.light .icon-moon { display: block; }
   overflow: hidden;
   vertical-align: bottom;
   padding-top: 0.05em;
+  white-space: nowrap;
 }
 
 .hero-word {
   display: inline-block;
   position: relative;
+  white-space: nowrap;
 }
 
 /* Glitch RGB-split layers, only on initial load */
@@ -368,7 +371,7 @@ html.light .icon-moon { display: block; }
 .hero-description {
   font-size: 1.125rem;
   color: var(--text-secondary);
-  max-width: 520px;
+  max-width: 640px;
   line-height: 1.8;
   margin-bottom: 40px;
   opacity: 0;
@@ -381,6 +384,7 @@ html.light .icon-moon { display: block; }
   font-weight: 600;
   position: relative;
   display: inline-block;
+  white-space: nowrap;
 }
 
 .hero-keyword-inner {
@@ -929,5 +933,6 @@ footer {
   .post-date { min-width: auto; }
   .post-tag { display: none; }
   .hero { padding: 66px 0 70px; }
+  .hero h1 { font-size: clamp(2.125rem, 11vw, 2.5rem); }
   .footer-content { flex-direction: column; gap: 16px; }
 }
