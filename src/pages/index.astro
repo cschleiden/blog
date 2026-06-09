@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { featuredSideProjects, workProjects } from '../data/projects';
 import { getCollection } from 'astro:content';
 
 function splitLetters(word: string) {
@@ -12,36 +14,6 @@ const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const posts = allPosts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 6);
-
-const projects = [
-  {
-    name: 'go-workflows',
-    desc: 'Embedded durable workflows for Go, similar to DTFx, Cadence, and Temporal.',
-    href: '/projects/go-workflows',
-    stars: 466,
-    tech: ['Go', 'MySQL', 'Redis'],
-  },
-  {
-    name: 'VS Code GitHub Actions',
-    desc: 'Unofficial extension to view GitHub Actions workflows and runs in VS Code.',
-    href: 'https://github.com/cschleiden/vscode-github-actions',
-    stars: 301,
-    tech: ['TypeScript', 'VS Code'],
-  },
-  {
-    name: 'GitHub Actions Hero',
-    desc: 'Interactive tutorial and visualizer for GitHub Actions workflows.',
-    href: 'https://github-actions-hero.vercel.app',
-    stars: 117,
-    tech: ['TypeScript', 'React'],
-  },
-  {
-    name: 'Impera',
-    desc: 'Free browser game inspired by the "world domination" board game.',
-    href: 'https://www.imperaonline.de',
-    tech: ['C#', 'React'],
-  },
-];
 
 function formatDate(date: Date) {
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
@@ -72,7 +44,7 @@ function getSlug(id: string) {
         ))}
       </h1>
       <p class="hero-description">
-        Software engineer at GitHub, building <span class="hero-keyword"><span class="hero-keyword-inner" id="heroKeyword">AI developer tools</span></span>.<br/>
+        Software engineer at GitHub, working on the <span class="hero-keyword"><span class="hero-keyword-inner" id="heroKeyword">GitHub Copilot app</span></span>.<br/>
         Originally from Cologne, now in the Pacific Northwest. When not coding, probably on a mountain somewhere.
       </p>
 
@@ -111,46 +83,16 @@ function getSlug(id: string) {
 
       <h3 class="fade-up" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px;">Work</h3>
       <div class="projects-grid stagger" style="margin-bottom: 40px;">
-        <a href="https://github.com/features/copilot/agents" class="project-card fade-up" target="_blank" rel="noopener noreferrer">
-          <div class="project-header">
-            <span class="project-name">GitHub Copilot coding agent</span>
-            <span class="project-badge" title="Currently working on this"><span class="dot"></span></span>
-          </div>
-          <p class="project-desc">Autonomous coding agent that picks up issues, opens pull requests, and iterates on review feedback — with cloud-hosted execution and integrations across GitHub, Slack, and Teams.</p>
-        </a>
-        <a href="https://github.com/features/actions" class="project-card fade-up" target="_blank" rel="noopener noreferrer">
-          <div class="project-header">
-            <span class="project-name">GitHub Actions</span>
-          </div>
-          <p class="project-desc">CI/CD and automation platform built into GitHub. Helped launch and scale from zero to millions of workflows per day.</p>
-        </a>
-        <a href="https://github.com/marketplace/models" class="project-card fade-up" target="_blank" rel="noopener noreferrer">
-          <div class="project-header">
-            <span class="project-name">GitHub Models</span>
-          </div>
-          <p class="project-desc">Playground and API bringing industry-leading AI models to 100M+ developers on GitHub — experiment, compare, and deploy from playground to production.</p>
-        </a>
+        {workProjects.map(project => (
+          <ProjectCard project={project} />
+        ))}
       </div>
 
       <h3 class="fade-up" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px;">Side projects</h3>
       <div class="projects-grid stagger">
-        {projects.map(project => {
-          const isInternal = project.href.startsWith('/');
-          return (
-          <a href={project.href} class="project-card fade-up" target={isInternal ? undefined : '_blank'} rel={isInternal ? undefined : 'noopener noreferrer'}>
-            <div class="project-header">
-              <span class="project-name">{project.name}</span>
-              {project.stars && (
-                <span class="project-stars">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  <span class="count-up" data-target={project.stars}>0</span>
-                </span>
-              )}
-            </div>
-            <p class="project-desc">{project.desc}</p>
-          </a>
-          );
-        })}
+        {featuredSideProjects.map(project => (
+          <ProjectCard project={project} countStars showImage={false} />
+        ))}
       </div>
     </div>
   </section>
@@ -167,7 +109,7 @@ function getSlug(id: string) {
       <div class="about-content">
         <p class="about-intro fade-up">
           I'm a <span class="highlight">Staff Software Engineer</span> at GitHub,
-          where I'm building AI developer tools. I care deeply about
+          where I'm working on the <a href="https://github.com/features/ai/github-app">GitHub Copilot app</a>. I care deeply about
           developer experience and building tools that get out of your way.
           Originally from <span class="highlight">Cologne</span>, now somewhere
           in the PNW chasing summit views.
@@ -178,8 +120,8 @@ function getSlug(id: string) {
             <div class="journey-dot"></div>
             <div class="journey-period">2019 → now</div>
             <div class="journey-role">Staff Software Engineer</div>
-            <div class="journey-place">GitHub · AI Developer Tools</div>
-            <div class="journey-note">Currently building AI developer tools. Helped launch and scale GitHub Actions, worked on GitHub Models, and contributed to Copilot.</div>
+            <div class="journey-place">GitHub · Copilot</div>
+            <div class="journey-note">Currently working on the <a href="https://github.com/features/ai/github-app">GitHub Copilot app</a>. Helped launch and scale GitHub Actions, worked on GitHub Models, and contributed to GitHub Copilot cloud agent.</div>
           </div>
           <div class="journey-item fade-up">
             <div class="journey-dot"></div>
@@ -203,7 +145,7 @@ function getSlug(id: string) {
   <script>
     // Rotating keyword
     (function() {
-      const words = ['AI developer tools', 'coding agents', 'agentic coding tools', 'CI/CD at scale', 'open source'];
+      const words = ['GitHub Copilot app', 'coding agents', 'agentic coding tools', 'CI/CD at scale', 'open source'];
       const el = document.getElementById('heroKeyword');
       if (!el) return;
       let idx = 0;

@@ -1,0 +1,50 @@
+---
+import type { ProjectSummary } from '../data/projects';
+
+interface Props {
+  project: ProjectSummary;
+  countStars?: boolean;
+  showImage?: boolean;
+}
+
+const { project, countStars = false, showImage = true } = Astro.props;
+const isInternal = project.href.startsWith('/');
+const image = showImage ? project.image : undefined;
+---
+
+<a href={project.href} class:list={["project-card fade-up", { "has-image": image }]} target={isInternal ? undefined : '_blank'} rel={isInternal ? undefined : 'noopener noreferrer'}>
+  {image && (
+    <div class="project-image">
+      <img src={image.src} width={image.width} height={image.height} alt={project.name} loading="lazy" decoding="async" />
+    </div>
+  )}
+  {image ? (
+    <div class="project-body">
+      <div class="project-header">
+        <span class="project-name">{project.name}</span>
+        {project.current && <span class="project-badge" title="Currently working on this"><span class="dot"></span></span>}
+        {project.stars && (
+          <span class="project-stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            {countStars ? <span class="count-up" data-target={project.stars}>0</span> : project.stars}
+          </span>
+        )}
+      </div>
+      <p class="project-desc">{project.desc}</p>
+    </div>
+  ) : (
+    <>
+      <div class="project-header">
+        <span class="project-name">{project.name}</span>
+        {project.current && <span class="project-badge" title="Currently working on this"><span class="dot"></span></span>}
+        {project.stars && (
+          <span class="project-stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            {countStars ? <span class="count-up" data-target={project.stars}>0</span> : project.stars}
+          </span>
+        )}
+      </div>
+      <p class="project-desc">{project.desc}</p>
+    </>
+  )}
+</a>

@@ -1,28 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import projectDetails from '../data/projectDetails';
-
-const workProjects = [
-  { name: 'GitHub Copilot coding agent', desc: 'Autonomous coding agent that picks up issues, opens pull requests, and iterates on review feedback — with cloud-hosted execution and integrations across GitHub, Slack, and Teams.', href: 'https://github.com/features/copilot/agents', tech: ['Go', 'TypeScript', 'AI/ML'], current: true },
-  { name: 'GitHub Models', desc: 'Playground and API bringing industry-leading AI models to 100M+ developers on GitHub — experiment, compare, and deploy from playground to production.', href: 'https://github.com/marketplace/models', tech: ['Go', 'TypeScript', 'AI/ML'] },
-  { name: 'GitHub Actions', desc: 'CI/CD and automation platform built into GitHub. Helped launch and scale from zero to millions of workflows per day.', href: 'https://github.com/features/actions', tech: ['C#', 'TypeScript', 'Azure'] },
-];
-
-const preGitHubProjects = [
-  { name: 'Azure Boards', desc: 'Work item tracking, backlogs, and sprint planning in Azure DevOps.', href: 'https://azure.microsoft.com/en-us/products/devops/boards', tech: ['C#', 'TypeScript', 'Azure'] },
-];
-
-const sideProjects = [
-  { name: 'go-workflows', desc: 'Durable workflows for Go similar to DTFx/Cadence/Temporal. Supports different backends (MySQL, SQLite, Redis).', href: '/projects/go-workflows', stars: 466, tech: ['Go', 'MySQL', 'Redis'], slug: 'go-workflows' },
-  { name: 'GitHub Actions for VS Code', desc: 'VS Code extension for GitHub Actions workflows and runs.', href: 'https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions', stars: 301, tech: ['TypeScript', 'VS Code'] },
-  { name: 'Impera', desc: 'Free browser game inspired by the "world domination" board game. Play with your friends on many different maps.', href: 'https://www.imperaonline.de', tech: [], image: { src: '/static/images/projects/impera-map.png', width: 421, height: 280 } },
-  { name: 'Die verbotene Welt', desc: 'Award-winning freeware real-time strategy game for Windows, Linux, and macOS. Built with the sechsta sinn team as lead programmer; ~220k LOC C++ and 30k LOC Lua over a decade.', href: 'http://www.sechsta-sinn.de', tech: [], image: { src: '/static/images/projects/dvw-1.jpg', width: 799, height: 599 } },
-  { name: 'GitHub Actions Hero', desc: 'Interactive tutorial and visualizer for GitHub Actions workflows.', href: 'https://github-actions-hero.vercel.app', stars: 117, tech: ['TypeScript', 'React'], image: { src: '/static/images/projects/github-actions-hero.png', width: 1280, height: 720 } },
-  { name: 'Effective GitHub Actions workflow', desc: 'GitHub CLI extension to display the effective workflow for a given workflow run.', href: 'https://github.com/cschleiden/gh-effective-workflow', tech: ['Go'] },
-  { name: 'GitHub Actions CLI Lint', desc: 'GitHub CLI extension to lint GitHub Actions workflows using actionlint.', href: 'https://github.com/cschleiden/gh-actionlint', stars: 21, tech: ['Go'] },
-  { name: 'Jest GitHub Actions reporter', desc: 'Custom Jest reporter to display tests failures as annotations in GitHub Actions runs.', href: 'https://github.com/cschleiden/jest-github-actions-reporter', stars: 48, tech: ['TypeScript'] },
-  { name: 'Replace Tokens', desc: 'GitHub Action to replace tokens in files with values from environment variables.', href: 'https://github.com/cschleiden/replace-tokens', stars: 73, tech: ['TypeScript'] },
-];
+import ProjectCard from '../components/ProjectCard.astro';
+import { preGitHubProjects, sideProjects, workProjects } from '../data/projects';
 ---
 
 <BaseLayout title="Projects — Christopher Schleiden" description="Work projects, side projects, experiments, and open source tools.">
@@ -38,25 +17,14 @@ const sideProjects = [
       </p>
       <div class="projects-grid stagger" style="margin-bottom: 60px;">
         {workProjects.map(project => (
-          <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
-            <div class="project-header">
-              <span class="project-name">{project.name}</span>
-              {project.current && <span class="project-badge" title="Currently working on this"><span class="dot"></span></span>}
-            </div>
-            <p class="project-desc">{project.desc}</p>
-          </a>
+          <ProjectCard project={project} />
         ))}
       </div>
 
       <h4 class="fade-up" style="color: var(--text-muted); margin-bottom: 16px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;">Other</h4>
       <div class="projects-grid stagger" style="margin-bottom: 60px;">
         {preGitHubProjects.map(project => (
-          <a href={project.href} class="project-card fade-up" target="_blank" rel="noopener noreferrer">
-            <div class="project-header">
-              <span class="project-name">{project.name}</span>
-            </div>
-            <p class="project-desc">{project.desc}</p>
-          </a>
+          <ProjectCard project={project} />
         ))}
       </div>
 
@@ -65,30 +33,9 @@ const sideProjects = [
         Some of my side-projects. Some are random experiments, others are "work-adjacent" explorations or extensions, and some are just for fun.
       </p>
       <div class="projects-grid stagger">
-        {sideProjects.map(project => {
-          const isInternal = project.href.startsWith('/');
-          return (
-          <a href={project.href} class:list={["project-card fade-up", { "has-image": project.image }]} target={isInternal ? undefined : '_blank'} rel={isInternal ? undefined : 'noopener noreferrer'}>
-            {project.image && (
-              <div class="project-image">
-                <img src={project.image.src} width={project.image.width} height={project.image.height} alt={project.name} loading="lazy" decoding="async" />
-              </div>
-            )}
-            <div class="project-body">
-              <div class="project-header">
-                <span class="project-name">{project.name}</span>
-                {project.stars && (
-                  <span class="project-stars">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    {project.stars}
-                  </span>
-                )}
-              </div>
-              <p class="project-desc">{project.desc}</p>
-            </div>
-          </a>
-          );
-        })}
+        {sideProjects.map(project => (
+          <ProjectCard project={project} />
+        ))}
       </div>
     </div>
   </section>
